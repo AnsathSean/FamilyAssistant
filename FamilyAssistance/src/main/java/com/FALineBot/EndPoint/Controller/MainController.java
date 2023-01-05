@@ -52,17 +52,18 @@ public class MainController {
 	@PostMapping("/messaging")
 	public ResponseEntity messagingAPI(@RequestHeader("X-Line-Signature") String X_Line_Signature,
 			@RequestBody String requestBody) throws UnsupportedEncodingException, IOException {
-		if (checkFromLine(requestBody, X_Line_Signature)) {
-			System.out.println("驗證通過");
-			JSONObject object = new JSONObject(requestBody);
-			for (int i = 0; i < object.getJSONArray("events").length(); i++) {
-				if (object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
-				}
-			}
+		//if (checkFromLine(requestBody, X_Line_Signature)) {
+		//	System.out.println("驗證通過");
+		//	JSONObject object = new JSONObject(requestBody);
+		//	for (int i = 0; i < object.getJSONArray("events").length(); i++) {
+		//		if (object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
+		//		}
+		//	}
 			return new ResponseEntity<String>("OK", HttpStatus.OK);
-		}
-		System.out.println("驗證不通過");
-		return new ResponseEntity<String>("Not line platform", HttpStatus.BAD_GATEWAY);
+		//}
+		
+		//System.out.println("驗證不通過");
+		//return new ResponseEntity<String>("Not line platform", HttpStatus.BAD_GATEWAY);
 	}
 
 	public boolean checkFromLine(String requestBody, String X_Line_Signature) {
