@@ -1,5 +1,4 @@
 package com.FALineBot.EndPoint.Controller;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -9,9 +8,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.FALineBot.EndPoint.Dto.WishListParam;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.WishListService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 
 
 @RequestMapping("/robot")
 @RestController
 public class MainController {
 	
-	
+
+	private String LINE_SECRET;
 	@Autowired
 	private WishListService wishListService;
 		
@@ -49,7 +47,41 @@ public class MainController {
 	//Product product = WishListService.getProductById(productId);
 	
 	return ResponseEntity.status(HttpStatus.CREATED).build();
-}
+	}
 
+	@PostMapping("/messaging")
+	public ResponseEntity messagingAPI(@RequestHeader("X-Line-Signature") String X_Line_Signature,
+			@RequestBody String requestBody) throws UnsupportedEncodingException, IOException {
+		if (checkFromLine(requestBody, X_Line_Signature)) {
+			System.out.println("驗證通過");
+			JSONObject object = new JSONObject(requestBody);
+			for (int i = 0; i < object.getJSONArray("events").length(); i++) {
+				if (object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
+				}
+			}
+			return new ResponseEntity<String>("OK", HttpStatus.OK);
+		}
+		System.out.println("驗證不通過");
+		return new ResponseEntity<String>("Not line platform", HttpStatus.BAD_GATEWAY);
+	}
+
+	public boolean checkFromLine(String requestBody, String X_Line_Signature) {
+		SecretKeySpec key = new SecretKeySpec(LINE_SECRET.getBytes(), "HmacSHA256");
+		Mac mac;
+		try {
+			mac = Mac.getInstance("HmacSHA256");
+			mac.init(key);
+			byte[] source = requestBody.getBytes("UTF-8");
+			String signature = Base64.encodeBase64String(mac.doFinal(source));
+			if (signature.equals(X_Line_Signature)) {
+				return true;
+			}
+		} catch (NoSuchAlgorithmException | InvalidKeyException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return false;
+	}
 
 }
