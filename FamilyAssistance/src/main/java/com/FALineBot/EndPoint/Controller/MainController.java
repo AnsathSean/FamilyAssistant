@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MainController {
 	
 
-	private String LINE_SECRET;
+	private String LINE_SECRET = "/SG/if6TI6qOaEqeniCsdaX4Y/R7pzzjw6mhQrwsCCQK0aItavD/9jhH/OwsAlDbNAlWcGJU2W5hn9hK2WrkU1kk0bM77KdRfIVcop96uIJurFGCpGMEiNoGlmjo59dGdMNOSUBi8AhTwwTyDHeCuAdB04t89/1O/w1cDnyilFU=";
 	@Autowired
 	private WishListService wishListService;
 
@@ -66,7 +66,7 @@ public class MainController {
 	@PostMapping("/messaging")
 	public ResponseEntity messagingAPI(@RequestHeader("X-Line-Signature") String X_Line_Signature,
 			@RequestBody String requestBody) {
-		
+		RestTemplate restTemplate = new RestTemplate();
 		JSONObject object = new JSONObject(requestBody);	
 		JSONObject event = new JSONObject();
 		HttpHeaders headers = new HttpHeaders();
@@ -78,8 +78,31 @@ public class MainController {
 				 String Message =event.getJSONObject("message").getString("text").toString();
 			//String TextMessage = object.getJSONArray("events").getJSONObject(0).getString("").toString();
 				 System.out.println("token: "+token); 
-				 System.out.println("Message: "+Message+"i:"+i); 
+				 System.out.println("Message: "+Message); 
 				 System.out.println("i:"+i); 
+				 //建立回傳數值
+					JSONObject map = new JSONObject();
+					JSONObject headerContent = new JSONObject();
+					JSONObject PayloadContent = new JSONObject();
+					JSONObject MessagesContent = new JSONObject();
+					JSONArray Messages = new JSONArray();
+					
+					//處理Message 
+					MessagesContent.put("type","text"); 
+					MessagesContent.put("text",Message); 
+					Messages.put(MessagesContent);
+					//處理HeaderContent 
+					headerContent.put("Content-Type", "application/json; charset=UTF-8"); 
+					headerContent.put("Authorization", "Bearer "+LINE_SECRET); 
+					//處理PayLoadContent 
+					PayloadContent.put("replyToken",token); 
+					PayloadContent.put("messages",Messages); 
+					
+			        map.put("headers", headerContent); 
+			        map.put("method", "post"); 
+			        map.put("payload", PayloadContent); 
+			        restTemplate.postForObject(Reply_Url, map, String.class);
+
 			 }
 		}
 
