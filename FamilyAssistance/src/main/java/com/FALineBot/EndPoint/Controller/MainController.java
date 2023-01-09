@@ -101,7 +101,7 @@ public class MainController {
 			        map.put("headers", headerContent); 
 			        map.put("method", "post"); 
 			        map.put("payload", PayloadContent); 
-			        restTemplate.postForObject(Reply_Url, map, String.class);
+			        //restTemplate.postForObject(Reply_Url, map, String.class);
 
 			 }
 		}
