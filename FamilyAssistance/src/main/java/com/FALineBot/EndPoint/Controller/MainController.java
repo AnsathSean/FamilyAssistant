@@ -73,9 +73,11 @@ public class MainController {
 		for(int i=0; i<object.getJSONArray("events").length(); i++) {
 			 if(object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
 				 String token = object.getJSONArray("events").getJSONObject(0).getString("replyToken").toString();
-				 String Message =object.getJSONArray("events").getJSONObject(0).getString("text");
+				 String Message =object.getJSONArray("events").getJSONObject(i).toString();
 			//String TextMessage = object.getJSONArray("events").getJSONObject(0).getString("").toString();
-				 System.out.println("token: "+token+"Message: "+Message); 
+				 System.out.println("token: "+token); 
+				 System.out.println("Message: "+Message+"i:"+i); 
+				 System.out.println("i:"+i); 
 			 }
 		}
 
