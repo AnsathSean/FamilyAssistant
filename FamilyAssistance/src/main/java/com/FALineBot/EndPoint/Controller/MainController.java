@@ -67,13 +67,15 @@ public class MainController {
 	public ResponseEntity messagingAPI(@RequestHeader("X-Line-Signature") String X_Line_Signature,
 			@RequestBody String requestBody) {
 		
-		JSONObject object = new JSONObject(requestBody);		
+		JSONObject object = new JSONObject(requestBody);	
+		JSONObject event = new JSONObject();
 		HttpHeaders headers = new HttpHeaders();
 		
 		for(int i=0; i<object.getJSONArray("events").length(); i++) {
 			 if(object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
 				 String token = object.getJSONArray("events").getJSONObject(0).getString("replyToken").toString();
-				 String Message =object.getJSONArray("events").getJSONObject(i).toString();
+				 event = object.getJSONArray("events").getJSONObject(i);
+				 String Message =event.getJSONObject("message").getJSONObject("text").toString();
 			//String TextMessage = object.getJSONArray("events").getJSONObject(0).getString("").toString();
 				 System.out.println("token: "+token); 
 				 System.out.println("Message: "+Message+"i:"+i); 
