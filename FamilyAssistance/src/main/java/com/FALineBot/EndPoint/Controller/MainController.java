@@ -69,6 +69,10 @@ public class MainController {
 		
 		JSONObject object = new JSONObject(requestBody);		
 		HttpHeaders headers = new HttpHeaders();
+		
+		if(object.length() ==0) {
+			return new ResponseEntity<String>("OK", HttpStatus.OK);
+		}
 		String token = object.getJSONArray("events").getJSONObject(0).getString("replyToken").toString();
 		//String TextMessage = object.getJSONArray("events").getJSONObject(0).getString("").toString();
 		System.out.println("Token: "+token);  
