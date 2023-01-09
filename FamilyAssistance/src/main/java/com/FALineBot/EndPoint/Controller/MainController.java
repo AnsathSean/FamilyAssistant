@@ -70,10 +70,14 @@ public class MainController {
 		JSONObject object = new JSONObject(requestBody);		
 		HttpHeaders headers = new HttpHeaders();
 		
-		  for(int i=0; i<object.getJSONArray("events").length(); i++) {
-			   if(object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
-			   }
-			  }
+		for(int i=0; i<object.getJSONArray("events").length(); i++) {
+			 if(object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
+				 String token = object.getJSONArray("events").getJSONObject(0).getString("replyToken").toString();
+				 String Message =object.getJSONArray("events").getJSONObject(0).getString("text");
+			//String TextMessage = object.getJSONArray("events").getJSONObject(0).getString("").toString();
+				 System.out.println("token: "+token+"Message: "+Message); 
+			 }
+		}
 
 		return new ResponseEntity<String>("OK", HttpStatus.OK);
 	}
