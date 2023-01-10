@@ -110,6 +110,7 @@ public class MainController {
 		         ReplyObject.put("method", "POST");
 		         ReplyObject.put("payload", payload);
 		         String json = ReplyObject.toString();
+		         System.out.print(json);
 		         //回傳訊息
 		         
 		         //HttpEntity<HashMap> entity = new HttpEntity<HashMap>(ReplyObject, headers);
