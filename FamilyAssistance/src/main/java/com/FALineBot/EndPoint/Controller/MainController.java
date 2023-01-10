@@ -96,10 +96,12 @@ public class MainController {
 		         //建立回傳訊息
 		         @SuppressWarnings("rawtypes")
 				 List messageArray = new ArrayList();
+		         
 		         @SuppressWarnings("rawtypes")
 				 HashMap msg = new HashMap<>();
 		         msg.put("type", "text");
 		         msg.put("text", Message);
+		         
 		         messageArray.add(msg);
 		         
 		         payload.put("replyToken", token);
@@ -107,11 +109,11 @@ public class MainController {
 		         
 		         ReplyObject.put("method", "POST");
 		         ReplyObject.put("payload", payload);
-		         
+		         String json = ReplyObject.toString();
 		         //回傳訊息
-
-		         HttpEntity<HashMap> entity = new HttpEntity<HashMap>(ReplyObject, headers);
-		         ResponseEntity<String> response = restTemplate.exchange("https://api.line.me/v2/bot/message/push",HttpMethod.POST, entity, String.class);
+		         
+		         //HttpEntity<HashMap> entity = new HttpEntity<HashMap>(ReplyObject, headers);
+		         //ResponseEntity<String> response = restTemplate.exchange("https://api.line.me/v2/bot/message/push",HttpMethod.POST, entity, String.class);
 
 			 }
 		}
