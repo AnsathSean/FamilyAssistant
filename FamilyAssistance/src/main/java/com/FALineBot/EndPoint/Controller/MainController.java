@@ -119,7 +119,7 @@ public class MainController {
 		 		 
 		 		//處理Message 
 		 		MessagesContent.put("type","text"); 
-		 		MessagesContent.put("text","message"); 
+		 		MessagesContent.put("text",Message); 
 		 		Messages.put(MessagesContent);
 
 		 		//處理PayLoadContent 
