@@ -88,9 +88,9 @@ public class MainController {
 		         HttpHeaders headers = new HttpHeaders();
 		         headers.setContentType(MediaType.APPLICATION_JSON);
 		         headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
+		         
 				 //建立回傳訊息格式
 		         HashMap ReplyObject = new HashMap<>();
-		         
 		         HashMap payload = new HashMap<>();
 
 		         //建立回傳訊息
@@ -110,12 +110,14 @@ public class MainController {
 		         
 		         ReplyObject.put("method", "POST");
 		         ReplyObject.put("payload", payload);
+		         
+		         //測試訊息結果
 		         String json = ReplyObject.toString();
 		         System.out.print(json);
-		         //回傳訊息
 		         
+		         //回傳訊息
 		         HttpEntity<HashMap> entity = new HttpEntity<HashMap>(ReplyObject, headers);
-		         ResponseEntity<String> response = restTemplate.exchange("https://api.line.me/v2/bot/message/push",HttpMethod.POST, entity, String.class);
+		         ResponseEntity<String> response = restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 
 			 }
 		}
