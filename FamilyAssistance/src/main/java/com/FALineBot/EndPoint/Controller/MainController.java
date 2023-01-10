@@ -126,16 +126,16 @@ public class MainController {
 		 		PayloadContent.put("replyToken",token); 
 		 		PayloadContent.put("messages",Messages); 
 		 		
-		        map.put("method", "post"); 
-		        map.put("payload", PayloadContent); 
-		        String json = map.toString();
+		        //map.put("method", "post"); 
+		        //map.put("payload", PayloadContent); 
+		        String json = PayloadContent.toString();
 		 		 //-----------
 		         //測試訊息結果
 		         //String json = ReplyObject.toString();
 		         System.out.print(json);
 		         
 		         //回傳訊息
-		         HttpEntity<String> entity = new HttpEntity<String>(map.toString(), headers);
+		         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
 		         ResponseEntity<String> response = restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 
 			 }
