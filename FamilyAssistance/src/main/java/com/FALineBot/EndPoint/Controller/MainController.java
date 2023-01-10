@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.crypto.Mac;
@@ -17,6 +19,7 @@ import org.json.JSONString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -63,13 +66,13 @@ public class MainController {
 	return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostMapping("/messaging")
 	public ResponseEntity messagingAPI(@RequestHeader("X-Line-Signature") String X_Line_Signature,
 			@RequestBody String requestBody) {
 		RestTemplate restTemplate = new RestTemplate();
 		JSONObject object = new JSONObject(requestBody);	
 		JSONObject event = new JSONObject();
-		HttpHeaders headers = new HttpHeaders();
 		
 		for(int i=0; i<object.getJSONArray("events").length(); i++) {
 			 if(object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
@@ -81,27 +84,28 @@ public class MainController {
 				 System.out.println("Message: "+Message); 
 				 System.out.println("i:"+i); 
 				 //建立回傳數值
-					JSONObject map = new JSONObject();
-					JSONObject headerContent = new JSONObject();
-					JSONObject PayloadContent = new JSONObject();
-					JSONObject MessagesContent = new JSONObject();
-					JSONArray Messages = new JSONArray();
-					
-					//處理Message 
-					MessagesContent.put("type","text"); 
-					MessagesContent.put("text",Message); 
-					Messages.put(MessagesContent);
-					//處理HeaderContent 
-					headerContent.put("Content-Type", "application/json; charset=UTF-8"); 
-					headerContent.put("Authorization", "Bearer "+LINE_SECRET); 
-					//處理PayLoadContent 
-					PayloadContent.put("replyToken",token); 
-					PayloadContent.put("messages",Messages); 
-					
-			        map.put("headers", headerContent); 
-			        map.put("method", "post"); 
-			        map.put("payload", PayloadContent); 
-			        restTemplate.postForObject(Reply_Url, map, null);
+				 //建立Http標頭
+		         HttpHeaders headers = new HttpHeaders();
+		         headers.setContentType(MediaType.APPLICATION_JSON);
+		         headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
+				 //建立回傳訊息格式
+		         HashMap ReplyObject = new HashMap<>();
+		         ReplyObject.put("method", "POST");
+		         
+		         //建立回傳訊息
+		         @SuppressWarnings("rawtypes")
+				 List messageArray = new ArrayList();
+		         @SuppressWarnings("rawtypes")
+				 HashMap msg = new HashMap<>();
+		         msg.put("type", "text");
+		         msg.put("text", Message);
+		         messageArray.add(msg);
+		         ReplyObject.put("messages", messageArray);
+		         
+		         //回傳訊息
+
+		         HttpEntity<HashMap> entity = new HttpEntity<HashMap>(ReplyObject, headers);
+		         ResponseEntity<String> response = restTemplate.exchange("https://api.line.me/v2/bot/message/push",HttpMethod.POST, entity, String.class);
 
 			 }
 		}
