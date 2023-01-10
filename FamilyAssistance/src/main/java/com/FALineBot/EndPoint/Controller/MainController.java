@@ -90,33 +90,52 @@ public class MainController {
 		         headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
 		         
 				 //建立回傳訊息格式
-		         HashMap ReplyObject = new HashMap<>();
-		         HashMap payload = new HashMap<>();
+		         //HashMap ReplyObject = new HashMap<>();
+		         //HashMap payload = new HashMap<>();
 
 		         //建立回傳訊息
-		         @SuppressWarnings("rawtypes")
-				 List messageArray = new ArrayList();
+		         //@SuppressWarnings("rawtypes")
+				 //List messageArray = new ArrayList();
 		         
 		         @SuppressWarnings("rawtypes")
-				 HashMap msg = new HashMap<>();
-		         msg.put("text", Message);
-		         msg.put("type", "text");
+				 //HashMap msg = new HashMap<>();
+		         //msg.put("text", Message);
+		         //msg.put("type", "text");
 
 		         
-		         messageArray.add(msg);
+		         //messageArray.add(msg);
 		         
-		         payload.put("replyToken", token);
-		         payload.put("messages", messageArray);
+		         //payload.put("replyToken", token);
+		         //payload.put("messages", messageArray);
 		         
-		         ReplyObject.put("method", "POST");
-		         ReplyObject.put("payload", payload);
+		         //ReplyObject.put("method", "POST");
+		         //ReplyObject.put("payload", payload);
 		         
+		         //測試JSONObject
+		 		 JSONObject map = new JSONObject();
+		 		 JSONObject PayloadContent = new JSONObject();
+		 		 JSONObject MessagesContent = new JSONObject();
+		 		 JSONArray Messages = new JSONArray();
+		 		 
+		 		//處理Message 
+		 		MessagesContent.put("type","text"); 
+		 		MessagesContent.put("text","message"); 
+		 		Messages.put(MessagesContent);
+
+		 		//處理PayLoadContent 
+		 		PayloadContent.put("replyToken",token); 
+		 		PayloadContent.put("messages",Messages); 
+		 		
+		        map.put("method", "post"); 
+		        map.put("payload", PayloadContent); 
+		        String json = map.toString();
+		 		 //-----------
 		         //測試訊息結果
-		         String json = ReplyObject.toString();
+		         //String json = ReplyObject.toString();
 		         System.out.print(json);
 		         
 		         //回傳訊息
-		         HttpEntity<HashMap> entity = new HttpEntity<HashMap>(ReplyObject, headers);
+		         HttpEntity<String> entity = new HttpEntity<String>(map.toString(), headers);
 		         ResponseEntity<String> response = restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 
 			 }
@@ -138,18 +157,22 @@ public class MainController {
 		MessagesContent.put("type","text"); 
 		MessagesContent.put("text","message"); 
 		Messages.put(MessagesContent);
-		//處理HeaderContent 
-		headerContent.put("Content-Type", "application/json; charset=UTF-8"); 
-		headerContent.put("Authorization", "Bearer line_token"); 
+
 		//處理PayLoadContent 
 		PayloadContent.put("replyToken","12312234234"); 
 		PayloadContent.put("messages",Messages); 
+		
+		//處理HeaderContent 
+		headerContent.put("Content-Type", "application/json; charset=UTF-8"); 
+		headerContent.put("Authorization", "Bearer line_token"); 
 		
         map.put("headers", headerContent); 
         map.put("method", "post"); 
         map.put("payload", PayloadContent); 
         String json = map.toString();
         return json; 
+        
+        
 	}
 	
 
