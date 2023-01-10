@@ -90,8 +90,9 @@ public class MainController {
 		         headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
 				 //建立回傳訊息格式
 		         HashMap ReplyObject = new HashMap<>();
-		         ReplyObject.put("method", "POST");
 		         
+		         HashMap payload = new HashMap<>();
+
 		         //建立回傳訊息
 		         @SuppressWarnings("rawtypes")
 				 List messageArray = new ArrayList();
@@ -100,7 +101,12 @@ public class MainController {
 		         msg.put("type", "text");
 		         msg.put("text", Message);
 		         messageArray.add(msg);
-		         ReplyObject.put("messages", messageArray);
+		         
+		         payload.put("replyToken", token);
+		         payload.put("messages", messageArray);
+		         
+		         ReplyObject.put("method", "POST");
+		         ReplyObject.put("payload", payload);
 		         
 		         //回傳訊息
 
