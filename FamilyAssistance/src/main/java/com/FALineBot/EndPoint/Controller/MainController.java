@@ -99,8 +99,9 @@ public class MainController {
 		         
 		         @SuppressWarnings("rawtypes")
 				 HashMap msg = new HashMap<>();
-		         msg.put("type", "text");
 		         msg.put("text", Message);
+		         msg.put("type", "text");
+
 		         
 		         messageArray.add(msg);
 		         
@@ -113,8 +114,8 @@ public class MainController {
 		         System.out.print(json);
 		         //回傳訊息
 		         
-		         //HttpEntity<HashMap> entity = new HttpEntity<HashMap>(ReplyObject, headers);
-		         //ResponseEntity<String> response = restTemplate.exchange("https://api.line.me/v2/bot/message/push",HttpMethod.POST, entity, String.class);
+		         HttpEntity<HashMap> entity = new HttpEntity<HashMap>(ReplyObject, headers);
+		         ResponseEntity<String> response = restTemplate.exchange("https://api.line.me/v2/bot/message/push",HttpMethod.POST, entity, String.class);
 
 			 }
 		}
