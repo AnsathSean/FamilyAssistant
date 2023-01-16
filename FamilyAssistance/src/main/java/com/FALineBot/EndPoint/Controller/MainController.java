@@ -33,6 +33,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.FALineBot.EndPoint.Dto.WishListParam;
 import com.FALineBot.EndPoint.Model.WishList;
+import com.FALineBot.EndPoint.Service.ReplyMessageService;
 import com.FALineBot.EndPoint.Service.WishListService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,21 +43,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class MainController {
 	
-
-	private String LINE_SECRET = "/SG/if6TI6qOaEqeniCsdaX4Y/R7pzzjw6mhQrwsCCQK0aItavD/9jhH/OwsAlDbNAlWcGJU2W5hn9hK2WrkU1kk0bM77KdRfIVcop96uIJurFGCpGMEiNoGlmjo59dGdMNOSUBi8AhTwwTyDHeCuAdB04t89/1O/w1cDnyilFU=";
 	@Autowired
 	private WishListService wishListService;
+	private ReplyMessageService replyMessageService;
 
-	private RestTemplate restTemplate = new RestTemplate();
-	private String Reply_Url = "https://api.line.me/v2/bot/message/reply";
-	
+
 	//測試用，回傳Hello Java
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/test")
 	public ResponseEntity test(){
 		return new ResponseEntity("Hello Java", HttpStatus.OK);
 	}
-
+	//這個是測試SQL用的動作
 	@PostMapping("/products/")
 	public ResponseEntity<WishList> createProduct(@RequestBody WishListParam wishListParam){
 	
@@ -66,77 +64,29 @@ public class MainController {
 	return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
-	@SuppressWarnings("unchecked")
 	@PostMapping("/messaging")
 	public ResponseEntity messagingAPI(@RequestHeader("X-Line-Signature") String X_Line_Signature,
 			@RequestBody String requestBody) {
-		RestTemplate restTemplate = new RestTemplate();
+		//取得Request訊息
 		JSONObject object = new JSONObject(requestBody);	
 		JSONObject event = new JSONObject();
 		
 		for(int i=0; i<object.getJSONArray("events").length(); i++) {
 			 if(object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
+				 
 				 String token = object.getJSONArray("events").getJSONObject(0).getString("replyToken").toString();
 				 event = object.getJSONArray("events").getJSONObject(i);
+				 
 				 String Message =event.getJSONObject("message").getString("text").toString();
-			//String TextMessage = object.getJSONArray("events").getJSONObject(0).getString("").toString();
-				 System.out.println("token: "+token); 
-				 System.out.println("Message: "+Message); 
+				 
+				 //查詢訊息
+				 System.out.println("完整訊息: "+object.toString());
+				 //System.out.println("token: "+token); 
+				 //System.out.println("Message: "+Message); 
 				 System.out.println("i:"+i); 
-				 //建立回傳數值
-				 //建立Http標頭
-		         HttpHeaders headers = new HttpHeaders();
-		         headers.setContentType(MediaType.APPLICATION_JSON);
-		         headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
-		         
-				 //建立回傳訊息格式
-		         //HashMap ReplyObject = new HashMap<>();
-		         //HashMap payload = new HashMap<>();
-
-		         //建立回傳訊息
-		         //@SuppressWarnings("rawtypes")
-				 //List messageArray = new ArrayList();
-		         
-		         @SuppressWarnings("rawtypes")
-				 //HashMap msg = new HashMap<>();
-		         //msg.put("text", Message);
-		         //msg.put("type", "text");
-
-		         
-		         //messageArray.add(msg);
-		         
-		         //payload.put("replyToken", token);
-		         //payload.put("messages", messageArray);
-		         
-		         //ReplyObject.put("method", "POST");
-		         //ReplyObject.put("payload", payload);
-		         
-		         //測試JSONObject
-		 		 JSONObject map = new JSONObject();
-		 		 JSONObject PayloadContent = new JSONObject();
-		 		 JSONObject MessagesContent = new JSONObject();
-		 		 JSONArray Messages = new JSONArray();
-		 		 
-		 		//處理Message 
-		 		MessagesContent.put("type","text"); 
-		 		MessagesContent.put("text",Message); 
-		 		Messages.put(MessagesContent);
-
-		 		//處理PayLoadContent 
-		 		PayloadContent.put("replyToken",token); 
-		 		PayloadContent.put("messages",Messages); 
-		 		
-		        //map.put("method", "post"); 
-		        //map.put("payload", PayloadContent); 
-		        String json = PayloadContent.toString();
-		 		 //-----------
-		         //測試訊息結果
-		         //String json = ReplyObject.toString();
-		         System.out.print(json);
-		         
-		         //回傳訊息
-		         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
-		         ResponseEntity<String> response = restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
+				 
+				 //回傳訊息
+				 replyMessageService.ReplyTextMessage(Message, token);
 
 			 }
 		}
@@ -144,7 +94,6 @@ public class MainController {
 		return new ResponseEntity<String>("OK", HttpStatus.OK);
 	}
 	
-	@SuppressWarnings("null")
 	@PostMapping("/TestMessage")
 	public String Test(@RequestBody String requestBody) throws JsonProcessingException {
 		JSONObject map = new JSONObject();
