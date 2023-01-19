@@ -14,7 +14,6 @@ import com.FALineBot.EndPoint.Service.ReplyMessageService;
 @Component
 public class ReplyMessageServiceImpl implements ReplyMessageService{
 
-	@Autowired
 	private RestTemplate restTemplate = new RestTemplate();
 	private String Reply_Url = "https://api.line.me/v2/bot/message/reply";
 	private String LINE_SECRET = "/SG/if6TI6qOaEqeniCsdaX4Y/R7pzzjw6mhQrwsCCQK0aItavD/9jhH/OwsAlDbNAlWcGJU2W5hn9hK2WrkU1kk0bM77KdRfIVcop96uIJurFGCpGMEiNoGlmjo59dGdMNOSUBi8AhTwwTyDHeCuAdB04t89/1O/w1cDnyilFU=";
