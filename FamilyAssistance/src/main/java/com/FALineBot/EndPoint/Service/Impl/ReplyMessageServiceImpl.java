@@ -25,7 +25,7 @@ public class ReplyMessageServiceImpl implements ReplyMessageService{
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
 		//建立回傳JSON訊息
-		 JSONObject map = new JSONObject();
+		//JSONObject map = new JSONObject();
 		 JSONObject PayloadContent = new JSONObject();
 		 JSONObject MessagesContent = new JSONObject();
 		 JSONArray Messages = new JSONArray();
@@ -46,7 +46,7 @@ public class ReplyMessageServiceImpl implements ReplyMessageService{
         
         //回傳訊息
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
-        ResponseEntity<String> response = restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
+        restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 	}
 	
 }

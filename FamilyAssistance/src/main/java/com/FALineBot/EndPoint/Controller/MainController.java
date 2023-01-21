@@ -95,7 +95,7 @@ public class MainController {
 				 System.out.println("i:"+i); 
 				 
 				 //回傳訊息
-				 replyMessageService.ReplyTextMessage(Message, token);
+				 replyMessageService.ReplyTextMessage(Message,token);
 
 			 }
 		}
