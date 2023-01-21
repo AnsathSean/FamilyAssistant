@@ -95,7 +95,7 @@ public class MainController {
 				            }
 
 				        }
-				        String wisher = object.getJSONArray("events").getJSONObject(0).getString("userId").toString();
+				        String wisher = event.getJSONObject("source").getString("userId").toString();
 				        wishListParam.setWisher(wisher);
 			            wishListService.createProduct(wishListParam);
 			            replyMessageService.ReplyTextMessage("新增願望："+wishListParam.getPersent_name(),token);
