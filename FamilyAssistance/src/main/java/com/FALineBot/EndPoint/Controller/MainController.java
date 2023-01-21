@@ -45,6 +45,7 @@ public class MainController {
 	
 	@Autowired
 	private WishListService wishListService;
+	@Autowired
 	private ReplyMessageService replyMessageService;
 
 
@@ -92,6 +93,8 @@ public class MainController {
 				 //}
 				 //查詢訊息
 				 System.out.println("完整訊息: "+object.toString());
+				 System.out.println("Message: "+ Message);
+				 System.out.println("ReplyToken: "+token);
 				 System.out.println("i:"+i); 
 				 
 				 //回傳訊息
