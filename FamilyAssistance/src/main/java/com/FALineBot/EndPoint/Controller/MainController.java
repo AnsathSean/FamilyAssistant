@@ -64,6 +64,7 @@ public class MainController {
 	return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
+	//ＬineBot主功能
 	@PostMapping("/messaging")
 	public ResponseEntity messagingAPI(@RequestHeader("X-Line-Signature") String X_Line_Signature,
 			@RequestBody String requestBody) {
@@ -72,17 +73,25 @@ public class MainController {
 		JSONObject event = new JSONObject();
 		
 		for(int i=0; i<object.getJSONArray("events").length(); i++) {
+			//判斷陣列裡是否有續鐔
 			 if(object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
 				 
 				 String token = object.getJSONArray("events").getJSONObject(0).getString("replyToken").toString();
 				 event = object.getJSONArray("events").getJSONObject(i);
-				 
 				 String Message =event.getJSONObject("message").getString("text").toString();
-				 
+				 //判斷文字是否為願望清單
+				 //if(Message.indexOf("新增願望")!=-1) {
+					 
+				 //       String[] newStr = Message.split("\\s+");
+				 //       WishList wishList = new WishList();
+				 //       for (int k = 1; k < newStr.length; k++) {
+				 //           System.out.println(newStr[k]);
+				 //           wishList.setPersent_name(newStr[k]);
+				 //       }
+					 
+				 //}
 				 //查詢訊息
 				 System.out.println("完整訊息: "+object.toString());
-				 //System.out.println("token: "+token); 
-				 //System.out.println("Message: "+Message); 
 				 System.out.println("i:"+i); 
 				 
 				 //回傳訊息
@@ -94,35 +103,7 @@ public class MainController {
 		return new ResponseEntity<String>("OK", HttpStatus.OK);
 	}
 	
-	@PostMapping("/TestMessage")
-	public String Test(@RequestBody String requestBody) throws JsonProcessingException {
-		JSONObject map = new JSONObject();
-		JSONObject headerContent = new JSONObject();
-		JSONObject PayloadContent = new JSONObject();
-		JSONObject MessagesContent = new JSONObject();
-		JSONArray Messages = new JSONArray();
-		
-		//處理Message 
-		MessagesContent.put("type","text"); 
-		MessagesContent.put("text","message"); 
-		Messages.put(MessagesContent);
 
-		//處理PayLoadContent 
-		PayloadContent.put("replyToken","12312234234"); 
-		PayloadContent.put("messages",Messages); 
-		
-		//處理HeaderContent 
-		headerContent.put("Content-Type", "application/json; charset=UTF-8"); 
-		headerContent.put("Authorization", "Bearer line_token"); 
-		
-        map.put("headers", headerContent); 
-        map.put("method", "post"); 
-        map.put("payload", PayloadContent); 
-        String json = map.toString();
-        return json; 
-        
-        
-	}
 	
 
 }

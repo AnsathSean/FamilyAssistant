@@ -5,5 +5,7 @@ import com.FALineBot.EndPoint.Dto.WishListParam;
 
 public interface WishListDao {
 
-	Integer createWishList(WishListParam wishlistParam);
+	public Integer createWishList(WishListParam wishlistParam);
+	
+	public String findAllWishListByPersion(WishListParam wishlistParam);
 }

@@ -3,6 +3,7 @@ package com.FALineBot.EndPoint.Dao.Impl;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import com.FALineBot.EndPoint.Dao.WishListDao;
 import com.FALineBot.EndPoint.Dto.WishListParam;
+import com.FALineBot.EndPoint.Model.WishList;
+import com.FALineBot.EndPoint.RowMapper.WishListRowMapper;
 
 @Component
 public class WishListDaoImpl implements  WishListDao {
@@ -44,5 +47,31 @@ public class WishListDaoImpl implements  WishListDao {
 		
 		return Id;
 		
+	}
+	
+	@Override
+	public String findAllWishListByPersion(WishListParam wishlistParam) {
+		String sql = "SELECT product_id, persent_name, wisher, remark, created_date, stock, last_modified_date,"+
+				" FROM product WHERE 1=1";
+		
+		Map<String, Object>map = new HashMap<>();
+		
+		//根據參數新增查詢條件
+		//sql = addFilteringSql(sql,map,wishlistParam);
+		
+		sql = sql + " ORDER BY " + wishlistParam.getWisher() + " ";
+				
+		List<WishList> wishlist = namedParameterJdbcTemplate.query(sql,map,new WishListRowMapper());
+		return wishlist.toString();
+		
+	}
+	
+	private String addFilteringSql(String sql, Map<String,Object> map, WishListParam wishlistParam) {
+		
+		if(wishlistParam.getPersent_name() !=null) {
+			sql = sql +" AND persent_name =:persent_name";
+		}
+	
+		return sql;
 	}
 }
