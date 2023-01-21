@@ -81,16 +81,18 @@ public class MainController {
 				 event = object.getJSONArray("events").getJSONObject(i);
 				 String Message =event.getJSONObject("message").getString("text").toString();
 				 //判斷文字是否為願望清單
-				 //if(Message.indexOf("新增願望")!=-1) {
+				 if(Message.indexOf("新增願望")!=-1) {
 					 
-				 //       String[] newStr = Message.split("\\s+");
-				 //       WishList wishList = new WishList();
-				 //       for (int k = 1; k < newStr.length; k++) {
-				 //           System.out.println(newStr[k]);
-				 //           wishList.setPersent_name(newStr[k]);
-				 //       }
+				        String[] newStr = Message.split("\\s+");
+				        WishListParam wishListParam = new WishListParam();
+				        for (int k = 1; k < newStr.length; k++) {
+				            System.out.println(newStr[k]);
+				            wishListParam.setPersent_name(newStr[k]);
+				            wishListService.createProduct(wishListParam);
+				            replyMessageService.ReplyTextMessage("新增願望："+wishListParam.getPersent_name(),token);
+				        }
 					 
-				 //}
+				 }
 				 //查詢訊息
 				 System.out.println("完整訊息: "+object.toString());
 				 System.out.println("Message: "+ Message);
