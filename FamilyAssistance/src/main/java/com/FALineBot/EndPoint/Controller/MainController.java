@@ -87,10 +87,18 @@ public class MainController {
 				        WishListParam wishListParam = new WishListParam();
 				        for (int k = 1; k < newStr.length; k++) {
 				            System.out.println(newStr[k]);
+				            if(k == 1) {
 				            wishListParam.setPersent_name(newStr[k]);
-				            wishListService.createProduct(wishListParam);
-				            replyMessageService.ReplyTextMessage("新增願望："+wishListParam.getPersent_name(),token);
+				            }
+				            if(k == 2) {
+				            wishListParam.setRemark(newStr[k]);
+				            }
+
 				        }
+				        String wisher = object.getJSONArray("events").getJSONObject(0).getString("userId").toString();
+				        wishListParam.setWisher(wisher);
+			            wishListService.createProduct(wishListParam);
+			            replyMessageService.ReplyTextMessage("新增願望："+wishListParam.getPersent_name(),token);
 					 
 				 }
 				 //查詢訊息
