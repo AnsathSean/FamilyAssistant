@@ -1,12 +1,10 @@
 package com.FALineBot.EndPoint.Service.Impl;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import com.FALineBot.EndPoint.Service.ReplyMessageService;
@@ -39,10 +37,10 @@ public class ReplyMessageServiceImpl implements ReplyMessageService{
 		PayloadContent.put("replyToken",token); 
 		PayloadContent.put("messages",Messages); 
 		
-       String json = PayloadContent.toString();
+       //String json = PayloadContent.toString();
 		 //-----------
         //測試訊息結果
-        System.out.print(json);
+        //System.out.print(json);
         
         //回傳訊息
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
