@@ -50,7 +50,7 @@ public class WishListDaoImpl implements  WishListDao {
 	}
 	
 	@Override
-	public String findAllWishListByPersion(WishListParam wishlistParam) {
+	public String findAllWishListByPersion(String wisher) {
 		String sql = "SELECT product_id, persent_name, wisher, remark, created_date, stock, last_modified_date,"+
 				" FROM product WHERE 1=1";
 		
@@ -59,19 +59,11 @@ public class WishListDaoImpl implements  WishListDao {
 		//根據參數新增查詢條件
 		//sql = addFilteringSql(sql,map,wishlistParam);
 		
-		sql = sql + " ORDER BY " + wishlistParam.getWisher() + " ";
+		sql = sql + " ORDER BY " + wisher + " ";
 				
 		List<WishList> wishlist = namedParameterJdbcTemplate.query(sql,map,new WishListRowMapper());
 		return wishlist.toString();
 		
 	}
-	
-	private String addFilteringSql(String sql, Map<String,Object> map, WishListParam wishlistParam) {
-		
-		if(wishlistParam.getPersent_name() !=null) {
-			sql = sql +" AND persent_name =:persent_name";
-		}
-	
-		return sql;
-	}
+
 }

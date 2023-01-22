@@ -1,5 +1,7 @@
 package com.FALineBot.EndPoint.Service.Impl;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +14,16 @@ public class WishLishServiceImpl implements WishListService{
 
 	@Autowired
 	private WishListDao wishListDao;
+	
 	@Override
 	public Integer createProduct(WishListParam wishListParam) {
 		return wishListDao.createWishList(wishListParam);
 	}
+	
+	@Override
+	public String findAllWishListByPersion(String wisher) {
+		return wishListDao.findAllWishListByPersion(wisher);
+	}
+	
+	
 }

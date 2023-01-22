@@ -1,27 +1,11 @@
 package com.FALineBot.EndPoint.Controller;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,14 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
 import com.FALineBot.EndPoint.Dto.WishListParam;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.ReplyMessageService;
 import com.FALineBot.EndPoint.Service.WishListService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 
 @RequestMapping("/robot")
@@ -59,13 +40,14 @@ public class MainController {
 	@PostMapping("/products/")
 	public ResponseEntity<WishList> createProduct(@RequestBody WishListParam wishListParam){
 	
-	int ID = wishListService.createProduct(wishListParam);
+	wishListService.createProduct(wishListParam);
 	//Product product = WishListService.getProductById(productId);
 	
 	return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 	//ＬineBot主功能
+	@SuppressWarnings("rawtypes")
 	@PostMapping("/messaging")
 	public ResponseEntity messagingAPI(@RequestHeader("X-Line-Signature") String X_Line_Signature,
 			@RequestBody String requestBody) {
@@ -80,7 +62,7 @@ public class MainController {
 				 String token = object.getJSONArray("events").getJSONObject(0).getString("replyToken").toString();
 				 event = object.getJSONArray("events").getJSONObject(i);
 				 String Message =event.getJSONObject("message").getString("text").toString();
-				 //判斷文字是否為願望清單
+				 //新增願望清單功能
 				 if(Message.indexOf("新增願望")!=-1) {
 					 
 				        String[] newStr = Message.split("\\s+");
@@ -99,6 +81,13 @@ public class MainController {
 				        wishListParam.setWisher(wisher);
 			            wishListService.createProduct(wishListParam);
 			            replyMessageService.ReplyTextMessage("新增願望："+wishListParam.getPersent_name(),token);
+					 
+				 }
+				 //查詢願望清單功能
+				 if(Message.indexOf("查詢願望")!=-1) {
+				   String wisher = event.getJSONObject("source").getString("userId").toString();
+				   String List = wishListService.findAllWishListByPersion(wisher);
+			       replyMessageService.ReplyTextMessage("願望清單：\n" + List,token);
 					 
 				 }
 				 //查詢訊息
