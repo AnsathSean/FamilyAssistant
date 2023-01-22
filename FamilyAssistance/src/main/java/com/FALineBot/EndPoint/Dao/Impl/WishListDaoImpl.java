@@ -58,7 +58,7 @@ public class WishListDaoImpl implements  WishListDao {
 		//根據參數新增查詢條件
 		//sql = addFilteringSql(sql,map,wishlistParam);
 		
-		sql = sql + " FIND_IN_SET("+ wisher +", wisher) ";
+		sql = sql + " FIND_IN_SET('"+ wisher +"', wisher) ";
 				
 		List<WishList> wishlist = namedParameterJdbcTemplate.query(sql,map,new WishListRowMapper());
 		return wishlist.toString();
