@@ -51,7 +51,7 @@ public class WishListDaoImpl implements  WishListDao {
 	
 	@Override
 	public String findAllWishListByPersion(String wisher) {
-		String sql = "SELECT product_id,persent_name,remark,wisher,created_date,last_modified_date FROM wishlist where ";
+		String sql = "SELECT product_id,persent_name,remark,wisher FROM wishlist where ";
 		
 		Map<String, Object>map = new HashMap<>();
 		
