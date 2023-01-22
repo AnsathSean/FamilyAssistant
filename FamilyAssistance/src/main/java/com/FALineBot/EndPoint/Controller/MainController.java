@@ -92,7 +92,7 @@ public class MainController {
 				   List<WishList> list = wishListService.findAllWishListByPersion(wisher);
 				   String test ="";
 					for (WishList e : list) {
-						test+= e+",";
+						test+= e.getPersent_name()+",";
 					}
 			       replyMessageService.ReplyTextMessage("願望清單：\n" + test,token);
 			       return new ResponseEntity<String>("OK", HttpStatus.OK);
