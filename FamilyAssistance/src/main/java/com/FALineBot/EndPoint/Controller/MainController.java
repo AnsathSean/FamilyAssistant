@@ -83,13 +83,15 @@ public class MainController {
 				        wishListParam.setWisher(wisher);
 			            wishListService.createProduct(wishListParam);
 			            replyMessageService.ReplyTextMessage("新增願望："+wishListParam.getPersent_name(),token);
+			            new ResponseEntity<String>("OK", HttpStatus.OK);
 					 
 				 }
 				 //查詢願望清單功能
 				 if(Message.indexOf("查詢願望")!=-1) {
 				   String wisher = event.getJSONObject("source").getString("userId").toString();
 				   List<WishList> list = wishListService.findAllWishListByPersion(wisher);
-			       replyMessageService.ReplyTextMessage("願望清單：\n" + list.toString(),token);
+			       replyMessageService.ReplyTextMessage("願望清單：\n" + list,token);
+			       new ResponseEntity<String>("OK", HttpStatus.OK);
 					 
 				 }
 				 //查詢訊息
