@@ -10,6 +10,6 @@ public interface WishListDao {
 
 	public Integer createWishList(WishListParam wishlistParam);
 	
-	public String findAllWishListByPersion(String wisher);
+	public List<WishList> findAllWishListByPersion(String wisher);
 
 }

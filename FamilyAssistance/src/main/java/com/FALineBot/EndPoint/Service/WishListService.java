@@ -8,5 +8,5 @@ import com.FALineBot.EndPoint.Model.WishList;
 public interface WishListService {
 
 	Integer createProduct(WishListParam wishListParam);
-	String findAllWishListByPersion(String wisher);
+	List<WishList> findAllWishListByPersion(String wisher);
 }

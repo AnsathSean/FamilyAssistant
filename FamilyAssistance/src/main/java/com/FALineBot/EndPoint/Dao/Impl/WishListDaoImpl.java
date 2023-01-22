@@ -50,7 +50,7 @@ public class WishListDaoImpl implements  WishListDao {
 	}
 	
 	@Override
-	public String findAllWishListByPersion(String wisher) {
+	public List<WishList> findAllWishListByPersion(String wisher) {
 		String sql = "SELECT product_id,persent_name,remark,wisher FROM wishlist where ";
 		
 		Map<String, Object>map = new HashMap<>();
@@ -61,7 +61,7 @@ public class WishListDaoImpl implements  WishListDao {
 		sql = sql + " FIND_IN_SET('"+ wisher +"', wisher) ";
 				
 		List<WishList> wishlist = namedParameterJdbcTemplate.query(sql,map,new WishListRowMapper());
-		return wishlist.toString();
+		return wishlist;
 		
 	}
 

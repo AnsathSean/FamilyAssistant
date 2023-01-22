@@ -2,6 +2,8 @@ package com.FALineBot.EndPoint.Controller;
 
 
 
+import java.util.List;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -86,8 +88,8 @@ public class MainController {
 				 //查詢願望清單功能
 				 if(Message.indexOf("查詢願望")!=-1) {
 				   String wisher = event.getJSONObject("source").getString("userId").toString();
-				   String List = wishListService.findAllWishListByPersion(wisher);
-			       replyMessageService.ReplyTextMessage("願望清單：\n" + List,token);
+				   List<WishList> list = wishListService.findAllWishListByPersion(wisher);
+			       replyMessageService.ReplyTextMessage("願望清單：\n" + list.toString(),token);
 					 
 				 }
 				 //查詢訊息
