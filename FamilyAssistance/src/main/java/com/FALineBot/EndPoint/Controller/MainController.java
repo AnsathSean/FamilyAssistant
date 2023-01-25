@@ -92,7 +92,7 @@ public class MainController {
 				   List<WishList> list = wishListService.findAllWishList();
 				   String test ="";
 					for (WishList e : list) {
-						if(e.wisher.replaceAll(" ","").toString() != wisher.replaceAll(" ","").toString()) {
+						if(!e.wisher.equals(wisher)) {
 						  System.out.println("e.wisher: "+e.wisher);
 						  System.out.println("wisher: "+ wisher);
 						  test+= e.getWishListID()+" "+e.getPersent_name()+"\n";
