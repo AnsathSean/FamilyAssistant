@@ -27,6 +27,12 @@ public class WishLishServiceImpl implements WishListService{
 	public List<WishList> findAllWishListByPersion(String wisher) {
 		return wishListDao.findAllWishListByPersion(wisher);
 	}
+
+	@Override
+	public void deleteWishListByID(Integer id) {
+		wishListDao.deleteWishListByID(id);
+		
+	}
 	
 	
 }

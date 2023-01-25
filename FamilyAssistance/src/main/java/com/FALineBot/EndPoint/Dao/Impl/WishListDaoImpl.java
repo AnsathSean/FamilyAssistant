@@ -1,6 +1,6 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
-import java.sql.Date;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +62,17 @@ public class WishListDaoImpl implements  WishListDao {
 				
 		List<WishList> wishlist = namedParameterJdbcTemplate.query(sql,map,new WishListRowMapper());
 		return wishlist;
+		
+	}
+
+	@Override
+	public void deleteWishListByID(Integer id) {
+		String sql = "DELETE FROM wishlist WHERE product_id =:productId";
+		
+		Map<String, Object>map = new HashMap<>();
+		map.put("productId", id);
+		
+		namedParameterJdbcTemplate.update(sql, map);
 		
 	}
 

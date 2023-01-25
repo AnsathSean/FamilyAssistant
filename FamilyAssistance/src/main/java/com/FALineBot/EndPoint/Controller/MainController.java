@@ -92,10 +92,26 @@ public class MainController {
 				   List<WishList> list = wishListService.findAllWishListByPersion(wisher);
 				   String test ="";
 					for (WishList e : list) {
-						test+= e.getPersent_name()+",";
+						test+= e.getWishListID()+" "+e.getPersent_name()+"\n";
 					}
 			       replyMessageService.ReplyTextMessage("願望清單：\n" + test,token);
 			       return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 
+				 }
+				 //刪除願望清單功能
+				 if(Message.indexOf("刪除願望")!=-1) {
+				 
+					 String[] newStr = Message.split("\\s+");
+				        Integer ID = 0;
+				        for (int k = 1; k < newStr.length; k++) {
+				            System.out.println(newStr[k]);
+				            if(k == 2) {
+				            	ID=Integer.parseInt(newStr[k]);
+				            	wishListService.deleteWishListByID(ID);
+				            	replyMessageService.ReplyTextMessage("刪除成功",token);
+				            }
+
+				        }
 					 
 				 }
 				 //查詢訊息
