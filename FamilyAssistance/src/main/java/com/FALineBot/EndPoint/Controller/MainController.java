@@ -64,6 +64,7 @@ public class MainController {
 				 String token = object.getJSONArray("events").getJSONObject(0).getString("replyToken").toString();
 				 event = object.getJSONArray("events").getJSONObject(i);
 				 String Message =event.getJSONObject("message").getString("text").toString();
+				 String wisher = event.getJSONObject("source").getString("userId").toString();
 				 //新增願望清單功能
 				 if(Message.indexOf("新增願望")!=-1) {
 					 
@@ -79,7 +80,7 @@ public class MainController {
 				            }
 
 				        }
-				        String wisher = event.getJSONObject("source").getString("userId").toString();
+			
 				        wishListParam.setWisher(wisher);
 			            wishListService.createProduct(wishListParam);
 			            replyMessageService.ReplyTextMessage("新增願望："+wishListParam.getPersent_name(),token);
@@ -88,10 +89,10 @@ public class MainController {
 				 }
 				 //查詢願望清單功能
 				 if(Message.indexOf("查詢願望")!=-1) {
-				   String wisher = event.getJSONObject("source").getString("userId").toString();
 				   List<WishList> list = wishListService.findAllWishListByPersion(wisher);
 				   String test ="";
 					for (WishList e : list) {
+						if(e.wisher!=wisher)
 						test+= e.getWishListID()+" "+e.getPersent_name()+"\n";
 					}
 			       replyMessageService.ReplyTextMessage("願望清單：\n" + test,token);
