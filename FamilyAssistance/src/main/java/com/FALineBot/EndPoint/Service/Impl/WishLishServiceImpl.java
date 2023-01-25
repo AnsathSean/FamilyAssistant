@@ -33,6 +33,11 @@ public class WishLishServiceImpl implements WishListService{
 		wishListDao.deleteWishListByID(id);
 		
 	}
+
+	@Override
+	public List<WishList> findAllWishList() {
+		return wishListDao.findAllWishList();
+	}
 	
 	
 }

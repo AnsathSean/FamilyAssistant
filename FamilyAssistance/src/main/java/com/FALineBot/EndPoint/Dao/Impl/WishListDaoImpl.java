@@ -76,4 +76,18 @@ public class WishListDaoImpl implements  WishListDao {
 		
 	}
 
+	@Override
+	public List<WishList> findAllWishList() {
+		String sql = "SELECT product_id,persent_name,remark,wisher FROM wishlist";
+		
+		Map<String, Object>map = new HashMap<>();
+		
+		//根據參數新增查詢條件
+		//sql = addFilteringSql(sql,map,wishlistParam);
+		
+				
+		List<WishList> wishlist = namedParameterJdbcTemplate.query(sql,map,new WishListRowMapper());
+		return wishlist;
+	}
+
 }

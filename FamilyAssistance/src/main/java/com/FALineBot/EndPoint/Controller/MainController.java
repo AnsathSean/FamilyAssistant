@@ -89,11 +89,12 @@ public class MainController {
 				 }
 				 //查詢願望清單功能
 				 if(Message.indexOf("查詢願望")!=-1) {
-				   List<WishList> list = wishListService.findAllWishListByPersion(wisher);
+				   List<WishList> list = wishListService.findAllWishList();
 				   String test ="";
 					for (WishList e : list) {
-						if(e.wisher!=wisher)
+						if(e.wisher!=wisher) {
 						test+= e.getWishListID()+" "+e.getPersent_name()+"\n";
+						}
 					}
 			       replyMessageService.ReplyTextMessage("願望清單：\n" + test,token);
 			       return new ResponseEntity<String>("OK", HttpStatus.OK);

@@ -11,6 +11,7 @@ public interface WishListDao {
 	public Integer createWishList(WishListParam wishlistParam);
 	
 	public List<WishList> findAllWishListByPersion(String wisher);
+	public List<WishList> findAllWishList();
 	
 	public void deleteWishListByID(Integer id);
 
