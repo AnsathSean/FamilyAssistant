@@ -92,8 +92,10 @@ public class MainController {
 				   List<WishList> list = wishListService.findAllWishList();
 				   String test ="";
 					for (WishList e : list) {
-						if(e.wisher!=wisher) {
-						test+= e.getWishListID()+" "+e.getPersent_name()+"\n";
+						if(e.wisher != wisher) {
+						  System.out.println("e.wisher: "+e.wisher);
+						  System.out.println("wisher: "+ wisher);
+						  test+= e.getWishListID()+" "+e.getPersent_name()+"\n";
 						}
 					}
 			       replyMessageService.ReplyTextMessage("願望清單：\n" + test,token);
