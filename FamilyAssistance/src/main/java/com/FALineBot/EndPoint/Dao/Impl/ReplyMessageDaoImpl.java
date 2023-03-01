@@ -24,7 +24,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
 		//建立回傳JSON訊息
-		//JSONObject map = new JSONObject();
 		 JSONObject PayloadContent = new JSONObject();
 		 JSONObject MessagesContent = new JSONObject();
 		 JSONArray Messages = new JSONArray();
@@ -37,12 +36,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//處理PayLoadContent 
 		PayloadContent.put("replyToken",token); 
 		PayloadContent.put("messages",Messages); 
-		
-       //String json = PayloadContent.toString();
-		 //-----------
-        //測試訊息結果
-        //System.out.print(json);
-        
+		        
         //回傳訊息
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
