@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import com.FALineBot.EndPoint.Dto.WishListParam;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.ReplyMessageService;
 import com.FALineBot.EndPoint.Service.WishListService;
+
 
 
 
@@ -47,11 +49,14 @@ public class MainController {
 	
 	return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
+	
 
+	
+	//============================================================
 	//ＬineBot主功能
+	//============================================================
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/messaging")
-	
 	public ResponseEntity messagingAPI(@RequestHeader("X-Line-Signature") String X_Line_Signature,
 			@RequestBody String requestBody) {
 		//取得Request訊息
@@ -70,7 +75,7 @@ public class MainController {
 				 String K1 = "";
 				 String K2 = "";
 				 
-				 //關鍵字搜尋功能
+				 //===========關鍵字搜尋功能=============================================================
 				 //新增願望清單功能
 				 if(Message.indexOf("新增願望")!=-1) {
 					 
@@ -102,15 +107,17 @@ public class MainController {
 				 if(Message.indexOf("查詢願望")!=-1) {
 				   List<WishList> list = wishListService.findAllWishList();
 				   String test ="";
+					Integer order = 0;
 					for (WishList e : list) {
 						if(!e.wisher.equals(wisher)) {
-						  System.out.println("e.wisher: "+e.wisher);
-						  System.out.println("wisher: "+ wisher);
-						  test+= e.getWishListID()+" "+e.getPersent_name()+"\n";
+							order = order+1;
+						  //System.out.println("e.wisher: "+e.wisher);
+						  //System.out.println("wisher: "+ wisher);
+						  test+= order +" "+e.getPersent_name()+ "ID"+e.getWishListID()+"\n";
 						}
 					}
 			       replyMessageService.ReplyTextMessage("願望清單：\n" + test,token);
-			       System.out.println("願望清單"+ test);
+			       System.out.println("願望清單"+ test.toString());
 			       return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 
 				 }
@@ -118,14 +125,17 @@ public class MainController {
 				 if(Message.indexOf("查詢自己的願望")!=-1) {
 				   List<WishList> list = wishListService.findAllWishList();
 				   String test ="";
+				   Integer order = 0;
 					for (WishList e : list) {
 						if(e.wisher.equals(wisher)) {
+							order = order+1;
 						  System.out.println("e.wisher: "+e.wisher);
 						  System.out.println("wisher: "+ wisher);
-						  test+= e.getWishListID()+" "+e.getPersent_name()+"\n";
+						  test+= order +" "+e.getPersent_name()+ " ID"+e.getWishListID()+"\n";
 						}
 					}
 			       replyMessageService.ReplyTextMessage("願望清單：\n" + test,token);
+				   System.out.println("願望清單"+ test.toString());
 			       return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 
 				 }
@@ -139,7 +149,6 @@ public class MainController {
 				            if(k == 1) {
 				            	ID=Integer.parseInt(newStr[k]);
 				            	wishListService.deleteWishListByID(ID);
-				            	//System.out.println("我有執行刪除願望");
 				            	replyMessageService.ReplyTextMessage("刪除成功",token);
 				            }
 
@@ -147,6 +156,7 @@ public class MainController {
 				        return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
 					 
 				 }
+				 
 				 //查詢訊息
 				 System.out.println("完整訊息: "+object.toString());
 				 System.out.println("Message: "+ Message);
