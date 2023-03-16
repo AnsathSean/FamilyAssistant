@@ -69,8 +69,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//處理contents
 		FMcontents.put("type", "bubble");
 		
-		FMBody.put("type", "box");
-		FMBody.put("layout", "vertical");
 		//處理Body下的Contents
 		FMBody_Contents_Contents1.put("type","text");
 		FMBody_Contents_Contents1.put("text", "Hello,");
@@ -82,8 +80,12 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		FMBody_Contents.put(FMBody_Contents_Contents1);
 		FMBody_Contents.put(FMBody_Contents_Contents2);
+		
+		FMBody.put("contents",FMBody_Contents);
+		FMBody.put("type", "box");
+		FMBody.put("layout", "vertical");
+		
 		FMcontents.put("body", FMBody);
-		FMcontents.put("contents", FMBody_Contents);
 		//處理PayLoadContent 
 		PayloadContent.put("replyToken",token); 
 		
