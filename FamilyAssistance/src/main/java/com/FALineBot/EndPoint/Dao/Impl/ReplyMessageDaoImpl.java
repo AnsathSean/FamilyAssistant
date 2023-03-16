@@ -91,10 +91,10 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		//處理Footer
 		FMFooter.put("type","box"); 
-		FMFooter.put("layout","horizontal"); 
+		FMFooter.put("layout","vertical"); 
 
 			FMFooter_Contents_Contents2.put("type","uri");
-			FMFooter_Contents_Contents2.put("label","Go to EMMA Shop");
+			FMFooter_Contents_Contents2.put("label","Shop");
 			FMFooter_Contents_Contents2.put("uri","https://www.y-bio.net/");
 		FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
 		FMFooter_Contents_Contents1.put("type","button");
