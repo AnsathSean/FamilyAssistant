@@ -101,18 +101,18 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		FMFooter_Contents.put(FMFooter_Contents_Contents1);
 		FMFooter.put("contents",FMFooter_Contents); 
+		
 		//處理所有訊息
 		FlexMessage.put("contents", FMcontents);
 		FlexMessage.put("footer", FMFooter);
-		//處理Message 
 		
+		//設定訊息類別
 		FlexMessage.put("altText","This is a Flex Message"); 
 		FlexMessage.put("type","flex"); 
-		
 		Messages.put(FlexMessage);
 		PayloadContent.put("messages",Messages); 
         //回傳訊息
-		System.out.println(PayloadContent.toString());
+		//System.out.println(PayloadContent.toString());
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 		
