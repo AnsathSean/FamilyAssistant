@@ -65,9 +65,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		 JSONObject FMFooter_Contents_Contents2 = new JSONObject();
 		 JSONArray Messages = new JSONArray();
 		 
-		//處理Message 
-		FlexMessage.put("type","flex"); 
-		FlexMessage.put("altText","This is a Flex Message"); 
+
 		//處理contents
 		FMcontents.put("type", "bubble");
 		
@@ -85,22 +83,29 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBody_Contents.put(FMBody_Contents_Contents1);
 		FMBody_Contents.put(FMBody_Contents_Contents2);
 		FMcontents.put("body", FMBody);
+		FMcontents.put("contents", FMBody_Contents);
 		//處理PayLoadContent 
 		PayloadContent.put("replyToken",token); 
 		
 		//處理Footer
 		FMFooter.put("type","box"); 
 		FMFooter.put("layout","horizontal"); 
-		FMFooter_Contents_Contents1.put("type","button");
+
 			FMFooter_Contents_Contents2.put("type","uri");
 			FMFooter_Contents_Contents2.put("label","Go to EMMA Shop");
 			FMFooter_Contents_Contents2.put("uri","https://www.y-bio.net/");
 		FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
+		FMFooter_Contents_Contents1.put("type","button");
+		
 		FMFooter_Contents.put(FMFooter_Contents_Contents1);
 		FMFooter.put("contents",FMFooter_Contents); 
 		//處理所有訊息
 		FlexMessage.put("contents", FMcontents);
 		FlexMessage.put("footer", FMFooter);
+		//處理Message 
+		FlexMessage.put("type","flex"); 
+		FlexMessage.put("altText","This is a Flex Message"); 
+		
 		Messages.put(FlexMessage);
 		PayloadContent.put("messages",Messages); 
         //回傳訊息
