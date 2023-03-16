@@ -85,7 +85,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		//處理PayLoadContent 
 		PayloadContent.put("replyToken",token); 
-		PayloadContent.put("messages",FlexMessage); 
+		
 		//處理Footer
 		FMFooter.put("type","box"); 
 		FMFooter.put("layout","horizontal"); 
@@ -99,6 +99,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//處理所有訊息
 		FlexMessage.put("contents", FMcontents);
 		FlexMessage.put("footer", FMFooter);
+		PayloadContent.put("messages",FlexMessage); 
         //回傳訊息
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
