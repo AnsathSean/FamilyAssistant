@@ -70,6 +70,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FlexMessage.put("altText","This is a Flex Message"); 
 		//處理contents
 		FMcontents.put("type", "bubble");
+		
 		FMBody.put("type", "box");
 		FMBody.put("layout", "vertical");
 		//處理Body下的Contents
@@ -83,7 +84,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		FMBody_Contents.put(FMBody_Contents_Contents1);
 		FMBody_Contents.put(FMBody_Contents_Contents2);
-		
+		FMcontents.put("body", FMBody);
 		//處理PayLoadContent 
 		PayloadContent.put("replyToken",token); 
 		
