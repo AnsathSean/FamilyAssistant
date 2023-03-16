@@ -9,9 +9,15 @@ public class ReplyMessageServiceImpl implements ReplyMessageService{
 
 	@Autowired
 	private ReplyMessageDao replyMessageDao;
+	
 	@Override
 	public void ReplyTextMessage(String Message,String token) {
 		replyMessageDao.ReplyTextMessage(Message, token);
+	}
+	
+	@Override
+	public void ReplyFlexWishListMessage(String token) {
+		replyMessageDao.ReplyFlexWishListMessage(token);
 	}
 	
 }
