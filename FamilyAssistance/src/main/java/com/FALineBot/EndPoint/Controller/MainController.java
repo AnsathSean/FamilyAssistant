@@ -103,6 +103,11 @@ public class MainController {
 			            return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 
 				 }
+				 //測試FlexMessage
+				 if(Message.indexOf("測試FLEX")!=-1) {
+					 replyMessageService.ReplyFlexWishListMessage(token);
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
+				 }
 				 //查詢願望清單功能
 				 if(Message.indexOf("查詢願望")!=-1) {
 				   List<WishList> list = wishListService.findAllWishList();
