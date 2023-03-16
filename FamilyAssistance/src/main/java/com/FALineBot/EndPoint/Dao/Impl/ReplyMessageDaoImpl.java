@@ -63,6 +63,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		 JSONArray FMFooter_Contents = new JSONArray();
 		 JSONObject FMFooter_Contents_Contents1 = new JSONObject();
 		 JSONObject FMFooter_Contents_Contents2 = new JSONObject();
+		 JSONArray Messages = new JSONArray();
 		 
 		//處理Message 
 		FlexMessage.put("type","flex"); 
@@ -99,7 +100,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//處理所有訊息
 		FlexMessage.put("contents", FMcontents);
 		FlexMessage.put("footer", FMFooter);
-		PayloadContent.put("messages",FlexMessage); 
+		Messages.put(FlexMessage);
+		PayloadContent.put("messages",Messages); 
         //回傳訊息
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
