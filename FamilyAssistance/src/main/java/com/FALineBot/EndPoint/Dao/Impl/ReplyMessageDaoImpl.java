@@ -101,10 +101,10 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		FMFooter_Contents.put(FMFooter_Contents_Contents1);
 		FMFooter.put("contents",FMFooter_Contents); 
-		
+		FMcontents.put("footer", FMFooter);
 		//處理所有訊息
 		FlexMessage.put("contents", FMcontents);
-		FlexMessage.put("footer", FMFooter);
+		//FlexMessage.put("footer", FMFooter);
 		
 		//設定訊息類別
 		FlexMessage.put("altText","This is a Flex Message"); 
