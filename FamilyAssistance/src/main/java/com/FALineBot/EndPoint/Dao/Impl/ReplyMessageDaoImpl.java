@@ -104,9 +104,10 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 			//FMBodyContents_SingleWishDataAData.clear();
 			
 			if(e.wisher.equals(wisher)) {
-				FMBodyContents_SingleWishDataADataA.clear();
-				FMBodyContents_SingleWishDataADataAB.clear();
-				//FMBodyContents_SingleWishDataAData.clear();
+				//FMBodyContents_SingleWishDataADataA.clear();
+				//FMBodyContents_SingleWishDataADataAB.clear();
+				FMBodyContents_SingleWishDataAData.clear();
+				FMBodyContents_SingleWishDataADataArray.clear();
 				//單一願望Content資料
 
 				order = order+1;
@@ -132,6 +133,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
 							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
 							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
+							
 							FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
 							
 							
