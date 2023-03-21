@@ -104,14 +104,14 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishDataAData.put("type", "box");
 		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
 		//組成單一願望Content的Content資料
-		FMBodyContents_SingleWishDataADataA.put("type", "test");
-		FMBodyContents_SingleWishDataADataA.put("test", "Apple電腦");
+		FMBodyContents_SingleWishDataADataA.put("type", "text");
+		FMBodyContents_SingleWishDataADataA.put("text", "Apple電腦");
 		FMBodyContents_SingleWishDataADataA.put("size","sm");
 		FMBodyContents_SingleWishDataADataA.put("color","#555555");
 		FMBodyContents_SingleWishDataADataA.put("flex","0");
 		
-		FMBodyContents_SingleWishDataADataAB.put("type", "test");
-		FMBodyContents_SingleWishDataADataAB.put("test", "ID 5");
+		FMBodyContents_SingleWishDataADataAB.put("type", "text");
+		FMBodyContents_SingleWishDataADataAB.put("text", "ID 5");
 		FMBodyContents_SingleWishDataADataAB.put("size","sm");
 		FMBodyContents_SingleWishDataADataAB.put("color","#111111");
 		FMBodyContents_SingleWishDataADataAB.put("align","end");
