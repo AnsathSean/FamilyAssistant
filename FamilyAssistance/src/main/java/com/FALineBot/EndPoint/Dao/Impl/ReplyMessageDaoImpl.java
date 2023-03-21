@@ -113,7 +113,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 				order = order+1;
 				String Test =e.getPersent_name();
 				System.out.println("Oder順序"+order.toString());
-				if(order<4) {
 					System.out.println("有在執行塞資料的動作");
 					System.out.println("資料名稱"+Test.toString());
 
@@ -145,9 +144,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 							
 							System.out.println("塞完資料");
 							System.out.println("資料名稱"+FMBodyContents_SingleWishDataArray.toString());
-				}else {
 
-				}
 			}
 		}
 		System.out.println("顯示彙整結果"+FinalResult.toString());
