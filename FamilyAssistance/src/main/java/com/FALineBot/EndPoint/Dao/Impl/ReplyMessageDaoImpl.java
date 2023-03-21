@@ -128,7 +128,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBody_Contents.put(FMBodyContents_Title);
 		FMBody_Contents.put(FMBodyContents_SubTitle);
 		FMBody_Contents.put(FMBodyContents_Separator);
-		//FMBody_Contents.put(FMBodyContents_SingleWishData);
+		FMBody_Contents.put(FMBodyContents_SingleWishData);
 		
 		FMBody.put("contents",FMBody_Contents);
 		FMBody.put("type", "box");
