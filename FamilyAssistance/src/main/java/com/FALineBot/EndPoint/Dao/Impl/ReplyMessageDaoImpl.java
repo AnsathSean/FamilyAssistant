@@ -106,7 +106,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 			if(e.wisher.equals(wisher)) {
 				//FMBodyContents_SingleWishDataADataA.clear();
 				//FMBodyContents_SingleWishDataADataAB.clear();
-				FMBodyContents_SingleWishDataAData.clear();
+				//FMBodyContents_SingleWishDataAData.clear();
 				FMBodyContents_SingleWishDataADataArray.clear();
 				//單一願望Content資料
 
