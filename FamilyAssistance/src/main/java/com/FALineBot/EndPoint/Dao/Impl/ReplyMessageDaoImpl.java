@@ -118,11 +118,13 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
 		FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
+		FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
+		FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
+		
 		FMBodyContents_SingleWishDataADataA.clear();
 		FMBodyContents_SingleWishDataADataAB.clear();
 		FMBodyContents_SingleWishDataAData.clear();
-		FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
-		FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
+
 			}
 		}
 
