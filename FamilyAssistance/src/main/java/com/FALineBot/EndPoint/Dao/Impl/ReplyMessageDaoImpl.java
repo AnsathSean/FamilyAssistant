@@ -144,7 +144,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 								FinalResult = FMBodyContents_SingleWishDataAData.toString();
 							}
 							for(int i=1; i < order+1; i++) {
-								
+								System.out.println("執行刪除:"+i);
 								FMBodyContents_SingleWishDataADataArray.remove(i);
 							}
 							System.out.println("塞完資料");
