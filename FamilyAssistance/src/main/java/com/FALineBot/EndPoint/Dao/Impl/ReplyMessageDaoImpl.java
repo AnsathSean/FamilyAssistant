@@ -105,7 +105,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 				FMBodyContents_SingleWishDataADataAB.clear();
 				FMBodyContents_SingleWishDataAData.clear();
 				order = order+1;
-				if(order>2) {
+				if(order>8) {
 					
 				}else {
 				//System.out.println("Oder順序"+order.toString());
