@@ -87,7 +87,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_Title.put("margin", "md");
 		
 		FMBodyContents_SubTitle.put("type","text");
-		FMBodyContents_SubTitle.put("text", "World!,");
+		FMBodyContents_SubTitle.put("text", "由家庭小助理提供");
 		FMBodyContents_SubTitle.put("size","xs");
 		FMBodyContents_SubTitle.put("color","#aaaaaa");
 		FMBodyContents_SubTitle.put("weight","bold");
@@ -127,6 +127,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//最終組成所需內容
 		FMBody_Contents.put(FMBodyContents_Title);
 		FMBody_Contents.put(FMBodyContents_SubTitle);
+		FMBody_Contents.put(FMBodyContents_Separator);
 		//FMBody_Contents.put(FMBodyContents_SingleWishData);
 		
 		FMBody.put("contents",FMBody_Contents);
