@@ -108,7 +108,7 @@ public class MainController {
 				 if(Message.indexOf("測試FLEX")!=-1) {
 					 List<WishList> list = wishListService.findAllWishList();
 					 SelfWish = true;
-					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish);
+					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
 				 //查詢願望清單功能

@@ -44,7 +44,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 	}
 	
-	public void ReplyFlexWishListMessage(List<WishList> list,String token,Boolean SelfWish)
+	public void ReplyFlexWishListMessage(List<WishList> list,String token,Boolean SelfWish,String wisher)
 	{
 		Integer order=0;
 		//建立回傳訊息標頭
@@ -97,7 +97,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishData.put("spacing", "sm");
 		
 		for (WishList e : list) {
-			if(SelfWish) {
+			if(e.wisher.equals(wisher)) {
 				order = order+1;
 		//單一願望Content資料
 		FMBodyContents_SingleWishDataAData.put("type", "box");
@@ -120,7 +120,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
 		FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
 		
-		System.out.println("這是Contents內容"+FMBodyContents_SingleWishDataAData.toString());
 		
 		FMBodyContents_SingleWishDataADataA.clear();
 		FMBodyContents_SingleWishDataADataAB.clear();
@@ -129,7 +128,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 			}
 		}
 
-		
+		System.out.println("這是Contents內容"+FMBodyContents_SingleWishData.toString());
 		FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
 		
 		//組成單一願望Content

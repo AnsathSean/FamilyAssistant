@@ -19,8 +19,8 @@ public class ReplyMessageServiceImpl implements ReplyMessageService{
 	}
 	
 	@Override
-	public void ReplyFlexWishListMessage(List<WishList> list,String token,Boolean SelfWish) {
-		replyMessageDao.ReplyFlexWishListMessage(list,token,SelfWish);
+	public void ReplyFlexWishListMessage(List<WishList> list,String token,Boolean SelfWish,String wisher) {
+		replyMessageDao.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
 	}
 	
 }

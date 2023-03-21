@@ -7,5 +7,5 @@ import com.FALineBot.EndPoint.Model.WishList;
 public interface ReplyMessageDao {
 
 	public void ReplyTextMessage(String Message,String token);
-	public void ReplyFlexWishListMessage(List<WishList> list,String token,Boolean SelfWish);
+	public void ReplyFlexWishListMessage(List<WishList> list,String token,Boolean SelfWish,String wisher);
 }
