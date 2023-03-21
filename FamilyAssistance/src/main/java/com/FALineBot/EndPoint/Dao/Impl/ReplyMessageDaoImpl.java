@@ -98,7 +98,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		FMBodyContents_SingleWishDataAData.put("type", "box");
 		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
-		String FinalResult = null;
+		String FinalResult = "";
 		
 		for (WishList e : list) {
 
@@ -135,8 +135,11 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 
 							
 							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
+							if(FinalResult!= "") {
 							FinalResult = FinalResult +","+FMBodyContents_SingleWishDataAData.toString();
-							
+							}else {
+								FinalResult = FMBodyContents_SingleWishDataAData.toString();
+							}
 							
 							FMBodyContents_SingleWishDataADataArray.remove(1);
 							
