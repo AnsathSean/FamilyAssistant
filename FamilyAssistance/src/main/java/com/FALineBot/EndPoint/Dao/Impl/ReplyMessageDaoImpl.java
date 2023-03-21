@@ -155,12 +155,12 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 			}
 		}
 		System.out.println("顯示彙整結果"+FinalResult.toString());
-		JSONObject FinalResult2 = new JSONObject(FinalResult); 
+		JSONArray FinalResult2 = new JSONArray(FinalResult); 
 		System.out.println("顯示轉換成JSON的結果"+FinalResult2.toString());
-		FMBodyContents_SingleWishDataArray.put(FinalResult2);
+		//FMBodyContents_SingleWishDataArray.put(FinalResult2);
 
 		//System.out.println("Oder順序"+order.toString());
-		FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
+		FMBodyContents_SingleWishData.put("contents",FinalResult2);
 		
 		//組成單一願望Content
 		
