@@ -99,7 +99,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		for (WishList e : list) {
 			if(SelfWish) {
 				order = order+1;
-
 		//單一願望Content資料
 		FMBodyContents_SingleWishDataAData.put("type", "box");
 		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
@@ -120,6 +119,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
 		FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
 		FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
+		
+		System.out.println("這是Contents內容"+FMBodyContents_SingleWishDataAData.toString());
 		
 		FMBodyContents_SingleWishDataADataA.clear();
 		FMBodyContents_SingleWishDataADataAB.clear();
