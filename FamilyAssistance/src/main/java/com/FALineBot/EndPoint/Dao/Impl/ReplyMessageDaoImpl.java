@@ -1,7 +1,6 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -47,6 +46,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	
 	public void ReplyFlexWishListMessage(List<WishList> list,String token,Boolean SelfWish)
 	{
+		Integer order=0;
 		//建立回傳訊息標頭
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -68,12 +68,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		 JSONArray FMBodyContents_SingleWishDataADataArray = new JSONArray();
 		 JSONObject FMBodyContents_SingleWishDataADataA = new JSONObject();
 		 JSONObject FMBodyContents_SingleWishDataADataAB = new JSONObject();
-		 //JSONObject FMFooter = new JSONObject();
-		 //JSONArray FMFooter_Contents = new JSONArray();
-		 //JSONObject FMFooter_Contents_Contents1 = new JSONObject();
-		 //JSONObject FMFooter_Contents_Contents2 = new JSONObject();
 		 JSONArray Messages = new JSONArray();
-		 
 
 		//處理contents
 		FMcontents.put("type", "bubble");
@@ -100,26 +95,38 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishData.put("layout", "vertical");
 		FMBodyContents_SingleWishData.put("margin", "xxl");
 		FMBodyContents_SingleWishData.put("spacing", "sm");
+		
+		for (WishList e : list) {
+			if(SelfWish) {
+				order = order+1;
+
 		//單一願望Content資料
 		FMBodyContents_SingleWishDataAData.put("type", "box");
 		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
 		//組成單一願望Content的Content資料
 		FMBodyContents_SingleWishDataADataA.put("type", "text");
-		FMBodyContents_SingleWishDataADataA.put("text", "Apple電腦");
+		FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
 		FMBodyContents_SingleWishDataADataA.put("size","sm");
 		FMBodyContents_SingleWishDataADataA.put("color","#555555");
 		FMBodyContents_SingleWishDataADataA.put("flex",0);
 		
 		FMBodyContents_SingleWishDataADataAB.put("type", "text");
-		FMBodyContents_SingleWishDataADataAB.put("text", "ID 5");
+		FMBodyContents_SingleWishDataADataAB.put("text", "ID "+e.getWishListID());
 		FMBodyContents_SingleWishDataADataAB.put("size","sm");
 		FMBodyContents_SingleWishDataADataAB.put("color","#111111");
 		FMBodyContents_SingleWishDataADataAB.put("align","end");
 		
 		FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
 		FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
+		FMBodyContents_SingleWishDataADataA.clear();
+		FMBodyContents_SingleWishDataADataAB.clear();
+		FMBodyContents_SingleWishDataAData.clear();
 		FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
 		FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
+			}
+		}
+
+		
 		FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
 		
 		//組成單一願望Content
