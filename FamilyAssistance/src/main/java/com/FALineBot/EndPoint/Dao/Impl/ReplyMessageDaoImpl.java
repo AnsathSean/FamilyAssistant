@@ -101,8 +101,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 			//FMBodyContents_SingleWishDataAData.clear();
 			
 			if(e.wisher.equals(wisher)) {
-				FMBodyContents_SingleWishDataADataA.clear();
-				FMBodyContents_SingleWishDataADataAB.clear();
+				//FMBodyContents_SingleWishDataADataA.clear();
+				//FMBodyContents_SingleWishDataADataAB.clear();
 				//FMBodyContents_SingleWishDataAData.clear();
 				order = order+1;
 				String Test =e.getPersent_name();
