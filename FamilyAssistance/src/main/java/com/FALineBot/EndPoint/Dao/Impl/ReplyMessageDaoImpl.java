@@ -112,7 +112,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 				order = order+1;
 				String Test =e.getPersent_name();
 				System.out.println("Oder順序"+order.toString());
-				if(order<9) {
+				if(order<4) {
 					System.out.println("有在執行塞資料的動作");
 					System.out.println("資料名稱"+Test.toString());
 
