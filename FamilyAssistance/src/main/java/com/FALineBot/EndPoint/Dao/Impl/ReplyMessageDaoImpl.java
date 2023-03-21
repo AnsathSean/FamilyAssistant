@@ -1,5 +1,7 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.FALineBot.EndPoint.Dao.ReplyMessageDao;
+import com.FALineBot.EndPoint.Model.WishList;
 
 @Component
 public class ReplyMessageDaoImpl implements ReplyMessageDao{
@@ -42,7 +45,128 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 	}
 	
-	public void ReplyFlexWishListMessage(String token)
+	public void ReplyFlexWishListMessage(List<WishList> list,String token,Boolean SelfWish)
+	{
+		//建立回傳訊息標頭
+		HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
+		//建立回傳JSON訊息
+		 JSONObject PayloadContent = new JSONObject();
+		 JSONObject FlexMessage = new JSONObject();
+		 
+		 JSONObject FMcontents = new JSONObject();
+		 
+		 JSONObject FMBody = new JSONObject();
+		 JSONArray FMBody_Contents = new JSONArray();
+		 JSONObject FMBodyContents_Title = new JSONObject();
+		 JSONObject FMBodyContents_SubTitle = new JSONObject();
+		 JSONObject FMBodyContents_Separator = new JSONObject();
+		 JSONObject FMBodyContents_SingleWishData = new JSONObject();
+		 JSONArray FMBodyContents_SingleWishDataArray = new JSONArray();
+		 JSONObject FMBodyContents_SingleWishDataAData = new JSONObject();
+		 JSONArray FMBodyContents_SingleWishDataADataArray = new JSONArray();
+		 JSONObject FMBodyContents_SingleWishDataADataA = new JSONObject();
+		 JSONObject FMBodyContents_SingleWishDataADataAB = new JSONObject();
+		 //JSONObject FMFooter = new JSONObject();
+		 //JSONArray FMFooter_Contents = new JSONArray();
+		 //JSONObject FMFooter_Contents_Contents1 = new JSONObject();
+		 //JSONObject FMFooter_Contents_Contents2 = new JSONObject();
+		 JSONArray Messages = new JSONArray();
+		 
+
+		//處理contents
+		FMcontents.put("type", "bubble");
+		
+		//處理Body下的Contents
+		FMBodyContents_Title.put("type","text");
+		FMBodyContents_Title.put("text", "願望清單");
+		FMBodyContents_Title.put("weight","bold");
+		FMBodyContents_Title.put("size","xxl");
+		FMBodyContents_Title.put("color","#1DB446");
+		FMBodyContents_Title.put("margin", "md");
+		
+		FMBodyContents_SubTitle.put("type","text");
+		FMBodyContents_SubTitle.put("text", "World!,");
+		FMBodyContents_SubTitle.put("size","xs");
+		FMBodyContents_SubTitle.put("color","#aaaaaa");
+		FMBodyContents_SubTitle.put("weight","bold");
+		FMBodyContents_SubTitle.put("wrap",true);
+		//分割線
+		FMBodyContents_Separator.put("type","separator");
+		FMBodyContents_Separator.put("margin", "xxl");
+		//單一願望資料
+		FMBodyContents_SingleWishData.put("type", "box");
+		FMBodyContents_SingleWishData.put("layout", "vertical");
+		FMBodyContents_SingleWishData.put("margin", "xxl");
+		FMBodyContents_SingleWishData.put("spacing", "sm");
+		//單一願望Content資料
+		FMBodyContents_SingleWishDataAData.put("type", "box");
+		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
+		//組成單一願望Content的Content資料
+		FMBodyContents_SingleWishDataADataA.put("type", "test");
+		FMBodyContents_SingleWishDataADataA.put("test", "Apple電腦");
+		FMBodyContents_SingleWishDataADataA.put("size","sm");
+		FMBodyContents_SingleWishDataADataA.put("color","#555555");
+		FMBodyContents_SingleWishDataADataA.put("flex","0");
+		
+		FMBodyContents_SingleWishDataADataAB.put("type", "test");
+		FMBodyContents_SingleWishDataADataAB.put("test", "ID 5");
+		FMBodyContents_SingleWishDataADataAB.put("size","sm");
+		FMBodyContents_SingleWishDataADataAB.put("color","#111111");
+		FMBodyContents_SingleWishDataADataAB.put("align","end");
+		
+		FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
+		FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
+		FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
+		FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
+		FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
+		
+		//組成單一願望Content
+		
+		//最終組成所需內容
+		FMBody_Contents.put(FMBodyContents_Title);
+		FMBody_Contents.put(FMBodyContents_SubTitle);
+		
+		FMBody.put("contents",FMBody_Contents);
+		FMBody.put("type", "box");
+		FMBody.put("layout", "vertical");
+		//設置最終BODY
+		FMcontents.put("body", FMBody);
+		//處理PayLoadContent 
+		PayloadContent.put("replyToken",token); 
+		
+		//處理Footer
+		//FMFooter.put("type","box"); 
+		//FMFooter.put("layout","vertical"); 
+
+		//	FMFooter_Contents_Contents2.put("type","uri");
+		//	FMFooter_Contents_Contents2.put("label","Shop");
+		//	FMFooter_Contents_Contents2.put("uri","https://www.y-bio.net/");
+		//FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
+		//FMFooter_Contents_Contents1.put("type","button");
+		
+		//FMFooter_Contents.put(FMFooter_Contents_Contents1);
+		//FMFooter.put("contents",FMFooter_Contents); 
+		//設置最終Footer
+		//FMcontents.put("footer", FMFooter);
+		//處理所有訊息
+		FlexMessage.put("contents", FMcontents);
+		//FlexMessage.put("footer", FMFooter);
+		
+		//設定訊息類別
+		FlexMessage.put("altText","This is a Flex Message"); 
+		FlexMessage.put("type","flex"); 
+		Messages.put(FlexMessage);
+		PayloadContent.put("messages",Messages); 
+        //回傳訊息
+		System.out.println(PayloadContent.toString());
+        HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
+        restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
+		
+	}
+	
+	public void ReplyFlexWishListMessageTemplate(String token)
 	{
 		//建立回傳訊息標頭
 		HttpHeaders headers = new HttpHeaders();
@@ -84,7 +208,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBody.put("contents",FMBody_Contents);
 		FMBody.put("type", "box");
 		FMBody.put("layout", "vertical");
-		
+		//設置最終BODY
 		FMcontents.put("body", FMBody);
 		//處理PayLoadContent 
 		PayloadContent.put("replyToken",token); 
@@ -101,6 +225,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		FMFooter_Contents.put(FMFooter_Contents_Contents1);
 		FMFooter.put("contents",FMFooter_Contents); 
+		//設置最終Footer
 		FMcontents.put("footer", FMFooter);
 		//處理所有訊息
 		FlexMessage.put("contents", FMcontents);
@@ -117,6 +242,4 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 		
 	}
-	
-	
 }

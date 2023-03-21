@@ -62,6 +62,7 @@ public class MainController {
 		//取得Request訊息
 		JSONObject object = new JSONObject(requestBody);	
 		JSONObject event = new JSONObject();
+		boolean SelfWish = true;
 		
 		//處理Message訊息
 		for(int i=0; i<object.getJSONArray("events").length(); i++) {
@@ -105,7 +106,9 @@ public class MainController {
 				 }
 				 //測試FlexMessage
 				 if(Message.indexOf("測試FLEX")!=-1) {
-					 replyMessageService.ReplyFlexWishListMessage(token);
+					 List<WishList> list = wishListService.findAllWishList();
+					 SelfWish = true;
+					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
 				 //查詢願望清單功能
