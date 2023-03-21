@@ -97,13 +97,14 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishData.put("spacing", "sm");
 		
 		for (WishList e : list) {
-			//FMBodyContents_SingleWishDataADataA.clear();
-			//FMBodyContents_SingleWishDataADataAB.clear();
+
 			//FMBodyContents_SingleWishDataAData.clear();
 			
 			if(e.wisher.equals(wisher)) {
+				FMBodyContents_SingleWishDataADataA.clear();
+				FMBodyContents_SingleWishDataADataAB.clear();
 				order = order+1;
-				System.out.println("Oder順序"+order.toString());
+				//System.out.println("Oder順序"+order.toString());
 		//單一願望Content資料
 		FMBodyContents_SingleWishDataAData.put("type", "box");
 		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
