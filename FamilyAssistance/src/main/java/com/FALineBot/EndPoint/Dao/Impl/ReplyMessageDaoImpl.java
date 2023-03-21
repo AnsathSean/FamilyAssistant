@@ -143,7 +143,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 							}else {
 								FinalResult = FMBodyContents_SingleWishDataAData.toString();
 							}
-							for(int i=0; i < order+1; i++) {
+							for(int i=0; i < order+2; i++) {
 								System.out.println("執行刪除:"+i);
 								FMBodyContents_SingleWishDataADataArray.remove(i);
 							}
