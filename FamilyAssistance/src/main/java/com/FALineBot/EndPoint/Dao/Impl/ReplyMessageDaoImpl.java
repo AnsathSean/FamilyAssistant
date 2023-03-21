@@ -108,7 +108,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishDataADataA.put("text", "Apple電腦");
 		FMBodyContents_SingleWishDataADataA.put("size","sm");
 		FMBodyContents_SingleWishDataADataA.put("color","#555555");
-		FMBodyContents_SingleWishDataADataA.put("flex","0");
+		FMBodyContents_SingleWishDataADataA.put("flex",0);
 		
 		FMBodyContents_SingleWishDataADataAB.put("type", "text");
 		FMBodyContents_SingleWishDataADataAB.put("text", "ID 5");
