@@ -96,23 +96,26 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishData.put("margin", "xxl");
 		FMBodyContents_SingleWishData.put("spacing", "sm");
 		
+		FMBodyContents_SingleWishDataAData.put("type", "box");
+		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
+		
 		for (WishList e : list) {
 
 			//FMBodyContents_SingleWishDataAData.clear();
 			
 			if(e.wisher.equals(wisher)) {
-				//FMBodyContents_SingleWishDataADataA.clear();
-				//FMBodyContents_SingleWishDataADataAB.clear();
+				FMBodyContents_SingleWishDataADataA.clear();
+				FMBodyContents_SingleWishDataADataAB.clear();
 				//FMBodyContents_SingleWishDataAData.clear();
+				//單一願望Content資料
+
 				order = order+1;
 				String Test =e.getPersent_name();
 				System.out.println("Oder順序"+order.toString());
 				if(order<3) {
 					System.out.println("有在執行塞資料的動作");
 					System.out.println("資料名稱"+Test.toString());
-					//單一願望Content資料
-							FMBodyContents_SingleWishDataAData.put("type", "box");
-							FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
+
 					//組成單一願望Content的Content資料
 							FMBodyContents_SingleWishDataADataA.put("type", "text");
 							FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
@@ -131,8 +134,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
 							FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
 							
-							FMBodyContents_SingleWishDataADataA.clear();
-							FMBodyContents_SingleWishDataADataAB.clear();
 							
 							System.out.println("塞完資料");
 							System.out.println("資料名稱"+FMBodyContents_SingleWishDataArray.toString());
