@@ -134,14 +134,12 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 				
 							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
 							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
-
-							FMBodyContents_SingleWishDataADataA.remove("text");
-							FMBodyContents_SingleWishDataADataAB.remove("text");
 							
 							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
 							
 							System.out.println("塞完資料");
 							System.out.println("array名稱"+FMBodyContents_SingleWishDataADataArray.toString());
+							
 							if(FinalResult!= "") {
 							FinalResult = FinalResult +","+FMBodyContents_SingleWishDataAData.toString();
 							}else {
