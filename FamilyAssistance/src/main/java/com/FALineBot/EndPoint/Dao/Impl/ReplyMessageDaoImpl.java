@@ -147,7 +147,9 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 				}
 			}
 		}
+		System.out.println("顯示彙整結果"+FinalResult.toString());
 		JSONObject FinalResult2 = new JSONObject(FinalResult); 
+		
 		FMBodyContents_SingleWishDataArray.put(FinalResult2);
 
 		//System.out.println("Oder順序"+order.toString());
