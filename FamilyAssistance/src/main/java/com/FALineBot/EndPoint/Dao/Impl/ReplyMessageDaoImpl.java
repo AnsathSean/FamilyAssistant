@@ -131,9 +131,22 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 					
 							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
 							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
+
+							
 							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
 							FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
+							
 							FMBodyContents_SingleWishDataADataArray.remove(1);
+							FMBodyContents_SingleWishDataADataA.remove("type");
+							FMBodyContents_SingleWishDataADataA.remove("text");
+							FMBodyContents_SingleWishDataADataA.remove("size");
+							FMBodyContents_SingleWishDataADataA.remove("flex");
+							FMBodyContents_SingleWishDataADataA.remove("color");
+							FMBodyContents_SingleWishDataADataAB.remove("type");
+							FMBodyContents_SingleWishDataADataAB.remove("text");
+							FMBodyContents_SingleWishDataADataAB.remove("size");
+							FMBodyContents_SingleWishDataADataAB.remove("align");
+							FMBodyContents_SingleWishDataADataAB.remove("color");
 							
 							System.out.println("塞完資料");
 							System.out.println("資料名稱"+FMBodyContents_SingleWishDataArray.toString());
