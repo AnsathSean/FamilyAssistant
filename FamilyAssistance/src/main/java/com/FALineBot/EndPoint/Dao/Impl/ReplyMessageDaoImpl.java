@@ -97,6 +97,9 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishData.put("spacing", "sm");
 		
 		for (WishList e : list) {
+			FMBodyContents_SingleWishDataADataA.clear();
+			FMBodyContents_SingleWishDataADataAB.clear();
+			FMBodyContents_SingleWishDataAData.clear();
 			if(e.wisher.equals(wisher)) {
 				order = order+1;
 		//單一願望Content資料
@@ -120,10 +123,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
 		FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
 		
-		
-		FMBodyContents_SingleWishDataADataA.clear();
-		FMBodyContents_SingleWishDataADataAB.clear();
-		FMBodyContents_SingleWishDataAData.clear();
 
 			}
 		}
