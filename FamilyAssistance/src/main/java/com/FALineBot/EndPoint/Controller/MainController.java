@@ -114,7 +114,8 @@ public class MainController {
 				 //查詢願望清單功能
 				 if(Message.indexOf("查詢願望")!=-1) {
 					 List<WishList> list = wishListService.findAllWishList();
-					 SelfWish = true;
+					 SelfWish = false;
+					 System.out.println("是否查自己的"+SelfWish);
 					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 
@@ -122,7 +123,8 @@ public class MainController {
 				 //查詢自己的願望清單功能
 				 if(Message.indexOf("查詢自己的願望")!=-1) {
 					 List<WishList> list = wishListService.findAllWishList();
-					 SelfWish = false;
+					 SelfWish = true;
+					 System.out.println("是否查自己的"+SelfWish);
 					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 

@@ -112,20 +112,12 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		for (WishList e : list) {
 
-			//FMBodyContents_SingleWishDataAData.clear();
-			
-			if(e.wisher.equals(wisher)) {
-				//FMBodyContents_SingleWishDataADataA.clear();
-				//FMBodyContents_SingleWishDataADataAB.clear();
-				//FMBodyContents_SingleWishDataAData.clear();
-				//單一願望Content資料
-
+			if(e.wisher.equals(wisher) && SelfWish) {
 				order = order+1;
-				String Test =e.getPersent_name();
-				System.out.println("Oder順序"+order.toString());
-					System.out.println("有在執行塞資料的動作");
-					System.out.println("資料名稱"+Test.toString());
-
+				//String Test =e.getPersent_name();
+				//System.out.println("Oder順序"+order.toString());
+				//System.out.println("有在執行塞資料的動作");
+				//System.out.println("資料名稱"+Test.toString());
 					//組成單一願望Content的Content資料
 							FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
 					
@@ -148,16 +140,47 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 							//	FMBodyContents_SingleWishDataADataArray.remove(i);
 							//}
 							FMBodyContents_SingleWishDataADataArray.clear();
-							System.out.println("塞完資料");
-							System.out.println("看Array有沒有漲"+FMBodyContents_SingleWishDataADataArray.toString());
+							//System.out.println("塞完資料");
+							//System.out.println("看Array有沒有漲"+FMBodyContents_SingleWishDataADataArray.toString());
 
 
+			}if(!e.wisher.equals(wisher) && !SelfWish) {
+				//執行非自己的願望清單
+				order = order+1;
+				//String Test =e.getPersent_name();
+				//System.out.println("Oder順序"+order.toString());
+				//System.out.println("有在執行塞資料的動作");
+				//System.out.println("資料名稱"+Test.toString());
+					//組成單一願望Content的Content資料
+							FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
+					
+
+							FMBodyContents_SingleWishDataADataAB.put("text", "ID "+e.getWishListID());
+				
+							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
+							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
+							
+							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
+							
+							
+							if(FinalResult!= "") {
+							FinalResult = FinalResult +","+FMBodyContents_SingleWishDataAData.toString();
+							}else {
+								FinalResult = FMBodyContents_SingleWishDataAData.toString();
+							}
+							//for(int i=0; i < order+2; i++) {
+							//	System.out.println("執行刪除:"+i);
+							//	FMBodyContents_SingleWishDataADataArray.remove(i);
+							//}
+							FMBodyContents_SingleWishDataADataArray.clear();
+							//System.out.println("塞完資料");
+							//System.out.println("看Array有沒有漲"+FMBodyContents_SingleWishDataADataArray.toString());
 			}
 		}
-		System.out.println("顯示彙整結果"+FinalResult.toString());
+		//System.out.println("顯示彙整結果"+FinalResult.toString());
 		FinalResult = "["+FinalResult+"]";
 		JSONArray FinalResult2 = new JSONArray(FinalResult); 
-		System.out.println("顯示轉換成JSON的結果"+FinalResult2.toString());
+		//System.out.println("顯示轉換成JSON的結果"+FinalResult2.toString());
 		//FMBodyContents_SingleWishDataArray.put(FinalResult2);
 
 		//System.out.println("Oder順序"+order.toString());
@@ -179,20 +202,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//處理PayLoadContent 
 		PayloadContent.put("replyToken",token); 
 		
-		//處理Footer
-		//FMFooter.put("type","box"); 
-		//FMFooter.put("layout","vertical"); 
-
-		//	FMFooter_Contents_Contents2.put("type","uri");
-		//	FMFooter_Contents_Contents2.put("label","Shop");
-		//	FMFooter_Contents_Contents2.put("uri","https://www.y-bio.net/");
-		//FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
-		//FMFooter_Contents_Contents1.put("type","button");
-		
-		//FMFooter_Contents.put(FMFooter_Contents_Contents1);
-		//FMFooter.put("contents",FMFooter_Contents); 
-		//設置最終Footer
-		//FMcontents.put("footer", FMFooter);
 		//處理所有訊息
 		FlexMessage.put("contents", FMcontents);
 		//FlexMessage.put("footer", FMFooter);
@@ -203,7 +212,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		Messages.put(FlexMessage);
 		PayloadContent.put("messages",Messages); 
         //回傳訊息
-		System.out.println(PayloadContent.toString());
+		//System.out.println(PayloadContent.toString());
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 		
