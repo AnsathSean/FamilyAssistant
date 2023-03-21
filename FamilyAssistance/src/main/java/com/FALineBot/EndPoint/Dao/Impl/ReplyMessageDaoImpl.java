@@ -128,7 +128,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 			}
 		}
 
-		System.out.println("這是Contents內容"+FMBodyContents_SingleWishData.toString());
+		System.out.println("這是Contents內容"+FMBodyContents_SingleWishDataArray.toString());
 		FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
 		
 		//組成單一願望Content
