@@ -113,38 +113,18 @@ public class MainController {
 				 }
 				 //查詢願望清單功能
 				 if(Message.indexOf("查詢願望")!=-1) {
-				   List<WishList> list = wishListService.findAllWishList();
-				   String test ="";
-					Integer order = 0;
-					for (WishList e : list) {
-						if(!e.wisher.equals(wisher)) {
-							order = order+1;
-						  //System.out.println("e.wisher: "+e.wisher);
-						  //System.out.println("wisher: "+ wisher);
-						  test+= order +" "+e.getPersent_name()+ "ID"+e.getWishListID()+"\n";
-						}
-					}
-			       replyMessageService.ReplyTextMessage("願望清單：\n" + test,token);
-			       System.out.println("願望清單"+ test.toString());
-			       return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 List<WishList> list = wishListService.findAllWishList();
+					 SelfWish = true;
+					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 
 				 }
 				 //查詢自己的願望清單功能
 				 if(Message.indexOf("查詢自己的願望")!=-1) {
-				   List<WishList> list = wishListService.findAllWishList();
-				   String test ="";
-				   Integer order = 0;
-					for (WishList e : list) {
-						if(e.wisher.equals(wisher)) {
-							order = order+1;
-						  System.out.println("e.wisher: "+e.wisher);
-						  System.out.println("wisher: "+ wisher);
-						  test+= order +" "+e.getPersent_name()+ " ID"+e.getWishListID()+"\n";
-						}
-					}
-			       replyMessageService.ReplyTextMessage("願望清單：\n" + test,token);
-				   System.out.println("願望清單"+ test.toString());
-			       return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 List<WishList> list = wishListService.findAllWishList();
+					 SelfWish = false;
+					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 
 				 }
 				 //刪除願望清單功能
