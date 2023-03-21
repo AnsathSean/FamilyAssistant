@@ -105,29 +105,31 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 				FMBodyContents_SingleWishDataADataAB.clear();
 				FMBodyContents_SingleWishDataAData.clear();
 				order = order+1;
+				if(order>2) {
+					
+				}else {
 				//System.out.println("Oder順序"+order.toString());
 		//單一願望Content資料
-		FMBodyContents_SingleWishDataAData.put("type", "box");
-		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
+				FMBodyContents_SingleWishDataAData.put("type", "box");
+				FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
 		//組成單一願望Content的Content資料
-		FMBodyContents_SingleWishDataADataA.put("type", "text");
-		FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
-		FMBodyContents_SingleWishDataADataA.put("size","sm");
-		FMBodyContents_SingleWishDataADataA.put("color","#555555");
-		FMBodyContents_SingleWishDataADataA.put("flex",0);
+				FMBodyContents_SingleWishDataADataA.put("type", "text");
+				FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
+				FMBodyContents_SingleWishDataADataA.put("size","sm");
+				FMBodyContents_SingleWishDataADataA.put("color","#555555");
+				FMBodyContents_SingleWishDataADataA.put("flex",0);
 		
-		FMBodyContents_SingleWishDataADataAB.put("type", "text");
-		FMBodyContents_SingleWishDataADataAB.put("text", "ID "+e.getWishListID());
-		FMBodyContents_SingleWishDataADataAB.put("size","sm");
-		FMBodyContents_SingleWishDataADataAB.put("color","#111111");
-		FMBodyContents_SingleWishDataADataAB.put("align","end");
+				FMBodyContents_SingleWishDataADataAB.put("type", "text");
+				FMBodyContents_SingleWishDataADataAB.put("text", "ID "+e.getWishListID());
+				FMBodyContents_SingleWishDataADataAB.put("size","sm");
+				FMBodyContents_SingleWishDataADataAB.put("color","#111111");
+				FMBodyContents_SingleWishDataADataAB.put("align","end");
 		
-		FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
-		FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
-		FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
-		FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
-		
-
+				FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
+				FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
+				FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
+				FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
+				}
 			}
 		}
 
