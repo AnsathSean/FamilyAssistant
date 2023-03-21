@@ -137,8 +137,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 							
 							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
 							
-							System.out.println("塞完資料");
-							System.out.println("ADataD名稱"+FMBodyContents_SingleWishDataADataAB.toString());
 							
 							if(FinalResult!= "") {
 							FinalResult = FinalResult +","+FMBodyContents_SingleWishDataAData.toString();
@@ -149,6 +147,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 								
 								FMBodyContents_SingleWishDataADataArray.remove(i);
 							}
+							System.out.println("塞完資料");
+							System.out.println("看Array有沒有漲"+FMBodyContents_SingleWishDataADataArray.toString());
 
 
 			}
