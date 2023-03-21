@@ -132,6 +132,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 							FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
 							System.out.println("塞完資料");
 							System.out.println("資料名稱"+FMBodyContents_SingleWishDataArray.toString());
+							FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
 				}else {
 
 				}
@@ -139,7 +140,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		}
 
 		//System.out.println("Oder順序"+order.toString());
-		FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
+		//FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
 		
 		//組成單一願望Content
 		
