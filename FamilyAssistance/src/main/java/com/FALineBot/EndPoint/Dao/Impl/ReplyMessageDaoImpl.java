@@ -98,6 +98,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		FMBodyContents_SingleWishDataAData.put("type", "box");
 		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
+		String FinalResult = null;
 		
 		for (WishList e : list) {
 
@@ -128,25 +129,16 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 							FMBodyContents_SingleWishDataADataAB.put("size","sm");
 							FMBodyContents_SingleWishDataADataAB.put("color","#111111");
 							FMBodyContents_SingleWishDataADataAB.put("align","end");
-					
+				
 							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
 							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
 
 							
 							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
-							FMBodyContents_SingleWishDataArray.put(FMBodyContents_SingleWishDataAData);
+							FinalResult = FinalResult +","+FMBodyContents_SingleWishDataAData.toString();
+							
 							
 							FMBodyContents_SingleWishDataADataArray.remove(1);
-							//FMBodyContents_SingleWishDataADataA.remove("type");
-							//FMBodyContents_SingleWishDataADataA.remove("text");
-							//FMBodyContents_SingleWishDataADataA.remove("size");
-							//FMBodyContents_SingleWishDataADataA.remove("flex");
-							//FMBodyContents_SingleWishDataADataA.remove("color");
-							//FMBodyContents_SingleWishDataADataAB.remove("type");
-							//FMBodyContents_SingleWishDataADataAB.remove("text");
-							//FMBodyContents_SingleWishDataADataAB.remove("size");
-							//FMBodyContents_SingleWishDataADataAB.remove("align");
-							//FMBodyContents_SingleWishDataADataAB.remove("color");
 							
 							System.out.println("塞完資料");
 							System.out.println("資料名稱"+FMBodyContents_SingleWishDataArray.toString());
@@ -155,6 +147,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 				}
 			}
 		}
+		JSONObject FinalResult2 = new JSONObject(FinalResult); 
+		FMBodyContents_SingleWishDataArray.put(FinalResult2);
 
 		//System.out.println("Oder順序"+order.toString());
 		FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
