@@ -103,6 +103,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 			if(e.wisher.equals(wisher)) {
 				FMBodyContents_SingleWishDataADataA.clear();
 				FMBodyContents_SingleWishDataADataAB.clear();
+				FMBodyContents_SingleWishDataAData.clear();
 				order = order+1;
 				//System.out.println("Oder順序"+order.toString());
 		//單一願望Content資料
@@ -168,7 +169,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//FlexMessage.put("footer", FMFooter);
 		
 		//設定訊息類別
-		FlexMessage.put("altText","This is a Flex Message"); 
+		FlexMessage.put("altText","願望清單"); 
 		FlexMessage.put("type","flex"); 
 		Messages.put(FlexMessage);
 		PayloadContent.put("messages",Messages); 
