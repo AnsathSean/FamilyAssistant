@@ -103,6 +103,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 			
 			if(e.wisher.equals(wisher)) {
 				order = order+1;
+				System.out.println("Oder順序"+order.toString());
 		//單一願望Content資料
 		FMBodyContents_SingleWishDataAData.put("type", "box");
 		FMBodyContents_SingleWishDataAData.put("layout", "horizontal");
@@ -128,7 +129,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 			}
 		}
 
-		System.out.println("這是Contents內容"+FMBodyContents_SingleWishDataArray.toString());
+		//System.out.println("Oder順序"+order.toString());
 		FMBodyContents_SingleWishData.put("contents",FMBodyContents_SingleWishDataArray);
 		
 		//組成單一願望Content
