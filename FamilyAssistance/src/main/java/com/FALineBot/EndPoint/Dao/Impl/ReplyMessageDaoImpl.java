@@ -63,7 +63,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		 JSONObject FMBodyContents_SubTitle = new JSONObject();
 		 JSONObject FMBodyContents_Separator = new JSONObject();
 		 JSONObject FMBodyContents_SingleWishData = new JSONObject();
-		 JSONArray FMBodyContents_SingleWishDataArray = new JSONArray();
 		 JSONObject FMBodyContents_SingleWishDataAData = new JSONObject();
 		 JSONArray FMBodyContents_SingleWishDataADataArray = new JSONArray();
 		 JSONObject FMBodyContents_SingleWishDataADataA = new JSONObject();
@@ -111,79 +110,39 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishDataADataAB.put("align","end");
 		
 		for (WishList e : list) {
-
 			if(e.wisher.equals(wisher) && SelfWish) {
 				order = order+1;
-				//String Test =e.getPersent_name();
-				//System.out.println("Oder順序"+order.toString());
-				//System.out.println("有在執行塞資料的動作");
-				//System.out.println("資料名稱"+Test.toString());
-					//組成單一願望Content的Content資料
-							FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
-					
-
-							FMBodyContents_SingleWishDataADataAB.put("text", "ID "+e.getWishListID());
-				
-							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
-							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
-							
-							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
-							
-							
-							if(FinalResult!= "") {
-							FinalResult = FinalResult +","+FMBodyContents_SingleWishDataAData.toString();
-							}else {
-								FinalResult = FMBodyContents_SingleWishDataAData.toString();
-							}
-							//for(int i=0; i < order+2; i++) {
-							//	System.out.println("執行刪除:"+i);
-							//	FMBodyContents_SingleWishDataADataArray.remove(i);
-							//}
-							FMBodyContents_SingleWishDataADataArray.clear();
-							//System.out.println("塞完資料");
-							//System.out.println("看Array有沒有漲"+FMBodyContents_SingleWishDataADataArray.toString());
-
-
-			}if(!e.wisher.equals(wisher) && !SelfWish) {
-				//執行非自己的願望清單
-				order = order+1;
-				//String Test =e.getPersent_name();
-				//System.out.println("Oder順序"+order.toString());
-				//System.out.println("有在執行塞資料的動作");
-				//System.out.println("資料名稱"+Test.toString());
-					//組成單一願望Content的Content資料
-							FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
-					
-
-							FMBodyContents_SingleWishDataADataAB.put("text", "ID "+e.getWishListID());
-				
-							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
-							FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
-							
-							FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
-							
-							
-							if(FinalResult!= "") {
-							FinalResult = FinalResult +","+FMBodyContents_SingleWishDataAData.toString();
-							}else {
-								FinalResult = FMBodyContents_SingleWishDataAData.toString();
-							}
-							//for(int i=0; i < order+2; i++) {
-							//	System.out.println("執行刪除:"+i);
-							//	FMBodyContents_SingleWishDataADataArray.remove(i);
-							//}
-							FMBodyContents_SingleWishDataADataArray.clear();
-							//System.out.println("塞完資料");
-							//System.out.println("看Array有沒有漲"+FMBodyContents_SingleWishDataADataArray.toString());
+				FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
+				FMBodyContents_SingleWishDataADataAB.put("text", "ID "+e.getWishListID());
+				FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
+				FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
+				FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
+				if(FinalResult!= "") {
+				  FinalResult = FinalResult +","+FMBodyContents_SingleWishDataAData.toString();
+				}else {
+				  FinalResult = FMBodyContents_SingleWishDataAData.toString();
+				}
+				  FMBodyContents_SingleWishDataADataArray.clear();
+			 }if(!e.wisher.equals(wisher) && !SelfWish) {
+				  //執行非自己的願望清單
+				  order = order+1;
+				  //組成單一願望Content的Content資料
+	              FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
+				  FMBodyContents_SingleWishDataADataAB.put("text", "ID "+e.getWishListID());
+				  FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataA);
+				  FMBodyContents_SingleWishDataADataArray.put(FMBodyContents_SingleWishDataADataAB);
+				  FMBodyContents_SingleWishDataAData.put("contents", FMBodyContents_SingleWishDataADataArray);
+				  if(FinalResult!= "") {
+				    FinalResult = FinalResult +","+FMBodyContents_SingleWishDataAData.toString();
+				  }else {
+					FinalResult = FMBodyContents_SingleWishDataAData.toString();
+					}
+					FMBodyContents_SingleWishDataADataArray.clear();
 			}
 		}
-		//System.out.println("顯示彙整結果"+FinalResult.toString());
+		
 		FinalResult = "["+FinalResult+"]";
 		JSONArray FinalResult2 = new JSONArray(FinalResult); 
-		//System.out.println("顯示轉換成JSON的結果"+FinalResult2.toString());
-		//FMBodyContents_SingleWishDataArray.put(FinalResult2);
-
-		//System.out.println("Oder順序"+order.toString());
 		FMBodyContents_SingleWishData.put("contents",FinalResult2);
 		
 		//組成單一願望Content
@@ -212,7 +171,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		Messages.put(FlexMessage);
 		PayloadContent.put("messages",Messages); 
         //回傳訊息
-		//System.out.println(PayloadContent.toString());
+
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 		

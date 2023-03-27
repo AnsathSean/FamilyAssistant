@@ -6,6 +6,7 @@ public class WishList {
 	public String persent_name;
 	public String wisher;
 	public String Remark;
+	public Integer order;
 	
 	public Integer getWishListID() {
 		return wishListID;
@@ -13,6 +14,14 @@ public class WishList {
 	public void setWishListID(Integer wishListID) {
 		this.wishListID = wishListID;
 	}
+	
+	public Integer order() {
+		return wishListID;
+	}
+	public void order(Integer order) {
+		this.order = order;
+	}
+	
 	public String getPersent_name() {
 		return persent_name;
 	}

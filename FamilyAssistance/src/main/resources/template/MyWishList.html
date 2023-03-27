@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>願望清單</title>
+    </head>
+    <body>
+        <h1>我的願望清單</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>序號</th>
+                    <th>願望名稱</th>
+                    <th>願望ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="wish : ${MywishList}">
+                    <td th:text="${wish.order}"></td>
+                    <td th:text="${wish.persent_name}"></td>
+                    <td th:text="${wish.wishListID}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
