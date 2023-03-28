@@ -56,12 +56,14 @@ td, th {
         <table>
             <thead>
                 <tr>
+                <th>順序</th>
                     <th>願望名稱</th>
                     <th>願望ID</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="wish : ${wishList}">
+                 <td th:text="${index + 1}"></td>
                     <td th:text="${wish.persent_name}"></td>
                     <td th:text="${wish.wishListID}"></td>
                 </tr>
