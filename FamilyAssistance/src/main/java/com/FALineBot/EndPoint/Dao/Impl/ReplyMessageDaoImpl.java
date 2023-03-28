@@ -48,6 +48,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	{
 		Integer order=0;
 		String WebWisher = "";
+		String WebWisherName = "";
 		//建立回傳訊息標頭
 		HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -115,9 +116,16 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMBodyContents_SingleWishDataADataAB.put("color","#111111");
 		FMBodyContents_SingleWishDataADataAB.put("align","end");
 		
+		//設置WebWisher名稱
+		if(SelfWish) {
+			WebWisherName ="自己的願望清單";
+		}else {
+			WebWisherName ="對方的願望清單";
+		}
 		for (WishList e : list) {
 			if(e.wisher.equals(wisher) && SelfWish) {
 				WebWisher=wisher;
+
 				order = order+1;
 				FMBodyContents_SingleWishDataADataA.put("text", order+" "+e.getPersent_name());
 				FMBodyContents_SingleWishDataADataAB.put("text", "ID "+e.getWishListID());
@@ -159,7 +167,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
 		FMFooter_Contents_Contents1.put("type","button");
 			FMFooter_Contents_Contents2.put("type","uri");
-			FMFooter_Contents_Contents2.put("label","願望清單");
+			FMFooter_Contents_Contents2.put("label",WebWisherName);
 			FMFooter_Contents_Contents2.put("uri","https://ansathseanbackend.com:8080/MyWishlist/"+WebWisher);
 
 		FMFooter_Contents.put(FMFooter_Contents_Contents1);
