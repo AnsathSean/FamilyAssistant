@@ -22,6 +22,7 @@ public class WebController {
 	@GetMapping("/MyWishlist/{wisher}")
     public String MyWishList(@PathVariable String wisher,Model model) {
     	List<WishList> list = wishListService.findAllWishList();
+    	System.out.println("List: "+list.toString());
     	//List<WishList> MyWishList = new ArrayList<WishList>();
     	//Integer order = 0;
     	//for (WishList e : list) {

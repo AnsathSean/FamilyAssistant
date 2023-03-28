@@ -9,14 +9,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>序號</th>
                     <th>願望名稱</th>
                     <th>願望ID</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="wish : ${MywishList}">
-                    <td th:text="${wish.order}"></td>
                     <td th:text="${wish.persent_name}"></td>
                     <td th:text="${wish.wishListID}"></td>
                 </tr>
