@@ -73,8 +73,6 @@ public class MainController {
 				 event = object.getJSONArray("events").getJSONObject(i);
 				 String Message =event.getJSONObject("message").getString("text").toString();
 				 String wisher = event.getJSONObject("source").getString("userId").toString();
-				 String K1 = "";
-				 String K2 = "";
 				 
 				 //===========關鍵字搜尋功能=============================================================
 				 //新增願望清單功能
@@ -86,11 +84,9 @@ public class MainController {
 				            System.out.println(newStr[k]);
 				            if(k == 1) {
 				            wishListParam.setPersent_name(newStr[k]);
-				            //K1 = newStr[k];
 				            }
 				            if(k == 2) {
 				            wishListParam.setRemark(newStr[k]);
-				            //K2 = newStr[k];
 				            }
 
 				        }
