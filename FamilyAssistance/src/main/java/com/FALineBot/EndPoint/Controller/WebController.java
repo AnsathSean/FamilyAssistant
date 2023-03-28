@@ -21,8 +21,7 @@ public class WebController {
 	
 	@GetMapping("/MyWishlist/{wisher}")
     public String MyWishList(@PathVariable String wisher,Model model) {
-    	List<WishList> list = wishListService.findAllWishList();
-    	Integer index = 0;
+    	List<WishList> list = wishListService.findAllWishListByPersion(wisher);
     	System.out.println("List: "+list.toString());
     	//List<WishList> MyWishList = new ArrayList<WishList>();
     	//Integer order = 0;
@@ -35,7 +34,6 @@ public class WebController {
     	//}
     		
     	//}
-    	model.addAttribute("index", index);
     	model.addAttribute("wishList", list);
         return "MyWishList";
     }
