@@ -69,9 +69,9 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		 JSONObject FMBodyContents_SingleWishDataADataAB = new JSONObject();
 		 
 		 JSONObject FMFooter = new JSONObject();
-		 JSONArray FMFooterContents = new JSONArray();
-		 JSONObject FMFooterC = new JSONObject();
-		 JSONObject FMFooterCAction = new JSONObject();
+		 JSONArray FMFooter_Contents = new JSONArray();
+		 JSONObject FMFooter_Contents_Contents1 = new JSONObject();
+		 JSONObject FMFooter_Contents_Contents2 = new JSONObject();
 		 
 		 JSONArray Messages = new JSONArray();
 		//處理contents
@@ -153,13 +153,16 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//處理Footer
 		FMFooter.put("type","box"); 
 		FMFooter.put("layout","vertical"); 
+		FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
+		FMFooter_Contents_Contents1.put("type","button");
+			FMFooter_Contents_Contents2.put("type","uri");
+			FMFooter_Contents_Contents2.put("label","願望清單");
+			FMFooter_Contents_Contents2.put("uri","https://ansathseanbackend.com:8080/MyWishlist/"+wisher);
 
-			FMFooterCAction.put("type","uri");
-			FMFooterCAction.put("label","願望清單網站");
-			FMFooterCAction.put("uri","https://ansathseanbackend.com:8080/MyWishlist/"+wisher);
-			FMFooterC.put("action",FMFooterCAction);
-			FMFooterC.put("type","button");
-		FMFooterContents.put(FMFooterC);
+		
+		FMFooter_Contents.put(FMFooter_Contents_Contents1);
+		FMFooter.put("contents",FMFooter_Contents); 
+		//設置最終Footer
 		FMcontents.put("footer", FMFooter);
 		//組成單一願望Content
 		
