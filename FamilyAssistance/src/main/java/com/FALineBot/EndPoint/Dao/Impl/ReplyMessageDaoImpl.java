@@ -67,8 +67,13 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		 JSONArray FMBodyContents_SingleWishDataADataArray = new JSONArray();
 		 JSONObject FMBodyContents_SingleWishDataADataA = new JSONObject();
 		 JSONObject FMBodyContents_SingleWishDataADataAB = new JSONObject();
+		 
+		 JSONObject FMFooter = new JSONObject();
+		 JSONArray FMFooterContents = new JSONArray();
+		 JSONObject FMFooterC = new JSONObject();
+		 JSONObject FMFooterCAction = new JSONObject();
+		 
 		 JSONArray Messages = new JSONArray();
-
 		//處理contents
 		FMcontents.put("type", "bubble");
 		
@@ -145,6 +150,16 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		JSONArray FinalResult2 = new JSONArray(FinalResult); 
 		FMBodyContents_SingleWishData.put("contents",FinalResult2);
 		
+		//處理Footer
+		FMFooter.put("type","box"); 
+		FMFooter.put("layout","vertical"); 
+		FMFooterC.put("action",FMFooterCAction);
+		FMFooterC.put("type","button");
+			FMFooterCAction.put("type","uri");
+			FMFooterCAction.put("label","願望清單網站");
+			FMFooterCAction.put("uri","https://ansathseanbackend.com:8080/MyWishlist/"+wisher);
+		FMFooterContents.put(FMFooterC);
+		FMcontents.put("footer", FMFooter);
 		//組成單一願望Content
 		
 		//最終組成所需內容
@@ -163,7 +178,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		//處理所有訊息
 		FlexMessage.put("contents", FMcontents);
-		//FlexMessage.put("footer", FMFooter);
+		FlexMessage.put("footer", FMFooter);
 		
 		//設定訊息類別
 		FlexMessage.put("altText","願望清單"); 
@@ -227,12 +242,12 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//處理Footer
 		FMFooter.put("type","box"); 
 		FMFooter.put("layout","vertical"); 
-
+		FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
+		FMFooter_Contents_Contents1.put("type","button");
 			FMFooter_Contents_Contents2.put("type","uri");
 			FMFooter_Contents_Contents2.put("label","Shop");
 			FMFooter_Contents_Contents2.put("uri","https://www.y-bio.net/");
-		FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
-		FMFooter_Contents_Contents1.put("type","button");
+
 		
 		FMFooter_Contents.put(FMFooter_Contents_Contents1);
 		FMFooter.put("contents",FMFooter_Contents); 

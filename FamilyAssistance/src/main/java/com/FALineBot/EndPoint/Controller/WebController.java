@@ -1,7 +1,6 @@
 package com.FALineBot.EndPoint.Controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ public class WebController {
 	
 	@Autowired
 	private WishListService wishListService;
-	@Autowired
-	private ReplyMessageService replyMessageService;
 	
 	@GetMapping("/MyWishlist/{wisher}")
     public String MyWishList(@PathVariable String wisher,Model model) {
