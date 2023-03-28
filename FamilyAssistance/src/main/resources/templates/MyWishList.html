@@ -62,8 +62,8 @@ td, th {
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="wish : ${wishList}">
-                 <td th:text="${index + 1}"></td>
+                <tr th:each="wish ,stat: ${wishList}">
+                    <td th:text="${stat.index + 1}"></td>
                     <td th:text="${wish.persent_name}"></td>
                     <td th:text="${wish.wishListID}"></td>
                 </tr>
