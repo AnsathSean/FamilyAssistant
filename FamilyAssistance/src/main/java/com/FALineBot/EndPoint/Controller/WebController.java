@@ -36,4 +36,11 @@ public class WebController {
     	model.addAttribute("wishList", MyWishList);
         return "MyWishList";
     }
+	
+	@GetMapping("/Hello")
+    public String Hello(Model model) {
+
+    	model.addAttribute("hello", "我在這裡唷");
+        return "model";
+    }
 }
