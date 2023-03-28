@@ -3,10 +3,48 @@
     <head>
         <meta charset="UTF-8">
         <title>願望清單</title>
+        <style>
+            /* 設定文字大小 */
+            body {
+                font-size: 16px;
+            }
+            
+            /* 設定文字顏色 */
+            h1, th, td {
+                color: #333;
+            }
+            
+            /* 設定表格樣式 */
+            table {
+                border-collapse: collapse;
+                margin: auto;
+            }
+            
+            th, td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                text-align: center;
+            }
+            
+            th {
+                background-color: #f2f2f2;
+            }
+            
+            /* 設定響應式佈局 */
+            @media screen and (max-width: 767px) {
+                body {
+                    font-size: 14px;
+                }
+                
+                th, td {
+                    padding: 4px;
+                }
+            }
+        </style>
     </head>
     <body>
         <h1>我的願望清單</h1>
-        <table style="margin: 0 auto;">
+        <table>
             <thead>
                 <tr>
                     <th>願望名稱</th>
@@ -14,7 +52,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="wish : ${wishList}">
+                <tr th:each="wish : ${MywishList}">
                     <td th:text="${wish.persent_name}"></td>
                     <td th:text="${wish.wishListID}"></td>
                 </tr>
