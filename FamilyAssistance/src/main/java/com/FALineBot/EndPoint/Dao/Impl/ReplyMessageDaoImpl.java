@@ -157,9 +157,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMFooter_Contents_Contents1.put("type","button");
 			FMFooter_Contents_Contents2.put("type","uri");
 			FMFooter_Contents_Contents2.put("label","願望清單");
-			FMFooter_Contents_Contents2.put("uri","https://ansathseanbackend.com:8080/Hello");
+			FMFooter_Contents_Contents2.put("uri","https://ansathseanbackend.com:8080/MyWishlist/"+wisher);
 
-		//MyWishlist/"+wisher
 		FMFooter_Contents.put(FMFooter_Contents_Contents1);
 		FMFooter.put("contents",FMFooter_Contents); 
 		//設置最終Footer
