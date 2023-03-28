@@ -153,11 +153,12 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//處理Footer
 		FMFooter.put("type","box"); 
 		FMFooter.put("layout","vertical"); 
-		FMFooterC.put("action",FMFooterCAction);
-		FMFooterC.put("type","button");
+
 			FMFooterCAction.put("type","uri");
 			FMFooterCAction.put("label","願望清單網站");
 			FMFooterCAction.put("uri","https://ansathseanbackend.com:8080/MyWishlist/"+wisher);
+			FMFooterC.put("action",FMFooterCAction);
+			FMFooterC.put("type","button");
 		FMFooterContents.put(FMFooterC);
 		FMcontents.put("footer", FMFooter);
 		//組成單一願望Content
