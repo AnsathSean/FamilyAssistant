@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Commodity</title>
+    <style>
+    .item-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .item-container img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
 </head>
+<body>    
 <body>
-    <h1>Commodity</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>物品名稱</th>
-                <th>說明</th>
-                <th>圖片</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="item : ${items}">
-                <td th:text="${item.persent_name}"></td>
-                <td th:text="${item.remark}"></td>
-                <td><img th:src="${item.img_path}" alt="" /></td>
-            </tr>
-        </tbody>
-    </table>
+    <h1 style="font-size: 300%; text-align: center;">物品資訊</h1>
+    <div th:each="item : ${items}">
+        <div class="item-container">
+            <h2 th:text="${item.persent_name}"></h2>
+            <p th:text="${item.remark}"></p>
+            <img th:src="${item.img_path}" />
+        </div>
+    </div>
+</body>
 </body>
 </html>
