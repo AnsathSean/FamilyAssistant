@@ -66,7 +66,7 @@ public class MainController {
 		
 		//處理Message訊息
 		for(int i=0; i<object.getJSONArray("events").length(); i++) {
-			//判斷陣列裡是否有續鐔
+			//判斷陣列是否正常
 			 if(object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {
 				 
 				 String token = object.getJSONArray("events").getJSONObject(0).getString("replyToken").toString();
@@ -102,9 +102,7 @@ public class MainController {
 				 }
 				 //測試FlexMessage
 				 if(Message.indexOf("測試FLEX")!=-1) {
-					 List<WishList> list = wishListService.findAllWishList();
-					 SelfWish = true;
-					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
+					 replyMessageService.ReplyFlexMessageTemplate(token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
 				 //查詢願望清單功能
