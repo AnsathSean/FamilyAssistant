@@ -41,7 +41,7 @@ public class WishLishServiceImpl implements WishListService{
 
 	@Override
 	public List<WishList> findWishListByID(Integer id) {
-		return findWishListByID(id);
+		return wishListDao.findWishListByID(id);
 	}
 	
 	
