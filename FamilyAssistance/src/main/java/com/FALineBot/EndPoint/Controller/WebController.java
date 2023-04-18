@@ -33,6 +33,7 @@ public class WebController {
         model.addAttribute("items", items);
         return "Commodity";
     }
+    
 	@GetMapping("/Hello")
     public String Hello(Model model) {
 
