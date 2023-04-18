@@ -10,5 +10,6 @@ public interface WishListService {
 	Integer createProduct(WishListParam wishListParam);
 	List<WishList> findAllWishListByPersion(String wisher);
 	List<WishList> findAllWishList();
+	List<WishList> findWishListByID(Integer id);
 	void deleteWishListByID(Integer id);
 }

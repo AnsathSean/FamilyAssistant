@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wishlist</title>
+</head>
+<body>
+    <h1>Wishlist</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>物品名稱</th>
+                <th>說明</th>
+                <th>圖片</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.persent_name}"></td>
+                <td th:text="${item.remark}"></td>
+                <td><img th:src="${item.img_path}" alt="" /></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -38,6 +38,11 @@ public class WishLishServiceImpl implements WishListService{
 	public List<WishList> findAllWishList() {
 		return wishListDao.findAllWishList();
 	}
+
+	@Override
+	public List<WishList> findWishListByID(Integer id) {
+		return findWishListByID(id);
+	}
 	
 	
 }

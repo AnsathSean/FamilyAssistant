@@ -27,6 +27,12 @@ public class WebController {
         return "MyWishList";
     }
 	
+    @GetMapping("/Commodity/{id}")
+    public String wishlist(@PathVariable Integer id,Model model) {
+    	List<WishList> items = wishListService.findWishListByID(id);
+        model.addAttribute("items", items);
+        return "Commodity";
+    }
 	@GetMapping("/Hello")
     public String Hello(Model model) {
 

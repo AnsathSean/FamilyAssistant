@@ -54,20 +54,24 @@ td, th {
     <body>
         <h1 style="font-size: 300%; text-align: center;">我的願望清單</h1>
         <table>
-            <thead>
-                <tr>
-                <th>順序</th>
-                    <th>願望名稱</th>
-                    <th>願望ID</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="wish ,stat: ${wishList}">
-                    <td th:text="${stat.index + 1}"></td>
-                    <td th:text="${wish.persent_name}"></td>
-                    <td th:text="${wish.wishListID}"></td>
-                </tr>
-            </tbody>
+           <thead>
+    <tr>
+        <th>順序</th>
+        <th>願望名稱</th>
+        <th>願望ID</th>
+        <th>修改</th> <!-- 新增欄位 -->
+    </tr>
+</thead>
+<tbody>
+    <tr th:each="wish ,stat: ${wishList}">
+        <td th:text="${stat.index + 1}"></td>
+        <td th:text="${wish.persent_name}"></td>
+        <td th:text="${wish.wishListID}"></td>
+        <td> <!-- 新增列 -->
+            <a th:href="@{'/Commodity/' + ${wish.wishListID}}">修改</a>
+        </td>
+    </tr>
+</tbody>
         </table>
     </body>
 </html>

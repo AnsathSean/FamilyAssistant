@@ -90,4 +90,15 @@ public class WishListDaoImpl implements  WishListDao {
 		return wishlist;
 	}
 
+	@Override
+	public List<WishList> findWishListByID(Integer id) {
+		String sql = "SELECT FROM wishlist WHERE product_id =:productId";
+		
+		Map<String, Object>map = new HashMap<>();
+		map.put("productId", id);
+		
+		List<WishList> wishlist = namedParameterJdbcTemplate.query(sql,map,new WishListRowMapper());
+		return  wishlist;
+	}
+
 }

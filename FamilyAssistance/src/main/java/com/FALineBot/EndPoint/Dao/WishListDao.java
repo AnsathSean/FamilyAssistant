@@ -12,7 +12,7 @@ public interface WishListDao {
 	
 	public List<WishList> findAllWishListByPersion(String wisher);
 	public List<WishList> findAllWishList();
-	
+	public List<WishList> findWishListByID(Integer id);
 	public void deleteWishListByID(Integer id);
 
 }
