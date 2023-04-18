@@ -52,7 +52,7 @@ td, th {
         </style>
     </head>
     <body>
-        <h1 style="font-size: 300%; text-align: center;">我的願望清單</h1>
+        <h1 style="font-size: 200%; text-align: center;">我的願望清單</h1>
         <table>
            <thead>
     <tr>
@@ -68,7 +68,7 @@ td, th {
         <td th:text="${wish.persent_name}"></td>
         <td th:text="${wish.wishListID}"></td>
         <td> <!-- 新增列 -->
-            <a th:href="@{'/Commodity/' + ${wish.wishListID}}">修改</a>
+            <a th:href="@{'https://ansathseanbackend.com:8080/Commodity/'+ ${wish.wishListID}}">修改</a>
         </td>
     </tr>
 </tbody>
