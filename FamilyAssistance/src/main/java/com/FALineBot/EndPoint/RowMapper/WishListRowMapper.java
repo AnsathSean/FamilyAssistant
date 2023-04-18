@@ -19,7 +19,7 @@ public class WishListRowMapper implements RowMapper<WishList>{
 			
 		wishlist.setWisher(resultSet.getString("wisher"));
 		wishlist.setRemark(resultSet.getString("Remark"));
-		wishlist.setRemark(resultSet.getString("img_path"));
+		wishlist.setImg_path(resultSet.getString("img_path"));
 		
 		return wishlist;
 	}
