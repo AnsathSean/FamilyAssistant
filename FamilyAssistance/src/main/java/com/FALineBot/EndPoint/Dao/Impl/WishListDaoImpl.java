@@ -51,7 +51,7 @@ public class WishListDaoImpl implements  WishListDao {
 	
 	@Override
 	public List<WishList> findAllWishListByPersion(String wisher) {
-		String sql = "SELECT product_id,persent_name,remark,wisher FROM wishlist where ";
+		String sql = "SELECT product_id,persent_name,remark,wisher,img_path FROM wishlist where ";
 		
 		Map<String, Object>map = new HashMap<>();
 		
@@ -78,7 +78,7 @@ public class WishListDaoImpl implements  WishListDao {
 
 	@Override
 	public List<WishList> findAllWishList() {
-		String sql = "SELECT product_id,persent_name,remark,wisher FROM wishlist";
+		String sql = "SELECT product_id,persent_name,remark,wisher,img_path FROM wishlist";
 		
 		Map<String, Object>map = new HashMap<>();
 		
