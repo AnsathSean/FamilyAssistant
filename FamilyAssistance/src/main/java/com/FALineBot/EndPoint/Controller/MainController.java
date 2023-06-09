@@ -78,18 +78,14 @@ public class MainController {
 				 //新增願望清單功能
 				 if(Message.indexOf("新增願望")!=-1) {
 					 
+					    String PeresentName = "";					 
 				        String[] newStr = Message.split("\\s+");
 				        WishListParam wishListParam = new WishListParam();
+				        
 				        for (int k = 1; k < newStr.length; k++) {
-				            System.out.println(newStr[k]);
-				            if(k == 1) {
-				            wishListParam.setPersent_name(newStr[k]);
-				            }
-				            if(k == 2) {
-				            wishListParam.setRemark(newStr[k]);
-				            }
-
+				        	PeresentName = PeresentName + " " + newStr[k];
 				        }
+				        wishListParam.setPersent_name(PeresentName);
 			
 				        wishListParam.setWisher(wisher);
 			            wishListService.createProduct(wishListParam);
