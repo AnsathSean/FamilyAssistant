@@ -85,7 +85,7 @@ public class MainController {
 				        for (int k = 1; k < newStr.length; k++) {
 				        	PeresentName = PeresentName + " " + newStr[k];
 				        }
-				        wishListParam.setPersent_name(PeresentName);
+				        wishListParam.setPersent_name(PeresentName.trim());
 			
 				        wishListParam.setWisher(wisher);
 			            wishListService.createProduct(wishListParam);
