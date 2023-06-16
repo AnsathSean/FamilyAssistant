@@ -316,6 +316,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		ActionButton.put("text", NoBackText);
 		Actions = Actions +","+ActionButton.toString();
 		Actions = "["+Actions+"]";
+		
+		System.out.println(Actions);
 		JSONArray ActionArray = new JSONArray(Actions); 
 		//處理template
 		TemplateContent.put("type", "confirm");
