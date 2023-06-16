@@ -335,7 +335,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		PayloadContent.put("replyToken",token); 
 		
 	    //回傳訊息
-	    //System.out.println(PayloadContent.toString());
+	    System.out.println(PayloadContent.toString());
 	    HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
 	    restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 	}
