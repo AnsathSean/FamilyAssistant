@@ -310,7 +310,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		YActionButton.put("type", "message");
 		YActionButton.put("label", "確定");
 		YActionButton.put("text", YesBackText);
-		Actions = Actions +","+YActionButton.toString();
+		Actions = Actions + YActionButton.toString();
 		NActionButton.put("type", "message");
 		NActionButton.put("label", "取消");
 		NActionButton.put("text", NoBackText);
