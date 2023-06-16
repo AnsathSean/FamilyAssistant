@@ -13,6 +13,7 @@ public class ReplyMessageServiceImpl implements ReplyMessageService{
 
 	@Autowired
 	private ReplyMessageDao replyMessageDao;
+	@Autowired
 	private WishListDao wishListDao;
 	
 	@Override
