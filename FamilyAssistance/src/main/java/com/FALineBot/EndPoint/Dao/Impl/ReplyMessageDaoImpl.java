@@ -303,18 +303,18 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		JSONArray MessagesArray = new JSONArray();
 		
 		JSONObject TemplateContent = new JSONObject();
-		JSONObject ActionButton = new JSONObject();
+		JSONObject YActionButton = new JSONObject();
+		JSONObject NActionButton = new JSONObject();
 		//處理ActionButton層級
 		String Actions = "";
-		ActionButton.put("type", "message");
-		ActionButton.put("label", "確定");
-		ActionButton.put("text", YesBackText);
-		Actions = Actions +","+ActionButton.toString();
-		ActionButton.clear();
-		ActionButton.put("type", "message");
-		ActionButton.put("label", "取消");
-		ActionButton.put("text", NoBackText);
-		Actions = Actions +","+ActionButton.toString();
+		YActionButton.put("type", "message");
+		YActionButton.put("label", "確定");
+		YActionButton.put("text", YesBackText);
+		Actions = Actions +","+YActionButton.toString();
+		NActionButton.put("type", "message");
+		NActionButton.put("label", "取消");
+		NActionButton.put("text", NoBackText);
+		Actions = Actions +","+NActionButton.toString();
 		Actions = "["+Actions+"]";
 		
 		System.out.println(Actions);
