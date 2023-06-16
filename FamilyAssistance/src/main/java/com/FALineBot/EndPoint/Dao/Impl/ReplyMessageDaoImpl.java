@@ -1,6 +1,7 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
 import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -12,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.FALineBot.EndPoint.Dao.ReplyMessageDao;
 import com.FALineBot.EndPoint.Model.WishList;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class ReplyMessageDaoImpl implements ReplyMessageDao{
@@ -206,6 +209,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 	}
 	
+	
+	
 	public void ReplyFlexWishListMessageTemplate(String token)
 	{
 		//建立回傳訊息標頭
@@ -213,7 +218,10 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
 		//建立回傳JSON訊息
+        //主Jason訊息
 		 JSONObject PayloadContent = new JSONObject();
+		 
+		 
 		 JSONObject FlexMessage = new JSONObject();
 		 
 		 JSONObject FMcontents = new JSONObject();
@@ -281,5 +289,48 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 		
+	}
+
+	@Override
+	public void ReplyConfirmMessageTemplate(String token,String AltText, String TitleText, String YesBackText, String NoBackText) {
+		//建立回傳訊息標頭
+		HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
+        //主Jason訊息
+		JSONObject PayloadContent = new JSONObject();
+		JSONObject Messages = new JSONObject();
+		JSONArray MessagesArray = new JSONArray();
+		
+		JSONObject TemplateContent = new JSONObject();
+		JSONObject ActionButton = new JSONObject();
+		//處理ActionButton層級
+		String Actions = "";
+		ActionButton.put("type", "message");
+		ActionButton.put("label", "確定");
+		ActionButton.put("label", YesBackText);
+		Actions = Actions +","+ActionButton.toString();
+		ActionButton.clear();
+		ActionButton.put("type", "message");
+		ActionButton.put("label", "取消");
+		ActionButton.put("label", NoBackText);
+		Actions = Actions +","+ActionButton.toString();
+		Actions = "["+Actions+"]";
+		JSONArray ActionArray = new JSONArray(Actions); 
+		//處理Message層級
+		Messages.put("type", "confirm");
+		Messages.put("text", TitleText);
+		Messages.put("actions", ActionArray);
+		MessagesArray.put(Messages);
+		//處理PayloadContent層級
+		PayloadContent.put("type","flex");
+		PayloadContent.put("altText",AltText);
+		PayloadContent.put("messages",Messages); 
+		PayloadContent.put("replyToken",token); 
+		
+	    //回傳訊息
+	    //System.out.println(PayloadContent.toString());
+	    HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
+	    restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 	}
 }

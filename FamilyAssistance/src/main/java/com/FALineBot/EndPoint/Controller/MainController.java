@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -125,7 +124,23 @@ public class MainController {
 					 String[] newStr = Message.split("\\s+");
 				        Integer ID = 0;
 				        for (int k = 1; k < newStr.length; k++) {
-				            System.out.println(newStr[k]);
+				            //System.out.println(newStr[k]);
+				            if(k == 1) {
+				            	ID=Integer.parseInt(newStr[k]);
+				            	//wishListService.deleteWishListByID(ID);
+				            	//replyMessageService.ReplyTextMessage("刪除成功",token);
+				            }
+
+				        }
+				        return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
+					 
+				 }
+				 if(Message.indexOf("DeleteWish")!=-1) {
+					 
+					 String[] newStr = Message.split("\\s+");
+				        Integer ID = 0;
+				        for (int k = 1; k < newStr.length; k++) {
+				            //System.out.println(newStr[k]);
 				            if(k == 1) {
 				            	ID=Integer.parseInt(newStr[k]);
 				            	wishListService.deleteWishListByID(ID);

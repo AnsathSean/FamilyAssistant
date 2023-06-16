@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.FALineBot.EndPoint.Model.WishList;
-import com.FALineBot.EndPoint.Service.ReplyMessageService;
 import com.FALineBot.EndPoint.Service.WishListService;
 
 @Controller

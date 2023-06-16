@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.FALineBot.EndPoint.Dao.ReplyMessageDao;
+import com.FALineBot.EndPoint.Dao.WishListDao;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.ReplyMessageService;
 
@@ -12,6 +13,7 @@ public class ReplyMessageServiceImpl implements ReplyMessageService{
 
 	@Autowired
 	private ReplyMessageDao replyMessageDao;
+	private WishListDao wishListDao;
 	
 	@Override
 	public void ReplyTextMessage(String Message,String token) {
@@ -26,6 +28,18 @@ public class ReplyMessageServiceImpl implements ReplyMessageService{
 	@Override
 	public void ReplyFlexMessageTemplate(String token) {
 		replyMessageDao.ReplyFlexWishListMessageTemplate(token);
+		
+	}
+
+	@Override
+	public void ReplyCheckDeleteMessage(Integer id, String token) {
+		List<WishList> ItemList = wishListDao.findWishListByID(id);
+		String ItemName = "";
+		for (WishList e : ItemList) {
+			ItemName = e.getPersent_name();
+		}
+		
+		replyMessageDao.ReplyConfirmMessageTemplate(token,"是否刪除願望","刪除 "+ItemName+"?","DeleteWish "+id,"取消刪除");
 		
 	}
 	
