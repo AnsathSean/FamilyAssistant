@@ -121,9 +121,9 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		//設置WebWisher名稱
 		if(SelfWish) {
-			WebWisherName ="自己的願望清單";
+			WebWisherName ="自己的願望清單細項";
 		}else {
-			WebWisherName ="對方的願望清單";
+			WebWisherName ="對方的願望清單細項";
 		}
 		for (WishList e : list) {
 			if(e.wisher.equals(wisher) && SelfWish) {
