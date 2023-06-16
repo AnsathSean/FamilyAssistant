@@ -129,6 +129,7 @@ public class MainController {
 				            	ID=Integer.parseInt(newStr[k]);
 				            	//wishListService.deleteWishListByID(ID);
 				            	//replyMessageService.ReplyTextMessage("刪除成功",token);
+				            	replyMessageService.ReplyCheckDeleteMessage(ID, token);
 				            }
 
 				        }
