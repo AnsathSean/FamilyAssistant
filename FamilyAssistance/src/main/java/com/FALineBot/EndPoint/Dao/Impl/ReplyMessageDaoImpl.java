@@ -324,10 +324,11 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//處理Message層級
 		Messages.put("type", "template");
 		Messages.put("template", TemplateContent);
+		Messages.put("altText",AltText);
 		MessagesArray.put(Messages);
 		//處理PayloadContent層級
 		PayloadContent.put("type","flex");
-		PayloadContent.put("altText",AltText);
+		//PayloadContent.put("altText",AltText);
 		PayloadContent.put("messages",MessagesArray); 
 		PayloadContent.put("replyToken",token); 
 		
