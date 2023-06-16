@@ -317,10 +317,13 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		Actions = Actions +","+ActionButton.toString();
 		Actions = "["+Actions+"]";
 		JSONArray ActionArray = new JSONArray(Actions); 
+		//處理template
+		TemplateContent.put("type", "confirm");
+		TemplateContent.put("text", TitleText);
+		TemplateContent.put("actions", ActionArray);
 		//處理Message層級
-		Messages.put("type", "confirm");
-		Messages.put("text", TitleText);
-		Messages.put("actions", ActionArray);
+		Messages.put("type", "template");
+		Messages.put("template", TemplateContent);
 		MessagesArray.put(Messages);
 		//處理PayloadContent層級
 		PayloadContent.put("type","flex");
