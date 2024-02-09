@@ -96,8 +96,8 @@ public class UserManagerDaoImpl implements UserManagerDao{
 	    // 定義更新用戶信息的SQL語句，假設UserInformation表中有一個字段叫做StepRemark
 	    String updateUserInformationSql = "UPDATE UserInformation SET UserStep = ? WHERE LineID = ?";
 	    
-	    // 定義查詢角色UUID的SQL語句，假設Role表中有一個字段叫做UUID
-	    String selectRoleUUIDSql = "SELECT UUID FROM Role WHERE RoleName = ?";
+	    // 定義查詢角色UUID的SQL語句，假設RoleInformation表中有一個字段叫做UUID
+	    String selectRoleUUIDSql = "SELECT UUID FROM RoleInformation WHERE RoleName = ?";
 	    
 	    // 定義查詢用戶UUID的SQL語句，假設UserInformation表中有一個字段叫做UUID
 	    String selectUserUUIDSql = "SELECT UUID FROM UserInformation WHERE LineID = ?";
@@ -127,6 +127,6 @@ public class UserManagerDaoImpl implements UserManagerDao{
 	        e.printStackTrace();
 	        // 回滾事務（如果在事務中執行）
 	    }
-	}
+	    }
 
 }
