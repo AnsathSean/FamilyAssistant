@@ -87,7 +87,7 @@ public class MainController {
 					 replyMessageService.ReplyTextMessage("註冊成功",token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
-				 if (user.getUUID() == null || user.getUUID().isEmpty()) {
+				 if (user == null ) {
 					 replyMessageService.ReplyTextMessage("此帳號還沒有註冊，請輸入註冊代碼進行認證",token);
 					 usermanagerService.setUserInformation(wisher, "Enroll-Step-01","Stranger");
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
