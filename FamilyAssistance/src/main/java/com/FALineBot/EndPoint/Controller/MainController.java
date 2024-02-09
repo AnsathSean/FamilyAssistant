@@ -82,7 +82,8 @@ public class MainController {
 				 //===========判斷ID是否為Stranger===================
 				 //註冊系統功能
 				 User user = usermanagerService.getUserById(wisher);
-				 if(Message.toString() == allValidationCode) {
+				 
+				 if(Message.toString().equals(allValidationCode)) {
 					 usermanagerService.updateUserInformation(wisher, "","Normal");
 					 replyMessageService.ReplyTextMessage("註冊成功",token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
