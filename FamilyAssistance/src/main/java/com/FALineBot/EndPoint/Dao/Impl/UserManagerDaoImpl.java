@@ -97,7 +97,7 @@ public class UserManagerDaoImpl implements UserManagerDao{
 	    String updateUserInformationSql = "UPDATE UserInformation SET UserStep = ? WHERE LineID = ?";
 	    
 	    // 定義查詢角色UUID的SQL語句，假設RoleInformation表中有一個字段叫做UUID
-	    String selectRoleUUIDSql = "SELECT RoleID FROM RoleInformation WHERE RoleName = ?";
+	    String selectRoleUUIDSql = "SELECT RoleID FROM RoleInformation WHERE RoleID = ?";
 	    
 	    // 定義查詢用戶UUID的SQL語句，假設UserInformation表中有一個字段叫做UUID
 	    String selectUserUUIDSql = "SELECT UUID FROM UserInformation WHERE LineID = ?";
