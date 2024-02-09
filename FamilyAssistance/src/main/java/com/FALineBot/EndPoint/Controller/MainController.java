@@ -82,25 +82,27 @@ public class MainController {
 				 //===========判斷ID是否為Stranger===================
 				 //註冊系統功能
 				 User user = usermanagerService.getUserById(wisher);
-				 
+				 //如果一開始就輸入正確的代碼，直接更新成功
 				 if(Message.toString().equals(allValidationCode)) {
-					 usermanagerService.updateUserInformation(wisher, "","Normal");
+					 usermanagerService.setUserInformation(wisher, "","Normal");
 					 replyMessageService.ReplyTextMessage("註冊成功",token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
+				 //如果一開始沒有註冊，回傳的東西也是錯的
 				 if (user == null ) {
 					 replyMessageService.ReplyTextMessage("此帳號還沒有註冊，請輸入註冊代碼進行認證",token);
 					 usermanagerService.setUserInformation(wisher, "Enroll-Step-01","Stranger");
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					    // 進行相應的處理
 					}
-				 if(user.getUserStep()=="Enroll-Step-01") {
+				 //如果之後回錯，然後都是這個
+				 if(user.getUserStep().equals("Enroll-Step-01")) {
 					 if(Message.toString() == allValidationCode) {
 						 usermanagerService.updateUserInformation(wisher, "","Normal");
 						 replyMessageService.ReplyTextMessage("註冊成功",token);
 						 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					}else {
-						replyMessageService.ReplyTextMessage("請輸入註冊代碼錯誤，請輸入正確的代碼",token);
+						replyMessageService.ReplyTextMessage("註冊代碼輸入錯誤，請輸入正確的代碼",token);
 						return new ResponseEntity<String>("OK", HttpStatus.OK);
 					}
 				 }
