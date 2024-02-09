@@ -1,6 +1,7 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +70,12 @@ public class UserManagerDaoImpl implements UserManagerDao{
 
 	@Override
 	public void setUserInformation(String lineID,String Remark,String RoleName) {
-        String sqlInsertUser = "INSERT INTO UserInformation (LineID, CreateDateTime, UpdateDateTime,UserStep) VALUES (?, ?, ?,?)";
-        jdbcTemplate.update(sqlInsertUser, lineID, LocalDateTime.now(), LocalDateTime.now(),Remark);
+		
+		  // 生成 UUID，使用當前時間的 yyyyMMddhhmmss 格式
+	    String uuid = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+	    
+        String sqlInsertUser = "INSERT INTO UserInformation (UUID,LineID, CreateDateTime, UpdateDateTime,UserStep) VALUES (?,?, ?, ?,?)";
+        jdbcTemplate.update(sqlInsertUser,uuid, lineID, LocalDateTime.now(), LocalDateTime.now(),Remark);
 
         // 获取角色ID（假设角色名为 Normal，如果不存在则需先插入）
         String roleIdSql = "SELECT RoleID FROM RoleInformation WHERE Name = ?";
