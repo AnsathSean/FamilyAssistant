@@ -94,7 +94,7 @@ public class UserManagerDaoImpl implements UserManagerDao{
 	@Override
 	public void updateUserInformation(String lineID, String StepRemark, String RoleName) {
 	    // 定義更新用戶信息的SQL語句，假設UserInformation表中有一個字段叫做StepRemark
-	    String updateUserInformationSql = "UPDATE UserInformation SET StepRemark = ? WHERE LineID = ?";
+	    String updateUserInformationSql = "UPDATE UserInformation SET UserStep = ? WHERE LineID = ?";
 	    
 	    // 定義查詢角色UUID的SQL語句，假設Role表中有一個字段叫做UUID
 	    String selectRoleUUIDSql = "SELECT UUID FROM Role WHERE RoleName = ?";
