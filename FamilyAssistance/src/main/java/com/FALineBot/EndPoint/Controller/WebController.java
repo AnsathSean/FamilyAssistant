@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.FALineBot.EndPoint.Model.User;
 import com.FALineBot.EndPoint.Model.WishList;
+import com.FALineBot.EndPoint.Service.UserManagerService;
 import com.FALineBot.EndPoint.Service.WishListService;
 
 @Controller
@@ -17,6 +19,8 @@ public class WebController {
 	
 	@Autowired
 	private WishListService wishListService;
+	@Autowired
+	private UserManagerService userManagerService;
 	
 	@GetMapping("/MyWishlist/{wisher}")
     public String MyWishList(@PathVariable String wisher,Model model) {
@@ -32,6 +36,14 @@ public class WebController {
         model.addAttribute("items", items);
         return "Commodity";
     }
+    
+    @GetMapping("UserManager/{LineID}")
+    public String getUserInformation(@PathVariable String LineID,Model model) {
+    	User items = userManagerService.getUserById(LineID);
+    	model.addAttribute("items", items);
+    	return "UserInformation";
+    }
+    
     
 	@GetMapping("/Hello")
     public String Hello(Model model) {

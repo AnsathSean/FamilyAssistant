@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.FALineBot.EndPoint.Dto.WishListParam;
+import com.FALineBot.EndPoint.Model.User;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.ReplyMessageService;
+import com.FALineBot.EndPoint.Service.UserManagerService;
 import com.FALineBot.EndPoint.Service.WishListService;
 
 
@@ -31,8 +33,13 @@ public class MainController {
 	private WishListService wishListService;
 	@Autowired
 	private ReplyMessageService replyMessageService;
+	@Autowired
+	private UserManagerService usermanagerService;
 
-
+	
+	//設置驗證代碼
+	private String allValidationCode = "QWERASD123";
+	
 	//測試用，回傳Hello Java
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/test")
@@ -72,8 +79,43 @@ public class MainController {
 				 event = object.getJSONArray("events").getJSONObject(i);
 				 String Message =event.getJSONObject("message").getString("text").toString();
 				 String wisher = event.getJSONObject("source").getString("userId").toString();
-				 
+				 //===========判斷ID是否為Stranger===================
+				 //註冊系統功能
+				 User user = usermanagerService.getUserById(wisher);
+				 if(Message.toString() == allValidationCode) {
+					 usermanagerService.updateUserInformation(wisher, "","Normal");
+					 replyMessageService.ReplyTextMessage("註冊成功",token);
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
+				 }
+				 if (user.getUUID() == null || user.getUUID().isEmpty()) {
+					 replyMessageService.ReplyTextMessage("此帳號還沒有註冊，請輸入註冊代碼進行認證",token);
+					 usermanagerService.setUserInformation(wisher, "Enroll-Step-01","Stranger");
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
+					    // 進行相應的處理
+					}
+				 if(user.getUserStep()=="Enroll-Step-01") {
+					 if(Message.toString() == allValidationCode) {
+						 usermanagerService.updateUserInformation(wisher, "","Normal");
+						 replyMessageService.ReplyTextMessage("註冊成功",token);
+						 return new ResponseEntity<String>("OK", HttpStatus.OK);
+					}else {
+						replyMessageService.ReplyTextMessage("請輸入註冊代碼錯誤，請輸入正確的代碼",token);
+						return new ResponseEntity<String>("OK", HttpStatus.OK);
+					}
+				 }
+				 //如果為Stranger則返回註冊功能
+				 //========
+				 //一般功能
+				 //=====
+				 //藉由驗證碼設定另一半
+				 //取得自己的驗證碼
+				 //顯示所有角色清單
+				 //顯示自己的角色清單
+				 //新增角色
 				 //===========關鍵字搜尋功能=============================================================
+				 //==========
+				 //願望查詢功能
+				 //============
 				 //新增願望清單功能
 				 if(Message.indexOf("新增願望")!=-1) {
 					 
@@ -152,14 +194,16 @@ public class MainController {
 				        return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
 					 
 				 }
-				 
+				 //=========
+				 //處理食譜功能
+				 //========
 				 //查詢訊息
 				 //System.out.println("完整訊息: "+object.toString());
 				 //System.out.println("Message: "+ Message);
 				 //System.out.println("ReplyToken: "+token);
 				 //System.out.println("i:"+i); 
 				 
-				 //回傳訊息
+				 //如果什麼都沒有符合，則回傳相同的訊息
 				 replyMessageService.ReplyTextMessage(Message,token);
 
 			 }

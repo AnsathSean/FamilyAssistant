@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Information</title>
+</head>
+<body>
+    <h1>User Information</h1>
+    <table>
+        <tr>
+            <th>LineID</th>
+            <th>LineName</th>
+            <th>EmailAddress</th>
+            <!-- 其他字段 -->
+        </tr>
+        <tr>
+            <td th:text="${items.lineID}"></td>
+            <td th:text="${items.lineName}"></td>
+            <td th:text="${items.emailAddress}"></td>
+            <!-- 其他字段 -->
+        </tr>
+    </table>
+</body>
+</html>
