@@ -119,6 +119,7 @@ public class MainController {
 					 boolean isGetMamber =usermanagerService.getUserbyCombineID(Message);
 					 if(isGetMamber) {
 						 usermanagerService.updateUserInfo_CombineID(wisher, Message);
+						 usermanagerService.updateUserInformation(wisher, "","");
 						 replyMessageService.ReplyTextMessage("綁定資料成功",token);
 						 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 }else {

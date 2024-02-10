@@ -82,6 +82,7 @@ public class UserManagerDaoImpl implements UserManagerDao{
         String roleIdSql = "SELECT RoleID FROM RoleInformation WHERE Name = ?";
         String roleId = jdbcTemplate.queryForObject(roleIdSql, String.class, RoleName);
 
+        
         // 获取刚插入的用户ID
         String userIdSql = "SELECT UUID FROM UserInformation WHERE LineID = ?";
         String userId = jdbcTemplate.queryForObject(userIdSql, String.class, lineID);
@@ -119,8 +120,9 @@ public class UserManagerDaoImpl implements UserManagerDao{
 			String userUUID = jdbcTemplate.queryForObject(selectUserUUIDSql, new Object[]{lineID}, String.class);
 	        
 	        // 更新用戶角色信息
+	        if(!RoleName.isEmpty()) {
 	        jdbcTemplate.update(updateUserRoleSql, roleUUID, userUUID);
-	        
+	        }
 	        // 提交事務（如果在事務中執行）
 	        // dataSource.getConnection().commit();
 	    } catch (DataAccessException e) {
