@@ -342,91 +342,81 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 
 	@Override
 	public void ReplyFlexWebContentMessage(String token, String Message, String wisher,String webfunction) {
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
+		//建立回傳訊息標頭
+		HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
+		//建立回傳JSON訊息
+        //主Jason訊息
+		 JSONObject PayloadContent = new JSONObject();
+		 
+		 
+		 JSONObject FlexMessage = new JSONObject();
+		 
+		 JSONObject FMcontents = new JSONObject();
+		 
+		 JSONObject FMBody = new JSONObject();
+		 JSONArray FMBody_Contents = new JSONArray();
+		 JSONObject FMBody_Contents_Contents1 = new JSONObject();
+		 JSONObject FMBody_Contents_Contents2 = new JSONObject();
+		 
+		 JSONObject FMFooter = new JSONObject();
+		 JSONArray FMFooter_Contents = new JSONArray();
+		 JSONObject FMFooter_Contents_Contents1 = new JSONObject();
+		 JSONObject FMFooter_Contents_Contents2 = new JSONObject();
+		 JSONArray Messages = new JSONArray();
+		 
 
-	    JSONObject payloadContent = new JSONObject();
-	    JSONObject flexMessage = new JSONObject();
-	    JSONObject bodyContent = new JSONObject();
-	    JSONArray bodyContents = new JSONArray();
-	    JSONObject title = new JSONObject();
-	    JSONObject subTitle = new JSONObject();
-	    JSONObject separator = new JSONObject();
-	    JSONObject singleCookingData = new JSONObject();
-	    JSONObject singleCookingDataAData = new JSONObject();
-	    JSONArray singleCookingDataADataArray = new JSONArray();
-	    JSONObject singleCookingDataADataA = new JSONObject();
-	    JSONObject footer = new JSONObject();
-	    JSONArray footerContents = new JSONArray();
-	    JSONObject button = new JSONObject();
+		//處理contents
+		FMcontents.put("type", "bubble");
+		
+		//處理Body下的Contents
+		FMBody_Contents_Contents1.put("type","text");
+		FMBody_Contents_Contents1.put("text", "Hello,");
+		FMBody_Contents_Contents1.put("weight","bold");
+		
+		FMBody_Contents_Contents2.put("type","text");
+		FMBody_Contents_Contents2.put("text", "World!,");
+		FMBody_Contents_Contents2.put("weight","bold");
+		
+		FMBody_Contents.put(FMBody_Contents_Contents1);
+		FMBody_Contents.put(FMBody_Contents_Contents2);
+		
+		FMBody.put("contents",FMBody_Contents);
+		FMBody.put("type", "box");
+		FMBody.put("layout", "vertical");
+		//設置最終BODY
+		FMcontents.put("body", FMBody);
+		//處理PayLoadContent 
+		PayloadContent.put("replyToken",token); 
+		
+		//處理Footer
+		FMFooter.put("type","box"); 
+		FMFooter.put("layout","vertical"); 
+		FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
+		FMFooter_Contents_Contents1.put("type","button");
+			FMFooter_Contents_Contents2.put("type","uri");
+			FMFooter_Contents_Contents2.put("label","Shop");
+			FMFooter_Contents_Contents2.put("uri","https://ansathseanbackend.com:8080/"+webfunction+"/"+wisher);
 
-	    // 處理標題
-	    title.put("type", "text");
-	    title.put("text", "煮飯功能清單");
-	    title.put("weight", "bold");
-	    title.put("size", "xxl");
-	    title.put("color", "#1DB446");
-	    title.put("margin", "md");
-
-	    // 處理副標題
-	    subTitle.put("type", "text");
-	    subTitle.put("text", "由家庭小助理提供");
-	    subTitle.put("size", "xs");
-	    subTitle.put("color", "#aaaaaa");
-	    subTitle.put("weight", "bold");
-	    subTitle.put("wrap", true);
-
-	    // 處理分隔線
-	    separator.put("type", "separator");
-	    separator.put("margin", "xxl");
-
-	    // 單一煮飯資料
-	    singleCookingData.put("type", "box");
-	    singleCookingData.put("layout", "vertical");
-	    singleCookingData.put("margin", "xxl");
-	    singleCookingData.put("spacing", "sm");
-
-	    singleCookingDataAData.put("type", "box");
-	    singleCookingDataAData.put("layout", "horizontal");
-
-	    singleCookingDataADataA.put("type", "text");
-	    singleCookingDataADataA.put("size", "sm");
-	    singleCookingDataADataA.put("color", "#555555");
-	    singleCookingDataADataA.put("flex", 0);
-	    singleCookingDataADataA.put("text", Message);
-
-	    singleCookingDataADataArray.put(singleCookingDataADataA);
-	    singleCookingDataAData.put("contents", singleCookingDataADataArray);
-	    bodyContents.put(singleCookingDataAData); // 將 singleCookingDataAData 放入 bodyContents 中
-
-	    // 處理 Footer
-	    footer.put("type", "box");
-	    footer.put("layout", "vertical");
-
-	    button.put("type", "button");
-	    button.put("action", new JSONObject()
-	            .put("type", "uri")
-	            .put("label", "自己的煮飯清單細項")
-	            .put("uri", "https://ansathseanbackend.com:8080/" + webfunction + "/" + wisher));
-
-	    footerContents.put(button);
-	    footer.put("contents", footerContents);
-
-	    // 設置最終 Body
-	    bodyContent.put("contents", bodyContents); // 將 bodyContents 放入 bodyContent 中
-
-	    // 處理最終訊息
-	    flexMessage.put("type", "flex");
-	    flexMessage.put("altText", "煮飯清單");
-	    flexMessage.put("contents", bodyContent); // 使用 bodyContent
-
-	    // 設定訊息類別
-	    payloadContent.put("replyToken", token);
-	    payloadContent.put("messages", new JSONArray().put(flexMessage)); // 將 Flex Message 放入 JSON 陣列中
-
-	    // 回傳訊息
-	    HttpEntity<String> entity = new HttpEntity<>(payloadContent.toString(), headers);
-	    restTemplate.exchange(Reply_Url, HttpMethod.POST, entity, String.class);
+		
+		FMFooter_Contents.put(FMFooter_Contents_Contents1);
+		FMFooter.put("contents",FMFooter_Contents); 
+		//設置最終Footer
+		FMcontents.put("footer", FMFooter);
+		//處理所有訊息
+		FlexMessage.put("contents", FMcontents);
+		//FlexMessage.put("footer", FMFooter);
+		
+		//設定訊息類別
+		FlexMessage.put("altText","新增菜餚功能"); 
+		FlexMessage.put("type","flex"); 
+		Messages.put(FlexMessage);
+		PayloadContent.put("messages",Messages); 
+        //回傳訊息
+		System.out.println(PayloadContent.toString());
+        HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
+        restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
+		
 	}
 }
