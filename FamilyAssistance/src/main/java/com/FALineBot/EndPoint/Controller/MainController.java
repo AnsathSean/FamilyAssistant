@@ -111,7 +111,7 @@ public class MainController {
 				 //=====
 				 //藉由驗證碼設定另一半
 				 if(Message.indexOf("設定驗證碼")!=-1) {
-					 usermanagerService.setUserInformation(wisher, "Validation-Step-01","");
+					 usermanagerService.updateUserInformation(wisher, "Validation-Step-01","");
 					 replyMessageService.ReplyTextMessage("請輸入對方的驗證碼",token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
