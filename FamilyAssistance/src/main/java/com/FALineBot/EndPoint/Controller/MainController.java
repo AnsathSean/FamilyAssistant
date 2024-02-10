@@ -115,6 +115,7 @@ public class MainController {
 					 replyMessageService.ReplyTextMessage("請輸入對方的驗證碼",token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
+				 
 				 if(user.getUserStep() != null && user.getUserStep().equals("Validation-Step-01")) {
 					 boolean isGetMamber =usermanagerService.getUserbyCombineID(Message);
 					 if(isGetMamber) {

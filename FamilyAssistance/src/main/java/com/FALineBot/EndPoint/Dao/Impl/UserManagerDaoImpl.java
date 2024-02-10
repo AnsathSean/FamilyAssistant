@@ -111,16 +111,16 @@ public class UserManagerDaoImpl implements UserManagerDao{
 	        // 更新用戶信息
 	        jdbcTemplate.update(updateUserInformationSql, StepRemark, lineID);
 	        
-	        // 查詢角色UUID
-	        @SuppressWarnings("deprecation")
-			String roleUUID = jdbcTemplate.queryForObject(selectRoleUUIDSql, new Object[]{RoleName}, String.class);
-	        
+
 	        // 查詢用戶UUID
 	        @SuppressWarnings("deprecation")
 			String userUUID = jdbcTemplate.queryForObject(selectUserUUIDSql, new Object[]{lineID}, String.class);
 	        
 	        // 更新用戶角色信息
 	        if(!RoleName.isEmpty()) {
+		        // 查詢角色UUID
+			@SuppressWarnings("deprecation")
+			String roleUUID = jdbcTemplate.queryForObject(selectRoleUUIDSql, new Object[]{RoleName}, String.class);
 	        jdbcTemplate.update(updateUserRoleSql, roleUUID, userUUID);
 	        }
 	        // 提交事務（如果在事務中執行）
