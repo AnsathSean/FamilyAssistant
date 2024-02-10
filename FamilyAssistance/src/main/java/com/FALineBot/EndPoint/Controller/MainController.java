@@ -95,7 +95,7 @@ public class MainController {
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					}
 				 //如果之後回錯，然後都是這個
-				 if(user.getUserStep().equals("Enroll-Step-01")) {
+				 if(user.getUserStep() != null && user.getUserStep().equals("Enroll-Step-01")) {
 					 if(Message.toString() == allValidationCode) {
 						 usermanagerService.updateUserInformation(wisher, "","Normal");
 						 replyMessageService.ReplyTextMessage("註冊成功",token);
@@ -115,7 +115,7 @@ public class MainController {
 					 replyMessageService.ReplyTextMessage("請輸入對方的驗證碼",token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
-				 if(user.getUserStep().equals("Validation-Step-01")) {
+				 if(user.getUserStep() != null && user.getUserStep().equals("Validation-Step-01")) {
 					 boolean isGetMamber =usermanagerService.getUserbyCombineID(Message);
 					 if(isGetMamber) {
 						 usermanagerService.updateUserInfo_CombineID(wisher, Message);
