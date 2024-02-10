@@ -372,15 +372,15 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		//處理Body下的Contents
 		FMBody_Contents_Contents1.put("type","text");
-		FMBody_Contents_Contents1.put("text", "Hello,");
+		FMBody_Contents_Contents1.put("text", "請點選以下功能新增菜譜");
 		FMBody_Contents_Contents1.put("weight","bold");
 		
-		FMBody_Contents_Contents2.put("type","text");
-		FMBody_Contents_Contents2.put("text", "World!,");
-		FMBody_Contents_Contents2.put("weight","bold");
+		//FMBody_Contents_Contents2.put("type","text");
+		//FMBody_Contents_Contents2.put("text", "World!,");
+		//FMBody_Contents_Contents2.put("weight","bold");
 		
 		FMBody_Contents.put(FMBody_Contents_Contents1);
-		FMBody_Contents.put(FMBody_Contents_Contents2);
+		//FMBody_Contents.put(FMBody_Contents_Contents2);
 		
 		FMBody.put("contents",FMBody_Contents);
 		FMBody.put("type", "box");
@@ -396,7 +396,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
 		FMFooter_Contents_Contents1.put("type","button");
 			FMFooter_Contents_Contents2.put("type","uri");
-			FMFooter_Contents_Contents2.put("label","Shop");
+			FMFooter_Contents_Contents2.put("label","新增菜譜功能");
 			FMFooter_Contents_Contents2.put("uri","https://ansathseanbackend.com:8080/"+webfunction+"/"+wisher);
 
 		
