@@ -55,7 +55,7 @@ public class UserManagerDaoImpl implements UserManagerDao{
 
 	@Override
 	public List<Role> getRolesByUserId(String userId) {
-        String sql = "SELECT r.RoleID, r.RoleName FROM User_Role ur JOIN RoleInformation r ON ur.RoleID = r.RoleID WHERE ur.UserID = ?";
+        String sql = "SELECT r.RoleID, r.Name FROM User_Role ur JOIN RoleInformation r ON ur.RoleID = r.RoleID WHERE ur.UserID = ?";
         
         try {
             @SuppressWarnings("deprecation")
@@ -192,7 +192,7 @@ public class UserManagerDaoImpl implements UserManagerDao{
 
 	@Override
 	public List<Role> getRolesByPermission(String Permission) {
-        String sql = "SELECT r.RoleID, r.RoleName FROM Role_Permission rp JOIN RoleInformation r ON rp.RoleID = r.RoleID WHERE rp.Permission = ?";
+        String sql = "SELECT r.RoleID, r.Name FROM Role_Permission rp JOIN RoleInformation r ON rp.RoleID = r.RoleID WHERE rp.Permission = ?";
         
         try {
             @SuppressWarnings("deprecation")
