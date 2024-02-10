@@ -11,4 +11,5 @@ public interface UserManagerService {
 	boolean getUserbyCombineID(String ValidationCode);
 	String getValidationCode(String lineID);
 	void updateUserInfo_CombineID(String lineID,String validationCode);           //綁定CombineID
+	boolean checkUserPermission(String UUID,String Permission);
 }

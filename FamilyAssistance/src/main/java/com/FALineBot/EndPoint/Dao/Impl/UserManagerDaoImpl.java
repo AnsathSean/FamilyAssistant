@@ -55,9 +55,24 @@ public class UserManagerDaoImpl implements UserManagerDao{
 
 	@Override
 	public List<Role> getRolesByUserId(String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        String sql = "SELECT r.RoleID, r.RoleName FROM User_Role ur JOIN Role r ON ur.RoleID = r.RoleID WHERE ur.UserID = ?";
+        
+        try {
+            @SuppressWarnings("deprecation")
+			List<Role> roles = jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
+                Role role = new Role();
+                role.setRoleId(rs.getString("RoleID"));
+                role.setName(rs.getString("RoleName"));
+                return role;
+            });
+            return roles;
+        } catch (DataAccessException e) {
+            // 處理資料訪問異常
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
 
 	@Override
 	public List<Permission> getPermissionsByRole(String roleId) {
@@ -173,6 +188,26 @@ public class UserManagerDaoImpl implements UserManagerDao{
 	        e.printStackTrace();
 	        return null;
 	    }
+	}
+
+	@Override
+	public List<Role> getRolesByPermission(String Permission) {
+        String sql = "SELECT r.RoleID, r.RoleName FROM Role_Permission rp JOIN Role r ON rp.RoleID = r.RoleID WHERE rp.Permission = ?";
+        
+        try {
+            @SuppressWarnings("deprecation")
+			List<Role> roles = jdbcTemplate.query(sql, new Object[]{Permission}, (rs, rowNum) -> {
+                Role role = new Role();
+                role.setRoleId(rs.getString("RoleID"));
+                role.setName(rs.getString("RoleName"));
+                return role;
+            });
+            return roles;
+        } catch (DataAccessException e) {
+            // 處理資料訪問異常
+            e.printStackTrace();
+            return null;
+        }
 	}
 
 }

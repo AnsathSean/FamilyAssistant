@@ -97,7 +97,7 @@ public class MainController {
 				 //如果之後回錯，然後都是這個
 				 if(user.getUserStep() != null && user.getUserStep().equals("Enroll-Step-01")) {
 					 if(Message.toString() == allValidationCode) {
-						 usermanagerService.updateUserInformation(wisher, "","Normal");
+						 usermanagerService.updateUserInformation(wisher, "","");
 						 replyMessageService.ReplyTextMessage("註冊成功",token);
 						 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					}else {
@@ -142,8 +142,8 @@ public class MainController {
 				 //願望查詢功能
 				 //============
 				 //新增願望清單功能
-				 if(Message.indexOf("新增願望")!=-1) {
-					 
+				 if(Message.indexOf("新增願望")!=-1 ) {
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_01_Add")) {
 					    String PeresentName = "";					 
 				        String[] newStr = Message.split("\\s+");
 				        WishListParam wishListParam = new WishListParam();
@@ -160,7 +160,10 @@ public class MainController {
 			            //System.out.println("K2: "+K2);
 			            
 			            return new ResponseEntity<String>("OK", HttpStatus.OK);
-					 
+					 }else {
+						 replyMessageService.ReplyTextMessage("權限不足無法新增願望",token);
+						 return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 }
 				 }
 				 //測試FlexMessage
 				 if(Message.indexOf("測試FLEX")!=-1) {
@@ -169,25 +172,35 @@ public class MainController {
 				 }
 				 //查詢願望清單功能
 				 if(Message.indexOf("查詢願望")!=-1) {
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_02_CheckOther") && !user.getCombineID().isEmpty()) {
 					 List<WishList> list = wishListService.findAllWishList();
 					 SelfWish = false;
 					 System.out.println("是否查自己的"+SelfWish);
 					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
-					 
+					 }else {
+						 replyMessageService.ReplyTextMessage("無法查詢願望，請確認權限或綁定對象",token);
+						 return new ResponseEntity<String>("OK", HttpStatus.OK);
+						 
+					 }
 				 }
 				 //查詢自己的願望清單功能
 				 if(Message.indexOf("查詢自己的願望")!=-1) {
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_03_CheckMyself")) {
 					 List<WishList> list = wishListService.findAllWishList();
 					 SelfWish = true;
 					 System.out.println("是否查自己的"+SelfWish);
 					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
-					 
+					 }else {
+						 replyMessageService.ReplyTextMessage("無法查詢自己的願望，請確認權限",token);
+						 return new ResponseEntity<String>("OK", HttpStatus.OK);
+						 
+					 }
 				 }
 				 //刪除願望清單功能
 				 if(Message.indexOf("刪除願望")!=-1) {
-				 
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_04_Deletewish")) {
 					 String[] newStr = Message.split("\\s+");
 				        Integer ID = 0;
 				        for (int k = 1; k < newStr.length; k++) {
@@ -201,10 +214,13 @@ public class MainController {
 
 				        }
 				        return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
-					 
+					 }else {						 
+						 replyMessageService.ReplyTextMessage("無法啟動刪除願望，請確認權限",token);
+					     return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 }
 				 }
 				 if(Message.indexOf("DeleteWish")!=-1) {
-					 
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_04_Deletewish")) {
 					 String[] newStr = Message.split("\\s+");
 				        Integer ID = 0;
 				        for (int k = 1; k < newStr.length; k++) {
@@ -217,7 +233,10 @@ public class MainController {
 
 				        }
 				        return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
-					 
+					 }else {
+						 replyMessageService.ReplyTextMessage("無法刪除願望，請確認權限",token);
+					     return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 }
 				 }
 				 //=========
 				 //處理食譜功能

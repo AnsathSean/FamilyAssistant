@@ -12,6 +12,7 @@ public interface UserManagerDao {
 	User getUserById(String lineId);                                          // 根据LineID获取会员资料
 	String getValidationCodebyLineID(String lineud);
     List<Role> getRolesByUserId(String userId);                               // 根据会员ID获取角色信息，因為是清單，所以要是List
+    List<Role> getRolesByPermission(String Permission);
     List<Permission> getPermissionsByRole(String roleId);                     // 根据角色ID获取权限信息，因為是清單，所以要用List
     
     void setUserInformation(String lineID,String StepRemark,String RoleName);                 //新增角色資料，一律調整成Normal的角色清單，Normal
