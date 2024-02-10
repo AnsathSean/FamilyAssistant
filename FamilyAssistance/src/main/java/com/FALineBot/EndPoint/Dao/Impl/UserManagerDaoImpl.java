@@ -35,6 +35,7 @@ public class UserManagerDaoImpl implements UserManagerDao{
             user.setCombineID(resultSet.getString("CombineID"));
             user.setCreateDateTime(resultSet.getDate("CreateDateTime"));
             user.setValidationCode(resultSet.getString("ValidationCode"));
+            user.setUserStep(resultSet.getString("UserStep"));
             return user;
         });
         
