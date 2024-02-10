@@ -113,19 +113,24 @@ public class MainController {
 				 if(Message.indexOf("設定驗證碼")!=-1) {
 					 usermanagerService.setUserInformation(wisher, "Validation-Step-01","");
 					 replyMessageService.ReplyTextMessage("請輸入對方的驗證碼",token);
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
 				 if(user.getUserStep().equals("Validation-Step-01")) {
 					 boolean isGetMamber =usermanagerService.getUserbyCombineID(Message);
 					 if(isGetMamber) {
 						 usermanagerService.updateUserInfo_CombineID(wisher, Message);
+						 replyMessageService.ReplyTextMessage("綁定資料成功",token);
+						 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 }else {
-						 
+						 replyMessageService.ReplyTextMessage("驗證碼無效，請確認驗證碼是否正確。",token);
+						 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 }
 				 }
 				 //取得自己的驗證碼
 				 if(Message.indexOf("取得自己的驗證碼")!=-1) {
 					 String ValidationCode = usermanagerService.getValidationCode(wisher);
 					 replyMessageService.ReplyTextMessage(ValidationCode,token);
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
 				 //顯示所有角色清單，暫時可以不用，現在都先註冊Normal
 				 //顯示自己的角色清單，暫時不用
