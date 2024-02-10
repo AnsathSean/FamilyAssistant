@@ -11,4 +11,5 @@ public interface ReplyMessageService {
 	void ReplyFlexWishListMessage(List<WishList> list,String token,Boolean SelfWish,String wisher);
 	void ReplyFlexMessageTemplate(String token);
 	void ReplyCheckDeleteMessage(Integer id,String token);
+	void ReplyWebClickTemplate(String Message,String token,String webfunction,String wisher);
 }

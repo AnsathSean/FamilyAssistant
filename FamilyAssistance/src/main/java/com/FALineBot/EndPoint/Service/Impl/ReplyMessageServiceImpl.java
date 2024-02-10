@@ -43,5 +43,10 @@ public class ReplyMessageServiceImpl implements ReplyMessageService{
 		replyMessageDao.ReplyConfirmMessageTemplate(token,"是否刪除願望","刪除 "+ItemName+"?","DeleteWish "+id,"取消刪除");
 		
 	}
+
+	@Override
+	public void ReplyWebClickTemplate(String Message, String token, String webfunction,String wisher) {
+		replyMessageDao.ReplyFlexWebContentMessage(token, Message,wisher, webfunction);
+	}
 	
 }

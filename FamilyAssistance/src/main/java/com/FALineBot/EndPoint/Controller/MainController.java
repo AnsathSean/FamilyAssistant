@@ -137,8 +137,9 @@ public class MainController {
 				 //顯示所有角色清單，暫時可以不用，現在都先註冊Normal
 				 //顯示自己的角色清單，暫時不用
 				 //新增角色，暫時不用
-				 //===========關鍵字搜尋功能=============================================================
-				 //==========
+				 //===========================================
+				 //===========關鍵字搜尋功能=====================
+				 //===========================================
 				 //願望查詢功能
 				 //============
 				 //新增願望清單功能
@@ -242,6 +243,16 @@ public class MainController {
 				 //處理食譜功能
 				 //========
 				 //新增食譜用網址
+				 if(Message.indexOf("新增菜餚")!=-1) {
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_04_Deletewish")) {
+						 replyMessageService.ReplyWebClickTemplate("新增菜餚",token, "AddCooking", wisher);
+						 return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
+					 }else {
+						 replyMessageService.ReplyTextMessage("無法新增，請確認權限",token);
+					     return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 }
+					 
+				 }
 				 //查看當前料理(最近紀錄的料理)
 				 //查看對方當前的料理
 				 //查詢歷史食譜(抓最近十幾筆呈現出來)

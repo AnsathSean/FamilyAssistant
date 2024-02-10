@@ -30,6 +30,14 @@ public class WebController {
         return "MyWishList";
     }
 	
+	@GetMapping("/AddCooking/{wisher}")
+    public String AddCooking(@PathVariable String wisher,Model model) {
+    	List<WishList> list = wishListService.findAllWishListByPersion(wisher);
+    	//System.out.println("List: "+list.toString());
+    	model.addAttribute("wishList", list);
+        return "AddCooking";
+    }
+	
     @GetMapping("/Commodity/{id}")
     public String wishlist(@PathVariable Integer id,Model model) {
     	List<WishList> items = wishListService.findWishListByID(id);
