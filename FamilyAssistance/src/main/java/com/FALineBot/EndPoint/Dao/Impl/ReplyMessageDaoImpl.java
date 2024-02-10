@@ -342,96 +342,91 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 
 	@Override
 	public void ReplyFlexWebContentMessage(String token, String Message, String wisher,String webfunction) {
-		 HttpHeaders headers = new HttpHeaders();
-		    headers.setContentType(MediaType.APPLICATION_JSON);
-		    headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.add("Authorization", String.format("%s %s", "Bearer", LINE_SECRET));
 
-		    JSONObject payloadContent = new JSONObject();
-		    JSONObject flexMessage = new JSONObject();
-		    JSONObject bodyContent = new JSONObject();
-		    JSONArray bodyContents = new JSONArray();
-		    JSONObject title = new JSONObject();
-		    JSONObject subTitle = new JSONObject();
-		    JSONObject separator = new JSONObject();
-		    JSONObject singleCookingData = new JSONObject();
-		    JSONObject singleCookingDataAData = new JSONObject();
-		    JSONArray singleCookingDataADataArray = new JSONArray();
-		    JSONObject singleCookingDataADataA = new JSONObject();
-		    JSONObject footer = new JSONObject();
-		    JSONArray footerContents = new JSONArray();
-		    JSONObject button = new JSONObject();
+	    JSONObject payloadContent = new JSONObject();
+	    JSONObject flexMessage = new JSONObject();
+	    JSONObject bodyContent = new JSONObject();
+	    JSONArray bodyContents = new JSONArray();
+	    JSONObject title = new JSONObject();
+	    JSONObject subTitle = new JSONObject();
+	    JSONObject separator = new JSONObject();
+	    JSONObject singleCookingData = new JSONObject();
+	    JSONObject singleCookingDataAData = new JSONObject();
+	    JSONArray singleCookingDataADataArray = new JSONArray();
+	    JSONObject singleCookingDataADataA = new JSONObject();
+	    JSONObject footer = new JSONObject();
+	    JSONArray footerContents = new JSONArray();
+	    JSONObject button = new JSONObject();
 
-		    // 處理標題
-		    title.put("type", "text");
-		    title.put("text", "煮飯功能清單");
-		    title.put("weight", "bold");
-		    title.put("size", "xxl");
-		    title.put("color", "#1DB446");
-		    title.put("margin", "md");
+	    // 處理標題
+	    title.put("type", "text");
+	    title.put("text", "煮飯功能清單");
+	    title.put("weight", "bold");
+	    title.put("size", "xxl");
+	    title.put("color", "#1DB446");
+	    title.put("margin", "md");
 
-		    // 處理副標題
-		    subTitle.put("type", "text");
-		    subTitle.put("text", "由家庭小助理提供");
-		    subTitle.put("size", "xs");
-		    subTitle.put("color", "#aaaaaa");
-		    subTitle.put("weight", "bold");
-		    subTitle.put("wrap", true);
+	    // 處理副標題
+	    subTitle.put("type", "text");
+	    subTitle.put("text", "由家庭小助理提供");
+	    subTitle.put("size", "xs");
+	    subTitle.put("color", "#aaaaaa");
+	    subTitle.put("weight", "bold");
+	    subTitle.put("wrap", true);
 
-		    // 處理分隔線
-		    separator.put("type", "separator");
-		    separator.put("margin", "xxl");
+	    // 處理分隔線
+	    separator.put("type", "separator");
+	    separator.put("margin", "xxl");
 
-		    // 單一煮飯資料
-		    singleCookingData.put("type", "box");
-		    singleCookingData.put("layout", "vertical");
-		    singleCookingData.put("margin", "xxl");
-		    singleCookingData.put("spacing", "sm");
+	    // 單一煮飯資料
+	    singleCookingData.put("type", "box");
+	    singleCookingData.put("layout", "vertical");
+	    singleCookingData.put("margin", "xxl");
+	    singleCookingData.put("spacing", "sm");
 
-		    singleCookingDataAData.put("type", "box");
-		    singleCookingDataAData.put("layout", "horizontal");
+	    singleCookingDataAData.put("type", "box");
+	    singleCookingDataAData.put("layout", "horizontal");
 
-		    singleCookingDataADataA.put("type", "text");
-		    singleCookingDataADataA.put("size", "sm");
-		    singleCookingDataADataA.put("color", "#555555");
-		    singleCookingDataADataA.put("flex", 0);
-		    singleCookingDataADataA.put("text", Message);
+	    singleCookingDataADataA.put("type", "text");
+	    singleCookingDataADataA.put("size", "sm");
+	    singleCookingDataADataA.put("color", "#555555");
+	    singleCookingDataADataA.put("flex", 0);
+	    singleCookingDataADataA.put("text", Message);
 
-		    singleCookingDataADataArray.put(singleCookingDataADataA);
-		    singleCookingDataAData.put("contents", singleCookingDataADataArray);
-		    bodyContents.put(singleCookingDataAData); // 將 singleCookingDataAData 放入 bodyContents 中
+	    singleCookingDataADataArray.put(singleCookingDataADataA);
+	    singleCookingDataAData.put("contents", singleCookingDataADataArray);
+	    bodyContents.put(singleCookingDataAData); // 將 singleCookingDataAData 放入 bodyContents 中
 
-		    // 處理 Footer
-		    footer.put("type", "box");
-		    footer.put("layout", "vertical");
+	    // 處理 Footer
+	    footer.put("type", "box");
+	    footer.put("layout", "vertical");
 
-		    button.put("type", "button");
-		    button.put("action", new JSONObject()
-		            .put("type", "uri")
-		            .put("label", "自己的煮飯清單細項")
-		            .put("uri", "https://ansathseanbackend.com:8080/" + webfunction + "/" + wisher));
+	    button.put("type", "button");
+	    button.put("action", new JSONObject()
+	            .put("type", "uri")
+	            .put("label", "自己的煮飯清單細項")
+	            .put("uri", "https://ansathseanbackend.com:8080/" + webfunction + "/" + wisher));
 
-		    footerContents.put(button);
-		    footer.put("contents", footerContents);
+	    footerContents.put(button);
+	    footer.put("contents", footerContents);
 
-		    // 設置最終 Body
-		    bodyContents.put(title);
-		    bodyContents.put(subTitle);
-		    bodyContents.put(separator);
-		    bodyContents.put(singleCookingData);
-		    bodyContent.put("contents", bodyContents);
+	    // 設置最終 Body
+	    bodyContent.put("contents", bodyContents); // 將 bodyContents 放入 bodyContent 中
 
-		    // 處理最終訊息
-		    flexMessage.put("type", "flex");
-		    flexMessage.put("altText", "煮飯清單");
-		    flexMessage.put("contents", bodyContent);
+	    // 處理最終訊息
+	    flexMessage.put("type", "flex");
+	    flexMessage.put("altText", "煮飯清單");
+	    flexMessage.put("contents", bodyContent); // 使用 bodyContent
 
-		    // 設定訊息類別
-		    payloadContent.put("replyToken", token);
-		    payloadContent.put("messages", new JSONArray().put(flexMessage)); // 將 Flex Message 放入 JSON 陣列中
+	    // 設定訊息類別
+	    payloadContent.put("replyToken", token);
+	    payloadContent.put("messages", new JSONArray().put(flexMessage)); // 將 Flex Message 放入 JSON 陣列中
 
-		    // 回傳訊息
-		    HttpEntity<String> entity = new HttpEntity<>(payloadContent.toString(), headers);
-		    restTemplate.exchange(Reply_Url, HttpMethod.POST, entity, String.class);
-		
+	    // 回傳訊息
+	    HttpEntity<String> entity = new HttpEntity<>(payloadContent.toString(), headers);
+	    restTemplate.exchange(Reply_Url, HttpMethod.POST, entity, String.class);
 	}
 }
