@@ -29,6 +29,22 @@ public class UserManagerServiceImpl implements UserManagerService{
 		userManagerDao.updateUserInformation(wisher, string, string2);
 		
 	}
+
+	@Override
+	public boolean getUserbyCombineID(String ValidationCode) {
+		return userManagerDao.getUserBy_CombineID(ValidationCode);
+	}
+
+	@Override
+	public String getValidationCode(String lineID) {
+		return userManagerDao.getValidationCodebyLineID(lineID);
+	}
+
+	@Override
+	public void updateUserInfo_CombineID(String lineID, String validationCode) {
+		userManagerDao.updateUserInfo_CombineID(lineID, validationCode);
+		
+	}
 	
 
 }

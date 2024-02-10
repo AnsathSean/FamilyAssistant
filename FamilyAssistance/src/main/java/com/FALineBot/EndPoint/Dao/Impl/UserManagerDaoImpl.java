@@ -3,6 +3,7 @@ package com.FALineBot.EndPoint.Dao.Impl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -73,9 +74,9 @@ public class UserManagerDaoImpl implements UserManagerDao{
 		
 		  // 生成 UUID，使用當前時間的 yyyyMMddhhmmss 格式
 	    String uuid = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-	    
-        String sqlInsertUser = "INSERT INTO UserInformation (UUID,LineID, CreateDateTime, UpdateDateTime,UserStep) VALUES (?,?, ?, ?,?)";
-        jdbcTemplate.update(sqlInsertUser,uuid, lineID, LocalDateTime.now(), LocalDateTime.now(),Remark);
+	    String ValidationCode = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String sqlInsertUser = "INSERT INTO UserInformation (UUID,LineID, CreateDateTime, UpdateDateTime,UserStep,ValidationCode) VALUES (?,?, ?, ?,?,?)";
+        jdbcTemplate.update(sqlInsertUser,uuid, lineID, LocalDateTime.now(), LocalDateTime.now(),Remark,ValidationCode);
 
         // 获取角色ID（假设角色名为 Normal，如果不存在则需先插入）
         String roleIdSql = "SELECT RoleID FROM RoleInformation WHERE Name = ?";
@@ -114,7 +115,8 @@ public class UserManagerDaoImpl implements UserManagerDao{
 			String roleUUID = jdbcTemplate.queryForObject(selectRoleUUIDSql, new Object[]{RoleName}, String.class);
 	        
 	        // 查詢用戶UUID
-	        String userUUID = jdbcTemplate.queryForObject(selectUserUUIDSql, new Object[]{lineID}, String.class);
+	        @SuppressWarnings("deprecation")
+			String userUUID = jdbcTemplate.queryForObject(selectUserUUIDSql, new Object[]{lineID}, String.class);
 	        
 	        // 更新用戶角色信息
 	        jdbcTemplate.update(updateUserRoleSql, roleUUID, userUUID);
@@ -127,5 +129,47 @@ public class UserManagerDaoImpl implements UserManagerDao{
 	        // 回滾事務（如果在事務中執行）
 	    }
 	    }
+
+	@Override
+	public void updateUserInfo_CombineID(String lineID, String validationCode) {
+        // 查询具有指定 validationCode 的用户信息的 LineID
+        String sqlSelectLineID = "SELECT LineID FROM UserInformation WHERE ValidationCode = ?";
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sqlSelectLineID, validationCode);
+        
+        // 如果存在具有指定 validationCode 的用户信息
+        if (!rows.isEmpty()) {
+            String lineIDToUpdate = (String) rows.get(0).get("LineID");
+
+            // 更新指定 LineID 的 CombineID
+            String sqlUpdateCombineID = "UPDATE UserInformation SET CombineID = ? WHERE LineID = ?";
+            jdbcTemplate.update(sqlUpdateCombineID, lineIDToUpdate, lineID);
+        } else {
+            System.out.println("未找到具有指定 ValidationCode 的用户信息");
+        }
+	}
+
+	@Override
+	public Boolean getUserBy_CombineID(String validationCode) {
+        // 查询具有指定 validationCode 的用户信息的数量
+        String sqlSelectCount = "SELECT COUNT(*) FROM UserInformation WHERE ValidationCode = ?";
+        Integer count = jdbcTemplate.queryForObject(sqlSelectCount, Integer.class, validationCode);
+        
+        // 如果存在具有指定 validationCode 的用户信息，则返回 true，否则返回 false
+        return count > 0 ? true : false;
+	}
+
+	@Override
+	public String getValidationCodebyLineID(String lineid) {
+	    String selectValidationCodeSql = "SELECT ValidationCode FROM UserInformation WHERE LineID = ?";
+	    try {
+	        @SuppressWarnings("deprecation")
+			String validationCode = jdbcTemplate.queryForObject(selectValidationCodeSql, new Object[]{lineid}, String.class);
+	        return validationCode;
+	    } catch (DataAccessException e) {
+	        // 處理異常
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 
 }

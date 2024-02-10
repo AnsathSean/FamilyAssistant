@@ -93,7 +93,6 @@ public class MainController {
 					 replyMessageService.ReplyTextMessage("此帳號還沒有註冊，請輸入註冊代碼進行認證",token);
 					 usermanagerService.setUserInformation(wisher, "Enroll-Step-01","Stranger");
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
-					    // 進行相應的處理
 					}
 				 //如果之後回錯，然後都是這個
 				 if(user.getUserStep().equals("Enroll-Step-01")) {
@@ -111,10 +110,26 @@ public class MainController {
 				 //一般功能
 				 //=====
 				 //藉由驗證碼設定另一半
+				 if(Message.indexOf("設定驗證碼")!=-1) {
+					 usermanagerService.setUserInformation(wisher, "Validation-Step-01","");
+					 replyMessageService.ReplyTextMessage("請輸入對方的驗證碼",token);
+				 }
+				 if(user.getUserStep().equals("Validation-Step-01")) {
+					 boolean isGetMamber =usermanagerService.getUserbyCombineID(Message);
+					 if(isGetMamber) {
+						 usermanagerService.updateUserInfo_CombineID(wisher, Message);
+					 }else {
+						 
+					 }
+				 }
 				 //取得自己的驗證碼
-				 //顯示所有角色清單
-				 //顯示自己的角色清單
-				 //新增角色
+				 if(Message.indexOf("取得自己的驗證碼")!=-1) {
+					 String ValidationCode = usermanagerService.getValidationCode(wisher);
+					 replyMessageService.ReplyTextMessage(ValidationCode,token);
+				 }
+				 //顯示所有角色清單，暫時可以不用，現在都先註冊Normal
+				 //顯示自己的角色清單，暫時不用
+				 //新增角色，暫時不用
 				 //===========關鍵字搜尋功能=============================================================
 				 //==========
 				 //願望查詢功能
@@ -200,6 +215,12 @@ public class MainController {
 				 //=========
 				 //處理食譜功能
 				 //========
+				 //新增食譜用網址
+				 //查看當前料理(最近紀錄的料理)
+				 //查看對方當前的料理
+				 //查詢歷史食譜(抓最近十幾筆呈現出來)
+				 //查看對方的歷史食譜
+				 //修改食譜(也是用網址，要先查詢日期，烈出來之後按設定之後修改)
 				 //查詢訊息
 				 //System.out.println("完整訊息: "+object.toString());
 				 //System.out.println("Message: "+ Message);
