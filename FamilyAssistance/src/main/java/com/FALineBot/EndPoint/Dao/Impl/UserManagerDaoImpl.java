@@ -2,6 +2,7 @@ package com.FALineBot.EndPoint.Dao.Impl;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,22 +56,26 @@ public class UserManagerDaoImpl implements UserManagerDao{
 
 	@Override
 	public List<Role> getRolesByUserId(String userId) {
-        String sql = "SELECT r.RoleID, r.Name FROM User_Role ur JOIN RoleInformation r ON ur.RoleID = r.RoleID WHERE ur.UserID = ?";
-        
-        try {
-            @SuppressWarnings("deprecation")
-			List<Role> roles = jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
-                Role role = new Role();
-                role.setRoleId(rs.getString("RoleID"));
-                role.setName(rs.getString("RoleName"));
-                return role;
-            });
-            return roles;
-        } catch (DataAccessException e) {
-            // 處理資料訪問異常
-            e.printStackTrace();
-            return null;
-        }
+	    List<Role> roles = new ArrayList<>();
+	    String selectRolesSql = "SELECT RoleID FROM User_Role WHERE UserID = ?";
+	    
+	    try {
+	        // 查詢符合條件的 RoleID
+	        @SuppressWarnings("deprecation")
+			List<String> roleIds = jdbcTemplate.queryForList(selectRolesSql, new Object[]{userId}, String.class);
+	        
+	        // 根據 RoleID 查詢對應的 Role 資訊
+	        for (String roleId : roleIds) {
+	            Role role = new Role();
+	            role.setRoleId(roleId);
+	            roles.add(role);
+	        }
+	    } catch (DataAccessException e) {
+	        // 處理異常
+	        e.printStackTrace();
+	    }
+	    
+	    return roles;
     }
 	
 
@@ -192,22 +197,26 @@ public class UserManagerDaoImpl implements UserManagerDao{
 
 	@Override
 	public List<Role> getRolesByPermission(String Permission) {
-        String sql = "SELECT r.RoleID, r.Name FROM Role_Permission rp JOIN RoleInformation r ON rp.RoleID = r.RoleID WHERE rp.Permission = ?";
-        
-        try {
-            @SuppressWarnings("deprecation")
-			List<Role> roles = jdbcTemplate.query(sql, new Object[]{Permission}, (rs, rowNum) -> {
-                Role role = new Role();
-                role.setRoleId(rs.getString("RoleID"));
-                role.setName(rs.getString("RoleName"));
-                return role;
-            });
-            return roles;
-        } catch (DataAccessException e) {
-            // 處理資料訪問異常
-            e.printStackTrace();
-            return null;
-        }
+	    List<Role> roles = new ArrayList<>();
+	    String selectRolesSql = "SELECT RoleID FROM Role_Permission WHERE PermissionID = ?";
+	    
+	    try {
+	        // 查詢符合條件的 RoleID
+	        @SuppressWarnings("deprecation")
+			List<String> roleIds = jdbcTemplate.queryForList(selectRolesSql, new Object[]{Permission}, String.class);
+	        
+	        // 根據 RoleID 查詢對應的 Role 資訊
+	        for (String roleId : roleIds) {
+	            Role role = new Role();
+	            role.setRoleId(roleId);
+	            roles.add(role);
+	        }
+	    } catch (DataAccessException e) {
+	        // 處理異常
+	        e.printStackTrace();
+	    }
+	    
+	    return roles;
 	}
 
 }
