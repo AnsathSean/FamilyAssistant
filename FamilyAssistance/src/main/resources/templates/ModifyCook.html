@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* 設定整個頁面的背景顏色為淺藍色 */
+        body {
+            background-color: #f0f8ff; /* 淺藍色 */
+        }
+
+        /* 設定表單內容為行列式排列 */
+        form {
+            display: grid;
+            grid-template-columns: 1fr; /* 只有一列 */
+            gap: 10px; /* 設定行間距 */
+            border: none; /* 去除邊框 */
+            background-color: #f0f8ff;; /* 設定表單背景顏色為白色 */
+            padding: 20px; /* 加上內邊距 */
+        }
+        /* 設定標籤和輸入框的樣式 */
+        label {
+            text-align: right; /* 將標籤文字靠右對齊 */
+        }
+        input, select {
+            width: 100%; /* 設定輸入框寬度為100% */
+        }
+    </style>
+</head>
+
+
+<body>
+
+<h1>原始資料</h1>
+<table border="1">
+    <thead>
+        <tr>
+            <th>CookName</th>
+            <th>CookDate</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td th:text="${items.CookName}"></td>
+            <td th:text="${#strings.substring(#dates.format(items.cookDate, 'yyyy-MM-dd'), 0, 10)}"></td>
+            <td th:text="${items.Type}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<h1>修改資料</h1>
+<form th:action="@{/updateCook/{cookID}(cookID=${items.UUID})}" method="post" th:object="${cook}">
+    <!-- 菜名 -->
+    <div>
+        <label for="CookName">菜名:</label>
+        <input type="text" id="CookName" name="CookName" th:value="${cook.CookName}" />
+    </div>
+    <!-- 類型 -->
+    <div>
+        <label for="Type">類型:</label>
+        <select id="Type" name="Type">
+            <option th:value="'主菜'" th:selected="${cook.Type == '主菜'}">主菜</option>
+            <option th:value="'配菜'" th:selected="${cook.Type == '配菜'}">配菜</option>
+            <option th:value="'小菜'" th:selected="${cook.Type == '小菜'}">小菜</option>
+        </select>
+    </div>
+    <!-- 日子 -->
+    <div>
+        <label for="CookDate">日子:</label>
+        <input type="text" id="CookDate" name="CookDate" th:value="${cook.CookDate}" />
+    </div>
+    <!-- 時間 -->
+    <div>
+        <label for="CookTime">時間:</label>
+        <input type="text" id="CookTime" name="CookTime" th:value="${cook.CookTime}" />
+    </div>
+
+
+    <!-- 隱藏的 cook.lineID -->
+    <input type="hidden" id="lineID" name="lineID" th:value="${items.lineID}" />
+    <!-- 提交按鈕 -->
+    <input type="submit" value="Submit" />
+</form>
+</body>
+</html>

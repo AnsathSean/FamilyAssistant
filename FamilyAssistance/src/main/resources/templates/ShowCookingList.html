@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Cooking List</title>
+    <style>
+        /* 添加表格邊框 */
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse; /* 避免雙重邊框 */
+        }
+
+        /* 將 "Cook Name" 下方的文字置中 */
+        td:nth-child(1) { /* 第三個 <td> 元素（即 "Cook Name"） */
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <h1>修改資料</h1>
+    <table>
+        <tr>
+            <th>菜名</th>
+            <th>類型</th>
+            <th>日期</th>
+            <th>修改</th>
+        </tr>
+        <!-- 這裡保持不變 -->
+        <tr th:each="cook : ${cookingList}">
+            <td th:text="${cook.cookName}"></td>
+            <td th:text="${cook.type}"></td>
+            <td th:text="${#strings.substring(#dates.format(cook.cookDate, 'yyyy-MM-dd'), 0, 10)}"></td>
+            <td><a th:href="'https://ansathseanbackend.com:8080/CookModify/' + ${cook.UUID}+'/'+${wisher}">修改</a></td>
+            
+        </tr>
+    </table>
+</body>
+</html>

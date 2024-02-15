@@ -2,9 +2,57 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>顯示新增煮飯功能</title>
+    <title>Add Cooking</title>
+    <!-- Add your CSS styles here -->
+    <style>
+        body {
+            background-color: lightblue;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 2px solid transparent; /* make border transparent */
+        }
+        th, td {
+            border: 1px solid transparent; /* make border transparent */
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: darkblue; /* set header background color */
+            color: white; /* set header text color */
+        }
+    </style>
 </head>
 <body>
-    <h1 th:text="'新增煮飯功能'">新增煮飯功能</h1>
+    <h2>Add Cooking</h2>
+	<form th:action="@{/submitCooking/{wisher}(wisher=${wisher})}" method="post" th:object="${cooks}">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>菜名</th>
+                    <th>類型</th>
+                    <th>備註</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Display four empty rows for user input -->
+                <tr th:each="row : ${#numbers.sequence(1, 4)}">
+                    <td><input type="text" name="cooks[__${row}__].CookName" /></td>
+                    <td>
+                        <select name="cooks[__${row}__].type">
+                            <option value="主菜">主菜</option>
+                            <option value="配菜">配菜</option>
+                            <option value="小菜">小菜</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Add a hidden input field to submit the wisher value -->
+        <input type="hidden" name="lineID" th:value="${wisher}" />
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>

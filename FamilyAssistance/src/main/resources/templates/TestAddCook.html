@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Cooking</title>
+</head>
+<body>
+    <h2>Add Cooking</h2>
+    <form action="/submitCooking/EricHsu" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>菜名</th>
+                    <th>類型</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Display six empty rows for user input -->
+                <tr th:each="row : ${#numbers.sequence(1, 4)}">
+                    <td><input type="text" name="cookNames" /></td>
+                    <td>
+                        <select name="types">
+                            <option value="早餐">早餐</option>
+                            <option value="午餐">午餐</option>
+                            <option value="晚餐">晚餐</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Add a hidden input field to submit the wisher value -->
+        <input type="hidden" name="lineID" value="EricHsu" />
+        <button type="submit">提交</button>
+    </form>
+</body>
+</html>
