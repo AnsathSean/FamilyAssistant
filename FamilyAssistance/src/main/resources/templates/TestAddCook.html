@@ -21,11 +21,15 @@
         input, select {
             width: 100%;
         }
+        /* 将菜名输入字段宽度设置为60% */
+        input[name="cookNames"] {
+            width: 60%;
+        }
     </style>
 </head>
 <body>
     <h2>新增菜餚</h2>
-<form th:action="@{'/submitCooking/' + ${wisher}}" method="post">
+    <form th:action="@{'/submitCooking/' + ${wisher}}" method="post">
         <table>
             <thead>
                 <tr>

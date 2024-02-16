@@ -128,7 +128,7 @@ public class WebController {
 	        cook.setCookTime(time);
 	        cooks.add(cook);
 	    }
-	    System.out.println("this is submit function,wisher:"+wisher+" LineID:"+lineID);
+	    //System.out.println("this is submit function,wisher:"+wisher+" LineID:"+lineID);
 	    // 将Cook对象列表传递给cookingService进行处理
 	    cookingService.addCookList(cooks, wisher);
 	    return "redirect:/success"; // 重定向到成功頁面
