@@ -25,7 +25,7 @@
 </head>
 <body>
     <h2>新增菜餚</h2>
-<form action="/submitCooking/{wisher}(wiser=${wisher})" method="post">
+<form th:action="@{'/submitCooking/' + ${wisher}}" method="post">
         <table>
             <thead>
                 <tr>
