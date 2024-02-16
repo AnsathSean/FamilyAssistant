@@ -372,7 +372,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 		//處理Body下的Contents
 		FMBody_Contents_Contents1.put("type","text");
-		FMBody_Contents_Contents1.put("text", "請點選以下功能新增菜譜");
+		FMBody_Contents_Contents1.put("text", "請點選下方連結");
 		FMBody_Contents_Contents1.put("weight","bold");
 		
 		//FMBody_Contents_Contents2.put("type","text");
@@ -396,7 +396,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		FMFooter_Contents_Contents1.put("action",FMFooter_Contents_Contents2);
 		FMFooter_Contents_Contents1.put("type","button");
 			FMFooter_Contents_Contents2.put("type","uri");
-			FMFooter_Contents_Contents2.put("label","新增菜譜功能");
+			FMFooter_Contents_Contents2.put("label",Message+"功能");
 			FMFooter_Contents_Contents2.put("uri","https://ansathseanbackend.com:8080/"+webfunction+"/"+wisher);
 
 		
