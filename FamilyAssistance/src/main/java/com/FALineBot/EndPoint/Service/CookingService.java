@@ -10,4 +10,5 @@ public interface CookingService {
 	List<Cook> getCookingList(String lineID);
     public Cook getCookByUUID(String UUID);
     public void updateCook(Cook cook);
+    public void deleteCook(String UUID);
 }

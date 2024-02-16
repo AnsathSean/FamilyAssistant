@@ -27,7 +27,6 @@
     </style>
 </head>
 
-
 <body>
 
 <h1>原始資料</h1>
@@ -75,11 +74,28 @@
         <input type="text" id="CookTime" name="CookTime" th:value="${cook.CookTime}" />
     </div>
 
-
     <!-- 隱藏的 cook.lineID -->
     <input type="hidden" id="lineID" name="lineID" th:value="${items.lineID}" />
     <!-- 提交按鈕 -->
-    <input type="submit" value="Submit" />
+    <input type="submit" value="修改資料" />
 </form>
+<!-- 刪除按鈕 -->
+<form id="deleteForm" th:action="@{/deleteCook/{uuid}(uuid=${items.UUID})}" method="post">
+    <input type="submit" value="刪除資料" onclick="return confirmDelete();" />
+</form>
+
+<script>
+    function confirmDelete() {
+        // 弹出确认对话框
+        var confirmResult = confirm("是否要删除此条记录？");
+
+        // 如果用户选择确认，则提交表单
+        if (confirmResult) {
+            return true;
+        } else {
+            return false; // 否则取消提交表单
+        }
+    }
+</script>
 </body>
 </html>

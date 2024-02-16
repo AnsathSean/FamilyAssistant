@@ -105,7 +105,12 @@ public class WebController {
 	    cookingService.updateCook(cook);
 	    return "redirect:/success";
 	}
-	
+	@PostMapping("/deleteCook/{uuid}")
+	public String deleteCook(@PathVariable String uuid) {
+		System.out.println("UUID:"+uuid);
+		cookingService.deleteCook(uuid);
+		return "redirect:/success";
+	}
 	@PostMapping("/submitCooking/{wisher}")
 	public String submitCooking(@RequestParam("cookNames") String[] cookNames, @RequestParam("types") String[] types, @RequestParam("lineID") String lineID) {
 	    List<Cook> cooks = new ArrayList<>();

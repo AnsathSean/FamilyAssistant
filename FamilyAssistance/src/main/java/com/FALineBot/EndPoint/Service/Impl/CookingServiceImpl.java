@@ -36,4 +36,11 @@ public class CookingServiceImpl implements CookingService{
 		cookingDao.updateCook(cook);
 		
 	}
+
+	@Override
+	public void deleteCook(String UUID) {
+		cookingDao.deleteCook(UUID);
+		
+	}
+	
 }

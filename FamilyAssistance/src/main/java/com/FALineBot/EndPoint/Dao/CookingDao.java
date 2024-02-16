@@ -9,6 +9,7 @@ public interface CookingDao {
 	
 	void setCookingList(List<Cook> cookList, String lineID);
 	List<Cook> getCookingList(String lineID);
-	public Cook getCookByUUID(String uuid);
+	public Cook getCookByUUID(String UUID);
 	void updateCook(Cook cook);
+	void deleteCook(String UUID);
 }

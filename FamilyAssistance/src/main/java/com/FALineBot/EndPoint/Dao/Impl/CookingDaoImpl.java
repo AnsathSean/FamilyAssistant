@@ -68,8 +68,18 @@ public class CookingDaoImpl implements CookingDao{
     	    // 添加WHERE子句
     	    sql += "WHERE UUID = ?";
     	    parameters.add(cook.getUUID());
-    	    System.out.println("我要執行整個sql了，sql長這樣："+sql);
+    	    //System.out.println("我要執行整個sql了，sql長這樣："+sql);
     	    // 使用JdbcTemplate执行更新
     	    jdbcTemplate.update(sql, parameters.toArray());
     }
+
+	@Override
+	public void deleteCook(String UUID) {
+	    // 编写 SQL 语句
+	    String sql = "DELETE FROM CookingList WHERE UUID = ?";
+	    System.out.println("我要執行整個sql了，sql長這樣："+sql);
+	    // 使用 JdbcTemplate 执行删除操作
+	    jdbcTemplate.update(sql, UUID);
+		
+	}
 }
