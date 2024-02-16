@@ -244,11 +244,21 @@ public class MainController {
 				 //========
 				 //新增食譜用網址
 				 if(Message.indexOf("新增菜餚")!=-1) {
-					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_04_Deletewish")) {
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_01_Add")) {
 						 replyMessageService.ReplyWebClickTemplate("新增菜餚",token, "AddCooking", wisher);
 						 return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
 					 }else {
 						 replyMessageService.ReplyTextMessage("無法新增，請確認權限",token);
+					     return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 }
+					 
+				 }
+				 if(Message.indexOf("顯示歷史菜餚")!=-1) {
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show")) {
+						 replyMessageService.ReplyWebClickTemplate("顯示菜餚",token, "ShowCooking", wisher);
+						 return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
+					 }else {
+						 replyMessageService.ReplyTextMessage("無法顯示，請確認權限",token);
 					     return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 }
 					 

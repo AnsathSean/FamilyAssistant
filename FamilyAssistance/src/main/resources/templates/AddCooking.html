@@ -7,6 +7,8 @@
     <style>
         body {
             background-color: lightblue;
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
         }
         table {
             border-collapse: collapse;
@@ -22,12 +24,19 @@
             background-color: darkblue; /* set header background color */
             color: white; /* set header text color */
         }
+        /* Set input and select width to 100% */
+        input[type="text"], select {
+            width: 100%;
+        }
+        /* Set button width to 100% */
+        button[type="submit"] {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
-    <h2>Add Cooking</h2>
-	<form th:action="@{/submitCooking/{wisher}(wisher=${wisher})}" method="post" th:object="${cooks}">
-
+    <h2>新增菜餚</h2>
+    <form th:action="@{/submitCooking/{wisher}(wisher=${wisher})}" method="post" th:object="${cooks}">
         <table>
             <thead>
                 <tr>
