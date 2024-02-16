@@ -19,11 +19,20 @@
         }
         /* 调整输入框和下拉框宽度 */
         input, select {
-            width: 100%;
+            width: calc(100% - 5px); /* 使输入框宽度为表格宽度减去5像素 */
         }
         /* 将菜名输入字段宽度设置为60% */
         input[name="cookNames"] {
             width: 60%;
+        }
+        /* 调整菜名和类型的布局和间距 */
+        td:first-child input[type="text"] {
+            width: calc(100% - 5px); /* 使输入框宽度为表格列宽度减去5像素 */
+            margin-bottom: 5px; /* 添加底部间距 */
+            text-align: center; /* 文字居中 */
+        }
+        td:last-child select {
+            width: calc(100% - 5px); /* 使下拉框宽度为表格列宽度减去5像素 */
         }
     </style>
 </head>
