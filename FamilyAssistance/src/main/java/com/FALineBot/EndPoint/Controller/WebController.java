@@ -53,7 +53,7 @@ public class WebController {
 	    List<Cook> cooks = new ArrayList<>(); // 創建一個空的 Cook 列表，用於存放從表單提交的資料
 
 	    // 在此處添加其他需要的數據，例如早餐、午餐、晚餐的選項
-	    List<String> mealOptions = Arrays.asList("早餐", "午餐", "晚餐");
+	    List<String> mealOptions = Arrays.asList("主菜", "配菜", "小菜");
 
 	    model.addAttribute("cooks", cooks); // 將 Cook 列表添加到模型中，以便在HTML中使用
 	    model.addAttribute("wisher", wisher); // 將 wisher 添加到模型中，以便在HTML中使用
