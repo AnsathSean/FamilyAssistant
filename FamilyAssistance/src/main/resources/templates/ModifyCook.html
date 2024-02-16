@@ -8,6 +8,7 @@
          width: calc(100% + 100px); /* 将宽度增加30像素 */
          padding: 15px; /* 增加内边距 */
          font-size: 300%; /* 将字体大小增加三倍 */
+         box-sizing: border-box; /* 让内边距和边框计入元素的宽度和高度 */
         }
         /* 設定整個頁面的背景顏色為淺藍色 */
         body {
@@ -41,11 +42,7 @@
             text-align: right; /* 將標籤文字靠右對齊 */
         }
 
-        input[type="text"], select {
-            width: calc(100% + 20px); /* 設定輸入框寬度為100%，加上一些額外寬度 */
-            padding: 10px; /* 添加一些內邊距 */
-            box-sizing: border-box; /* 让内边距和边框计入元素的宽度和高度 */
-        }
+
     </style>
 </head>
 
