@@ -112,7 +112,7 @@ public class WebController {
 		return "redirect:/success";
 	}
 	@PostMapping("/submitCooking/{wisher}")
-	public String submitCooking(@RequestParam("cookNames") String[] cookNames, @RequestParam("types") String[] types, @RequestParam("lineID") String lineID) {
+	public String submitCooking(@PathVariable String wisher,@RequestParam("cookNames") String[] cookNames, @RequestParam("types") String[] types, @RequestParam("lineID") String lineID) {
 	    List<Cook> cooks = new ArrayList<>();
 	    LocalDate currentDate = LocalDate.now();
 	    LocalTime currentTime = LocalTime.now();
@@ -131,7 +131,7 @@ public class WebController {
 	    }
 
 	    // 将Cook对象列表传递给cookingService进行处理
-	    cookingService.addCookList(cooks, lineID);
+	    cookingService.addCookList(cooks, wisher);
 	    return "redirect:/success"; // 重定向到成功頁面
 	}
 
