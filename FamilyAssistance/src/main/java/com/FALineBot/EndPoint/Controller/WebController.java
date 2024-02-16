@@ -57,7 +57,6 @@ public class WebController {
 
 	    model.addAttribute("cooks", cooks); // 將 Cook 列表添加到模型中，以便在HTML中使用
 	    model.addAttribute("wisher", wisher); // 將 wisher 添加到模型中，以便在HTML中使用
-	    model.addAttribute("mealOptions", mealOptions); // 將餐點選項添加到模型中，以便在HTML中顯示和選擇
 	    return "TestAddCook"; // 返回HTML模板的名稱
     }
 	
