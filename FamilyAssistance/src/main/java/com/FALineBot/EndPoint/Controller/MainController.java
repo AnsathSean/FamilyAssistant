@@ -279,19 +279,22 @@ public class MainController {
 				 }
 				 
 				 if(Message.indexOf("隨機菜餚")!=-1) {
-					 @SuppressWarnings("unused")
-					String messageA;
+					String message;
 					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show") ) {
 						 List<Cook> cookList = cookingService.getRandomCookList(wisher);
 				            if (cookList.isEmpty()) {
-				            	messageA = "数据不足，无法回应。";
+				            	message = "數據不足，無法提供隨機菜餚。";
+				            	replyMessageService.ReplyTextMessage(message,token);
+				            	return new ResponseEntity<String>("OK", HttpStatus.OK);
 				            } else {
 				                StringBuilder stringBuilder = new StringBuilder();
-				                stringBuilder.append("随机菜品：\n");
+				                stringBuilder.append("隨機菜餚：\n");
 				                for (Cook cook : cookList) {
 				                    stringBuilder.append(cook.getCookName()).append("\n");
 				                }
-				                messageA = stringBuilder.toString();
+				                message = stringBuilder.toString();
+				            	replyMessageService.ReplyTextMessage(message,token);
+				            	return new ResponseEntity<String>("OK", HttpStatus.OK);
 				            }
 					 }else {
 						 replyMessageService.ReplyTextMessage("無法顯示，請確認權限或綁定對方ID",token);
