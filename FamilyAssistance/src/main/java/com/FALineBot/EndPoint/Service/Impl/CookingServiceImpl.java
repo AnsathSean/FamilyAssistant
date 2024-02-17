@@ -49,7 +49,7 @@ public class CookingServiceImpl implements CookingService{
 
 	@Override
 	public List<Cook> getRandomCookList(String lineID) {
-		   List<Cook> allCooks = cookingDao.getCookingList(lineID);
+		    List<Cook> allCooks = cookingDao.getCookingList(lineID);
 
 		    if (allCooks.size() <= 1) {
 		        return new ArrayList<>(); // 如果煮食列表少于或等于一项，返回空列表
@@ -67,9 +67,9 @@ public class CookingServiceImpl implements CookingService{
 
 		        Random random = new Random();
 
-		        // 从主菜列表中随机选择一道主菜
+		        // 从主菜列表中随机选择一道主菜并放在 finalList 的开头
 		        Cook mainDish = mainDishes.get(random.nextInt(mainDishes.size()));
-		        finalList.add(mainDish);
+		        finalList.add(0, mainDish);
 
 		        // 从其他菜品列表中随机选择三道菜品，排除已选择的主菜并确保彼此不重复
 		        Set<Cook> selectedDishes = new HashSet<>();
@@ -84,6 +84,8 @@ public class CookingServiceImpl implements CookingService{
 
 		        return finalList; // 返回组合后的菜品列表
 		    }
+		}
+
 	}
-	}
+	
 	
