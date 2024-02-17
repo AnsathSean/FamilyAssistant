@@ -76,7 +76,7 @@ public class CookingServiceImpl implements CookingService{
 		        selectedDishes.add(mainDish);
 		        while (selectedDishes.size() < 4) {
 		            Cook randomDish = otherDishes.get(random.nextInt(otherDishes.size()));
-		            if (!selectedDishes.contains(randomDish)) {
+		            if (!selectedDishes.contains(randomDish)&& !randomDish.getType().equals("主菜")) {
 		                selectedDishes.add(randomDish);
 		                finalList.add(randomDish);
 		            }
