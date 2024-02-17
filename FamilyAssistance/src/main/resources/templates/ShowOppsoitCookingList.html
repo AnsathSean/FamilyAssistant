@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Cooking List</title>
+    <style>
+        /* 添加表格边框 */
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse; /* 避免双重边框 */
+        }
+
+        /* 将 "Cook Name" 下方的文字置中 */
+        td:nth-child(1) { /* 第三个 <td> 元素（即 "Cook Name"） */
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* 在手机上显示为八成满 */
+        @media only screen and (max-width: 768px) {
+            body {
+                width: 80%;
+                margin: auto; /* 居中显示 */
+                background-color: lightblue; /* 底色为天蓝色 */
+                padding: 20px; /* 添加一些内边距 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>修改資料</h1>
+    <table>
+        <tr>
+            <th>菜名</th>
+            <th>類型</th>
+            <th>日期</th>
+        </tr>
+        <!-- 这里保持不变 -->
+        <tr th:each="cook : ${cookingList}">
+            <td th:text="${cook.cookName}"></td>
+            <td th:text="${cook.type}"></td>
+            <td th:text="${#strings.substring(#dates.format(cook.cookDate, 'yyyy-MM-dd'), 0, 10)}"></td>
+        </tr>
+    </table>
+</body>
+</html>

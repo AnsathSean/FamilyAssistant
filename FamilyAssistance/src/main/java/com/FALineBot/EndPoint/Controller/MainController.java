@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.FALineBot.EndPoint.Dto.WishListParam;
+import com.FALineBot.EndPoint.Model.Cook;
 import com.FALineBot.EndPoint.Model.User;
 import com.FALineBot.EndPoint.Model.WishList;
+import com.FALineBot.EndPoint.Service.CookingService;
 import com.FALineBot.EndPoint.Service.ReplyMessageService;
 import com.FALineBot.EndPoint.Service.UserManagerService;
 import com.FALineBot.EndPoint.Service.WishListService;
@@ -35,7 +37,8 @@ public class MainController {
 	private ReplyMessageService replyMessageService;
 	@Autowired
 	private UserManagerService usermanagerService;
-
+    @Autowired
+    private CookingService cookingService;
 	
 	//設置驗證代碼
 	private String allValidationCode = "QWERASD123";
@@ -254,11 +257,44 @@ public class MainController {
 					 
 				 }
 				 if(Message.indexOf("顯示歷史菜餚")!=-1) {
-					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show")) {
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show") ) {
 						 replyMessageService.ReplyWebClickTemplate("顯示菜餚",token, "ShowCooking", wisher);
 						 return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
 					 }else {
 						 replyMessageService.ReplyTextMessage("無法顯示，請確認權限",token);
+					     return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 }
+					 
+				 }
+				 
+				 if(Message.indexOf("顯示對方的歷史菜餚")!=-1) {
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show")&& !user.getCombineID().isEmpty()) {
+						 replyMessageService.ReplyWebClickTemplate("顯示對方菜餚",token, "ShowOPCooking",user.getCombineID());
+						 return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
+					 }else {
+						 replyMessageService.ReplyTextMessage("無法顯示，請確認權限或綁定對方ID",token);
+					     return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 }
+					 
+				 }
+				 
+				 if(Message.indexOf("隨機菜餚")!=-1) {
+					 @SuppressWarnings("unused")
+					String messageA;
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show") ) {
+						 List<Cook> cookList = cookingService.getRandomCookList(wisher);
+				            if (cookList.isEmpty()) {
+				            	messageA = "数据不足，无法回应。";
+				            } else {
+				                StringBuilder stringBuilder = new StringBuilder();
+				                stringBuilder.append("随机菜品：\n");
+				                for (Cook cook : cookList) {
+				                    stringBuilder.append(cook.getCookName()).append("\n");
+				                }
+				                messageA = stringBuilder.toString();
+				            }
+					 }else {
+						 replyMessageService.ReplyTextMessage("無法顯示，請確認權限或綁定對方ID",token);
 					     return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 }
 					 
