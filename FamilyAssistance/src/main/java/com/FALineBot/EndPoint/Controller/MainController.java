@@ -303,6 +303,7 @@ public class MainController {
 					 
 				 }
 				 if(Message.indexOf("操作方法")!=-1) {
+					 String OperateMessage;
 					 StringBuilder stringBuilder = new StringBuilder();
 					 stringBuilder.append("新增願望方法：\n");
 					 stringBuilder.append("EX:新增願望 吹風機\n");
@@ -312,6 +313,9 @@ public class MainController {
 					 stringBuilder.append("EX:隨機菜餚\n");
 					 stringBuilder.append("後續功能更新中\n");
 					 stringBuilder.append("更新日期：2024/02/17\n");
+					 OperateMessage =stringBuilder.toString();
+					 replyMessageService.ReplyTextMessage(OperateMessage,token);
+				     return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
 				 //查看當前料理(最近紀錄的料理)
 				 //查看對方當前的料理
