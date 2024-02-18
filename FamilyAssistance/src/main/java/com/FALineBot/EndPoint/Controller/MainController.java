@@ -99,7 +99,7 @@ public class MainController {
 					}
 				 //如果之後回錯，然後都是這個
 				 if(user.getUserStep() != null && user.getUserStep().equals("Enroll-Step-01")) {
-					 if(Message.toString() == allValidationCode) {
+					 if(Message.toString().equals(allValidationCode)) {
 						 usermanagerService.updateUserInformation(wisher, "","Normal");
 						 replyMessageService.ReplyTextMessage("註冊成功",token);
 						 return new ResponseEntity<String>("OK", HttpStatus.OK);
