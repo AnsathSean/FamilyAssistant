@@ -86,7 +86,7 @@ public class MainController {
 				 //註冊系統功能
 				 User user = usermanagerService.getUserById(wisher);
 				 //如果一開始就輸入正確的代碼，直接更新成功
-				 if(Message.toString().equals(allValidationCode)) {
+				 if(Message.toString().equals(allValidationCode)&& !user.getUserStep().equals("Enroll-Step-01")) {
 					 usermanagerService.setUserInformation(wisher, "","Normal");
 					 replyMessageService.ReplyTextMessage("註冊成功",token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
