@@ -90,7 +90,7 @@ public class MainController {
 				 if (user == null ) {
 					 //如果一開始就輸入正確的代碼，直接更新成功
 					 if(Message.toString().equals(allValidationCode)) {
-						 usermanagerService.setUserInformation(wisher, "","Normal");
+						 usermanagerService.setUserInformation(wisher,"","Normal user");
 						 replyMessageService.ReplyTextMessage("註冊成功",token);
 						 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 }
