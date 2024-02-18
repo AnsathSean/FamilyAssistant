@@ -176,7 +176,8 @@ public class MainController {
 				 }
 				 //查詢願望清單功能
 				 if(Message.indexOf("查詢願望")!=-1) {
-					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_02_CheckOther") && !user.getCombineID().isEmpty()) {
+					 String combineID = user.getCombineID();
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_02_CheckOther") && combineID != null) {
 					 List<WishList> list = wishListService.findAllWishList();
 					 SelfWish = false;
 					 System.out.println("是否查自己的"+SelfWish);
@@ -193,6 +194,11 @@ public class MainController {
 					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_03_CheckMyself")) {
 					 List<WishList> list = wishListService.findAllWishList();
 					 SelfWish = true;
+				        if (list.isEmpty()) {
+				            // 例如发送一条消息告知用户愿望清单为空
+				            replyMessageService.ReplyTextMessage("您的願望清单為空，請新增願望，可從功能介紹選單查詢新增願望方法。", token);
+				            return new ResponseEntity<String>("OK", HttpStatus.OK);
+				        }
 					 System.out.println("是否查自己的"+SelfWish);
 					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
@@ -268,7 +274,8 @@ public class MainController {
 				 }
 				 
 				 if(Message.indexOf("顯示對方的歷史菜餚")!=-1) {
-					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show")&& !user.getCombineID().isEmpty()) {
+					 String combineID = user.getCombineID();
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show")&& combineID != null) {
 						 replyMessageService.ReplyWebClickTemplate("顯示對方菜餚",token, "ShowOPCooking",user.getCombineID());
 						 return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
 					 }else {
