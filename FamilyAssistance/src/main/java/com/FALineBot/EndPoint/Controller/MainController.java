@@ -182,9 +182,18 @@ public class MainController {
 					 String combineID = user.getCombineID();
 					 if(usermanagerService.checkUserPermission(user.getUUID(),"WishList_02_CheckOther") && combineID != null) {
 					 List<WishList> list = wishListService.findAllWishList();
+					 List<WishList> filteredList = new ArrayList<>();
+					 
+				     for (WishList wish : list) {
+				          // 检查每个 WishList 对象的 wisher 是否与 combineID 相匹配
+				          if (wish.getWisher() != null && wish.getWisher().equals(combineID)) {
+				              filteredList.add(wish);
+				          }
+		             }
+				        
 					 SelfWish = false;
 					 System.out.println("是否查自己的"+SelfWish);
-					 replyMessageService.ReplyFlexWishListMessage(list,token,SelfWish,wisher);
+					 replyMessageService.ReplyFlexWishListMessage(filteredList,token,SelfWish,wisher);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 }else {
 						 replyMessageService.ReplyTextMessage("無法查詢願望，請確認權限或綁定對象",token);
