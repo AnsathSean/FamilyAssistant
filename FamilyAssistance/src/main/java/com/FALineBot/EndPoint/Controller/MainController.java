@@ -44,7 +44,7 @@ public class MainController {
 	
 	//設置驗證代碼
 	private String allValidationCode = "QWERASD123";
-	
+	private String SetValidationCodeName = "設定驗證碼"; //呼叫設定驗證碼的關鍵自
 	//測試用，回傳Hello Java
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/test")
