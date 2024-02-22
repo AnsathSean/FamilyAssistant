@@ -21,7 +21,13 @@ public class CookingServiceImpl implements CookingService{
 	private CookingDao cookingDao;
 	
 	public void addCookList(List<Cook> cookList, String lineID) {
-		cookingDao.setCookingList(cookList, lineID);
+	    List<Cook> filteredCookList = new ArrayList<>();
+	    for (Cook cook : cookList) {
+	        if (!cook.getCookName().isEmpty()) {
+	            filteredCookList.add(cook);
+	        }
+	    }
+		cookingDao.setCookingList(filteredCookList, lineID);
 	}
 
 	@Override
