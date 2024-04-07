@@ -21,7 +21,13 @@ public class CookingServiceImpl implements CookingService{
 	private CookingDao cookingDao;
 	
 	public void addCookList(List<Cook> cookList, String lineID) {
-		cookingDao.setCookingList(cookList, lineID);
+	    List<Cook> filteredCookList = new ArrayList<>();
+	    for (Cook cook : cookList) {
+	        if (!cook.getCookName().isEmpty()) {
+	            filteredCookList.add(cook);
+	        }
+	    }
+		cookingDao.setCookingList(filteredCookList, lineID);
 	}
 
 	@Override
@@ -49,42 +55,62 @@ public class CookingServiceImpl implements CookingService{
 
 	@Override
 	public List<Cook> getRandomCookList(String lineID) {
-		    List<Cook> allCooks = cookingDao.getCookingList(lineID);
+	    List<Cook> allCooks = cookingDao.getCookingList(lineID);
 
-		    if (allCooks.size() <= 1) {
-		        return new ArrayList<>(); // 如果煮食列表少于或等于一项，返回空列表
-		    } else {
-		        List<Cook> mainDishes = new ArrayList<>();
-		        List<Cook> otherDishes = new ArrayList<>(allCooks); // 复制所有菜品列表以避免修改原始列表
-		        List<Cook> finalList = new ArrayList<>();
+	    if (allCooks.size() <= 1) {
+	        return new ArrayList<>(); // 如果煮食列表少于或等于一项，返回空列表
+	    } else {
+	        List<Cook> mainDishes = new ArrayList<>();
+	        List<Cook> otherDishes = new ArrayList<>(allCooks); // 复制所有菜品列表以避免修改原始列表
+	        List<Cook> finalList = new ArrayList<>();
 
-		        // 遍历所有煮食列表，将主菜和其他菜品分别添加到对应的列表中
-		        for (Cook cook : allCooks) {
-		            if ("主菜".equals(cook.getType())) {
-		                mainDishes.add(cook);
-		            }
-		        }
+	        // 遍历所有煮食列表，将主菜和其他菜品分别添加到对应的列表中
+	        for (Cook cook : allCooks) {
+	            if ("主菜".equals(cook.getType())) {
+	                mainDishes.add(cook);
+	            }
+	        }
 
-		        Random random = new Random();
+	        // 從otherDishes中移除主菜
+	        otherDishes.removeAll(mainDishes);
 
-		        // 从主菜列表中随机选择一道主菜并放在 finalList 的开头
-		        Cook mainDish = mainDishes.get(random.nextInt(mainDishes.size()));
-		        finalList.add(0, mainDish);
+	        Random random = new Random();
 
-		        // 从其他菜品列表中随机选择三道菜品，排除已选择的主菜并确保彼此不重复
-		        Set<Cook> selectedDishes = new HashSet<>();
-		        selectedDishes.add(mainDish);
-		        while (selectedDishes.size() < 4) {
-		            Cook randomDish = otherDishes.get(random.nextInt(otherDishes.size()));
-		            if (!selectedDishes.contains(randomDish)&& !randomDish.getType().equals("主菜")) {
-		                selectedDishes.add(randomDish);
-		                finalList.add(randomDish);
-		            }
-		        }
+	        // 从主菜列表中随机选择一道主菜并放在 finalList 的开头
+	        Cook mainDish = mainDishes.get(random.nextInt(mainDishes.size()));
+	        finalList.add(mainDish);
 
-		        return finalList; // 返回组合后的菜品列表
-		    }
-		}
+	        // 選取配菜
+	        List<Cook> sideDishes = new ArrayList<>();
+	        // 選取蔬菜
+	        List<Cook> vegetables = new ArrayList<>();
+	        for (Cook dish : otherDishes) {
+	            if ("配菜".equals(dish.getType())) {
+	                sideDishes.add(dish);
+	            } else if ("蔬菜".equals(dish.getType())) {
+	                vegetables.add(dish);
+	            }
+	        }
+
+	        // 随机选择两道配菜，确保彼此不重复
+	        Set<Cook> selectedSideDishes = new HashSet<>();
+	        while (selectedSideDishes.size() < 2 && !sideDishes.isEmpty()) {
+	            Cook randomSideDish = sideDishes.get(random.nextInt(sideDishes.size()));
+	            selectedSideDishes.add(randomSideDish);
+	            sideDishes.remove(randomSideDish);
+	        }
+
+	        finalList.addAll(selectedSideDishes);
+
+	        // 随机选择一道蔬菜
+	        if (!vegetables.isEmpty()) {
+	            Cook randomVegetable = vegetables.get(random.nextInt(vegetables.size()));
+	            finalList.add(randomVegetable);
+	        }
+
+	        return finalList; // 返回组合后的菜品列表
+	    }
+	}
 
 	}
 	
