@@ -28,11 +28,8 @@ public class CookingDaoImpl implements CookingDao{
 
 	@Override
 	public List<Cook> getCookingList(String lineID) {
-<<<<<<< HEAD
         String sql = "SELECT * FROM CookingList WHERE LineID = ? ORDER BY CookDate DESC";
-=======
-        String sql = "SELECT * FROM CookingList WHERE LineID = ? ORDER BY CreateTime DESC";
->>>>>>> refs/remotes/origin/master
+
         @SuppressWarnings("deprecation")
 		List<Cook> cookingList = jdbcTemplate.query(sql, new Object[]{lineID}, new BeanPropertyRowMapper<>(Cook.class));
         //System.out.println("我執行了這個東西，目前的cookList為："+cookingList.size());
