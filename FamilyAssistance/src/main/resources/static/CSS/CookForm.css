@@ -40,6 +40,6 @@ body {
     margin: auto; /* 居中显示 */
     background-color: var(--primary-color); /* 底色为天蓝色 */
     padding: 20px; /* 添加一些内边距 */
-    font-size: 3.5rem;
+    font-size: 5rem;
 }
 }
