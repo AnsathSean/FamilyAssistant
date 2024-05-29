@@ -10,6 +10,7 @@
 
 body {
     display: flex;
+    font-size: clamp(1.4rem, 3vw, 1.6rem);
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -38,5 +39,6 @@ body {
     margin: auto; /* 居中显示 */
     background-color: var(--primary-color); /* 底色为天蓝色 */
     padding: 20px; /* 添加一些内边距 */
+    font-size: clamp(1.4rem, 3vw, 1.6rem);
 }
 }
