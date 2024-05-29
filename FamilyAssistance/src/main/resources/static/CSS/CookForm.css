@@ -3,6 +3,7 @@
 :root{
 	--primary-color:lightblue;
 	--secondary-color:#fff;
+	--primary-fontsize:clamp(2rem, 3vw, 2.6rem);
 }
 *{
 	box-sizing:border-box;
@@ -15,6 +16,7 @@ body {
     justify-content: center;
     background-color: var(--primary-color);
     margin: auto;
+    font-size: clamp(2rem, 3vw, 2.6rem);
 }
 
 /* 添加表格边框 */
@@ -38,6 +40,6 @@ body {
     margin: auto; /* 居中显示 */
     background-color: var(--primary-color); /* 底色为天蓝色 */
     padding: 20px; /* 添加一些内边距 */
-    font-size: clamp(2rem, 3vw, 2.6rem);
+    font-size: 2rem;
 }
 }
