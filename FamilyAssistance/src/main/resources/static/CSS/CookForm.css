@@ -10,7 +10,7 @@
 
 body {
     display: flex;
-    font-size: clamp(1.4rem, 3vw, 1.6rem);
+    font-size: clamp(2rem, 3vw, 3rem);
     flex-direction: column;
     align-items: center;
     justify-content: center;
