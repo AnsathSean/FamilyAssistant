@@ -62,7 +62,7 @@ public class WebController {
 	
 	@GetMapping("/ShowCooking/{wisher}")
     public String ShowCooking(@PathVariable String wisher,Model model) {
-		System.out.println("wisher: "+wisher);
+		//System.out.println("wisher: "+wisher);
         List<Cook> cookingList = cookingService.getCookingList(wisher);
 
         model.addAttribute("cookingList", cookingList);

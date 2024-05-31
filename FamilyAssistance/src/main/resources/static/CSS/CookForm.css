@@ -1,48 +1,65 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Muli&display=swap');
 
 :root{
-	--primary-color:lightblue;
-	--secondary-color:#fff;
-	--primary-fontsize:clamp(2rem, 3vw, 2.6rem);
+    --primary-size: 3.8rem;
+    --secondart-size:2.8rem;
+    --primary-color:#e7767f;
+    --secondary-color:#fdf2f7;
+    --third-color:#c14052;
 }
+
 *{
 	box-sizing:border-box;
 }
 
 body {
+	background-color:var(--primary-color);
+    font-family: "Muli", sans-serif;
+    display:flex;
+    flex-direction: column;
+	justify-content: center;
+	align-items:center;
+    width: 100%;
+}
+
+.Year-container{
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background-color: var(--primary-color);
-    margin: auto;
-}
-
-h1{
-	font-size: 3.5rem;
-}
-
-/* 添加表格边框 */
-table, th, td {
-     border: 0px solid black;
-     border-collapse: collapse; /* 避免双重边框 */
-     padding: 2px 5px;
-     font-size: 2.8rem;
- }
-
-/* 将 "Cook Name" 下方的文字置中 */
-td:nth-child(1) { /* 第三个 <td> 元素（即 "Cook Name"） */
+	align-items:center;
     text-align: center;
-    vertical-align: middle;
 }
 
-/* 在手机上显示为八成满 */
-@media only screen and (max-width: 768px) {
-	
-body {
-    width: 90%;
-    margin: auto; /* 居中显示 */
-    background-color: var(--primary-color); /* 底色为天蓝色 */
-    padding: 20px; /* 添加一些内边距 */
+.Year-container table{
+    background-color: var(--secondary-color);
+    padding:10px 20px;
+    border-radius: 30px;
+    margin:auto;
+    width: 100%;
+    
 }
+
+.hidden{
+	display: none;
+}
+
+.btn{
+    border: 0;
+    border-radius: 20px;
+    margin:0 10px;
+    background-color: var(--third-color);
+    color:#fff;
+}
+
+.cookInfo{
+    margin: 1rem 1rem;
+    padding:10px 20px;
+
+    border-radius: 50px;
+    width: 100%;
+
+}
+
+.cookInfo a{
+    margin-left: 0.5rem;
 }
