@@ -6,6 +6,7 @@
     --primary-color:#e7767f;
     --secondary-color:#fdf2f7;
     --third-color:#c14052;
+    --primary-fontsize:clamp(2rem, 3vw, 2.6rem);
 }
 
 *{
