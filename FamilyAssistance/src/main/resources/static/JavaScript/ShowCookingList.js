@@ -72,6 +72,7 @@ async function getCookingList(){
     //=================
     for (const [date, cooks] of Object.entries(dateMap)){
         // 創建 <div> 元素
+        let isCreate = false
         var cookInfoDiv = document.createElement('div');
         cookInfoDiv.classList.add('cookInfo');
         cookInfoDiv.id = 'cookInfo';
@@ -90,7 +91,6 @@ async function getCookingList(){
         updateBtn.addEventListener('click', redirectUpdateToRatePage);
   
         //創建表格
-        // 創建表格
         const table = document.createElement('table');
         table.id = 'cooktable';
 
@@ -101,10 +101,11 @@ async function getCookingList(){
         if(title.includes("Me")){
 			 headers = ['', '',''];
 		}else{
-			 headers = ['', ''];
+			 headers = ['','', ''];
 		}
 
         headers.forEach(headerText => {
+	    
         const th = document.createElement('th');
         th.textContent = headerText;
         headerRow.appendChild(th);
@@ -120,6 +121,19 @@ async function getCookingList(){
         cooks.forEach(cook => {
         const row = document.createElement('tr');
 
+        // 如果 title 不包含 "Me"，则添加跨列的图片单元格
+        if (!title.includes("Me") && isCreate==false) {
+        const imgCell = document.createElement('td');
+        imgCell.rowSpan = cooks.length; // 设置跨越的行数为 cooks 的长度
+        const img = document.createElement('img');
+        img.classList.add('img');
+        img.src = '../CookPic/NoPic.png'; // 设置图片的 URL
+        img.alt = 'Image';
+        imgCell.appendChild(img);
+        row.appendChild(imgCell);
+        isCreate = true;
+        }
+
         // 菜名
         const nameCell = document.createElement('td');
         nameCell.textContent = cook.cookName;
@@ -130,7 +144,7 @@ async function getCookingList(){
         typeCell.textContent = cook.type;
         row.appendChild(typeCell);
         
-        //修改
+        //修改按鈕
         if(title.includes("Me")){
 	       const modifyCell = document.createElement('td');
 	       const modifyBtn = document.createElement('button');
