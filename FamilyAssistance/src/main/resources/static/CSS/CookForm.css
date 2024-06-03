@@ -13,6 +13,10 @@
 	box-sizing:border-box;
 }
 
+h2{
+	font-size: var(--primary-size);
+}
+
 body {
 	background-color:var(--primary-color);
     font-family: "Muli", sans-serif;
@@ -52,6 +56,13 @@ body {
     color:#fff;
     transition: transform 0.3s ease; /* 添加過渡效果 */
 }
+
+table, th, td {
+     border: 0px solid black;
+     border-collapse: collapse; /* 避免双重边框 */
+     padding: 2px 5px;
+     font-size: var(--secondart-size);
+ }
 
 .btn:active{
 	transform: scale(0.6); /* 点击时缩小为原来的 0.6 倍 */
