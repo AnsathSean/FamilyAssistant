@@ -2,7 +2,7 @@
 
 :root{
     --primary-size: 3.8rem;
-    --secondart-size:2.8rem;
+    --secondary-size:2.8rem;
     --primary-color:#e7767f;
     --secondary-color:#fdf2f7;
     --third-color:#c14052;
@@ -33,6 +33,7 @@ body {
     justify-content: center;
 	align-items:center;
     text-align: center;
+    font-size: var(--secondary-size);
 }
 
 .Year-container table{
@@ -54,6 +55,7 @@ body {
     margin:0 10px;
     background-color: var(--third-color);
     color:#fff;
+    font-size: var(--secondary-size);
     transition: transform 0.3s ease; /* 添加過渡效果 */
 }
 
@@ -61,7 +63,7 @@ table, th, td {
      border: 0px solid black;
      border-collapse: collapse; /* 避免双重边框 */
      padding: 2px 5px;
-     font-size: var(--secondart-size);
+     font-size: var(--secondary-size);
  }
 
 .btn:active{
