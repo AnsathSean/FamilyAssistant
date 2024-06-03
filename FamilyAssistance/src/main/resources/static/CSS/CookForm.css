@@ -50,6 +50,11 @@ body {
     margin:0 10px;
     background-color: var(--third-color);
     color:#fff;
+    transition: transform 0.3s ease; /* 添加過渡效果 */
+}
+
+.btn:active{
+	transform: scale(0.6); /* 点击时缩小为原来的 0.6 倍 */
 }
 
 .cookInfo{

@@ -62,22 +62,19 @@ public class WebController {
 	
 	@GetMapping("/ShowCooking/{wisher}")
     public String ShowCooking(@PathVariable String wisher,Model model) {
-		//System.out.println("wisher: "+wisher);
-        List<Cook> cookingList = cookingService.getCookingList(wisher);
-
-        model.addAttribute("cookingList", cookingList);
+        String title = "Me";
         model.addAttribute("wisher", wisher);
+        model.addAttribute("title",title);
         return "ShowCookingList"; // 返回HTML模板的名稱
     }
 	
 	@GetMapping("/ShowOPCooking/{wisher}")
     public String ShowOPCooking(@PathVariable String wisher,Model model) {
 		System.out.println("wisher: "+wisher);
-        List<Cook> cookingList = cookingService.getCookingList(wisher);
-
-        model.addAttribute("cookingList", cookingList);
+        String title = "OP";
         model.addAttribute("wisher", wisher);
-        return "ShowOppsoitCookingList"; // 返回HTML模板的名稱
+        model.addAttribute("title",title);
+        return "ShowCookingList"; // 返回HTML模板的名稱
     }
 	
 	@PostMapping("/updateCook/{cookID}")
@@ -151,8 +148,6 @@ public class WebController {
 		Cook cook =cookingService.getCookByUUID(UUID);
 		//System.out.println("讀出來的Cook名稱:"+cook.getCookName());
 	    Cook cooks = new Cook();
-	    //List<Cook> cooks = new ArrayList<>(); // 創建一個空的 Cook 列表，用於存放從表單提交的資料
-	    // 將 Cook 對象添加到模型中，名稱為 "cook"
 	    model.addAttribute("cook", cooks);
 		model.addAttribute("items", cook);
 		return "ModifyCook";
