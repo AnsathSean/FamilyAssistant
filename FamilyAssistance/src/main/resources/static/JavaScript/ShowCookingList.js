@@ -66,7 +66,7 @@ async function getCookingList(){
         dateMap[formattedDate].push(cook);
     });
     
-    console.log(dateMap)
+    //console.log(dateMap)
     //=================
     //第二層資料
     //=================
@@ -78,17 +78,19 @@ async function getCookingList(){
         cookInfoDiv.id = 'cookInfo';
         cookInfoDiv.innerText = date;
   
+        //修改資料
+        let RateDate = year+date.replace(/\//g, "").replace(/\(|\)/g, "").substring(0, 4);
         // 創建評分button
         var rateBtn = document.createElement('button');
         rateBtn.innerText = "評分";
         rateBtn.classList.add('btn');
-        rateBtn.addEventListener('click', redirectToRatePage);
+        rateBtn.addEventListener('click', ()=>redirectToRatePage(RateDate,wisher));
   
         // 創建上傳圖片btn
         var updateBtn = document.createElement('button');
         updateBtn.innerText = "上傳圖片";
         updateBtn.classList.add('btn');
-        updateBtn.addEventListener('click', redirectUpdateToRatePage);
+        updateBtn.addEventListener('click', ()=>redirectUpdateToRatePage);
   
         //創建表格
         const table = document.createElement('table');
@@ -163,7 +165,11 @@ async function getCookingList(){
         table.appendChild(tableBody);
   
         // 將 <h2> 、rateBtn 添加到 cookInfoDiv
+        if(title.includes("Me")){
+		    //如果是我的葉面就不能評分
+		}else{
         cookInfoDiv.appendChild(rateBtn);
+        }
         cookInfoDiv.appendChild(updateBtn);
         yearContainer.appendChild(cookInfoDiv);
         yearContainer.appendChild(table);
@@ -178,14 +184,14 @@ async function getCookingList(){
 }
 
 
-function redirectToRatePage(){
-	 window.location.href = "#";
+function redirectToRatePage(date,wisher){
+	 window.location.href = rootURL+"/RatingCook/"+wisher+"/"+date;
 }
 
 function redirectUpdateToRatePage(){
 	window.location.href = "#";
 }
 
-function redirectmodifyCookList(id,wihser){
+function redirectmodifyCookList(id,wisher){
 	window.location.href = rootURL+"/CookModify/"+id+"/"+wisher;
 }

@@ -77,6 +77,17 @@ public class WebController {
         return "ShowCookingList"; // 返回HTML模板的名稱
     }
 	
+	@GetMapping("/RatingCook/{wisher}/{dateString}")
+    public String RatingCook(@PathVariable String wisher,@PathVariable String dateString,Model model) {
+		System.out.println("wisher: "+wisher);
+        String title = "OP";
+        model.addAttribute("wisher", wisher);
+        model.addAttribute("dateString",dateString);
+        model.addAttribute("title",title);
+        return "CookRating"; // 返回HTML模板的名稱
+    }
+	
+	
 	@PostMapping("/updateCook/{cookID}")
 	public String updateCook(@PathVariable String cookID, @RequestParam(name = "CookName", required = false, defaultValue = "") String CookName,
             @RequestParam(name = "CookDate", required = false, defaultValue = "1990/12/14") Date cookDate,

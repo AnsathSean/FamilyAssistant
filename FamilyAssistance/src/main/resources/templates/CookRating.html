@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/CSS/CookForm.css">
 <title>Rating Meal</title>
 </head>
 <body>
+	<div class="hidden" id="wisher">[[${wisher}]]</div>
+    <div class="hidden" id="title">[[${title}]]</div>
+    <div class="hidden" id="dateString">[[${dateString}]]</div>
+    <h1>便當評分</h1>
+    <div class="main" id="main"></div>
 
+
+<script type="text/javascript" src="/JavaScript/CookRating.js" th:inline="javascript"></script>
 </body>
 </html>
