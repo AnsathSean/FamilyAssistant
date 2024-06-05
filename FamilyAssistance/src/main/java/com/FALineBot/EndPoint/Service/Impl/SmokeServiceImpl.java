@@ -2,6 +2,7 @@ package com.FALineBot.EndPoint.Service.Impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,7 @@ public class SmokeServiceImpl implements SmokeService{
         } else {
             long remainingMinutes = 120 - diffInMinutes;
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Taipei"));
             String formattedLastSmokeTime = sdf.format(lastSmokeTime);
             replyMessageDao.ReplyTextMessage("上次抽烟时间：" + formattedLastSmokeTime + "，剩餘" + remainingMinutes + "分鐘", token);
             //System.out.println("上次抽烟时间：" + formattedLastSmokeTime + "，剩餘" + remainingMinutes + "分鐘");
