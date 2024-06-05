@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Muli&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..900&display=swap');
 
 :root{
     --primary-size: 3.8rem;
@@ -19,7 +19,7 @@ h2{
 
 body {
 	background-color:var(--primary-color);
-    font-family: "Muli", sans-serif;
+    font-family: "Noto Serif TC", serif;
     display:flex;
     flex-direction: column;
 	justify-content: center;
@@ -107,8 +107,8 @@ table, th, td {
 }
 
 .rating-container textarea{
-	width:80vw;
-	height:40vh;
+	width:60vw;
+	height:30vh;
 	
 }
 
@@ -132,3 +132,15 @@ table, th, td {
 	margin:0 10px;
 }
 
+.rating-container P{
+	font-size: var(--secondary-size);
+	margin:0 10px;
+}
+
+.rating-row{
+	font-size: var(--secondary-size);
+}
+
+.dishRating{
+	font-size: var(--secondary-size);
+}
