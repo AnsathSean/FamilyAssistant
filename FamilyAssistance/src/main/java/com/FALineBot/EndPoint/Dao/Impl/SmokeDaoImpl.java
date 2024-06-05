@@ -22,12 +22,12 @@ public class SmokeDaoImpl implements SmokeDao{
         LocalDateTime now = LocalDateTime.now();
 
         // 将时间调整为 UTC+8 时区
-        LocalDateTime adjustedTime = now.atZone(ZoneId.systemDefault())
-                                       .withZoneSameInstant(ZoneId.of("UTC+8"))
-                                       .toLocalDateTime();
+        //LocalDateTime adjustedTime = now.atZone(ZoneId.systemDefault())
+        //                               .withZoneSameInstant(ZoneId.of("UTC+8"))
+         //                              .toLocalDateTime();
 
         // 转换为 Timestamp 类型
-        Timestamp timestamp = Timestamp.valueOf(adjustedTime);
+        Timestamp timestamp = Timestamp.valueOf(now);
 
         // 插入数据库
         jdbcTemplate.update("INSERT INTO smoke (CreateTime) VALUES (?)", timestamp);
