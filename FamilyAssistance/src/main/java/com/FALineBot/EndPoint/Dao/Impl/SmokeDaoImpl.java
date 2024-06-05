@@ -1,6 +1,8 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,19 @@ public class SmokeDaoImpl implements SmokeDao{
 	
 	@Override
 	public void RecordSmokeTime() {
-		jdbcTemplate.update("INSERT INTO smoke (CreateTime) VALUES (CONVERT_TZ(NOW(), 'UTC', '+8:00'))");
+        // 创建当前时间对象
+        LocalDateTime now = LocalDateTime.now();
+
+        // 将时间调整为 UTC+8 时区
+        LocalDateTime adjustedTime = now.atZone(ZoneId.systemDefault())
+                                       .withZoneSameInstant(ZoneId.of("UTC+8"))
+                                       .toLocalDateTime();
+
+        // 转换为 Timestamp 类型
+        Timestamp timestamp = Timestamp.valueOf(adjustedTime);
+
+        // 插入数据库
+        jdbcTemplate.update("INSERT INTO smoke (CreateTime) VALUES (?)", timestamp);
 	}
 
 	@Override
