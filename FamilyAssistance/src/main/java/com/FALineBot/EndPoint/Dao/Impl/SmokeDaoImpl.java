@@ -16,7 +16,7 @@ public class SmokeDaoImpl implements SmokeDao{
 	
 	@Override
 	public void RecordSmokeTime() {
-		jdbcTemplate.update("INSERT INTO smoke (CreateTime) VALUES (NOW())");
+		jdbcTemplate.update("INSERT INTO smoke (CreateTime) VALUES (CONVERT_TZ(NOW(), 'UTC', '+8:00'))");
 	}
 
 	@Override
