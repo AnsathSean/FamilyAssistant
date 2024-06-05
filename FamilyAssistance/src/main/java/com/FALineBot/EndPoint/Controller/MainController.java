@@ -21,6 +21,7 @@ import com.FALineBot.EndPoint.Model.User;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.CookingService;
 import com.FALineBot.EndPoint.Service.ReplyMessageService;
+import com.FALineBot.EndPoint.Service.SmokeService;
 import com.FALineBot.EndPoint.Service.UserManagerService;
 import com.FALineBot.EndPoint.Service.WishListService;
 import java.util.ArrayList;
@@ -41,6 +42,8 @@ public class MainController {
 	private UserManagerService usermanagerService;
     @Autowired
     private CookingService cookingService;
+    @Autowired
+    private SmokeService smokeService;
 	
 	//設置驗證代碼
 	private String allValidationCode = "QWERASD123";
@@ -261,6 +264,17 @@ public class MainController {
 						 replyMessageService.ReplyTextMessage("無法刪除願望，請確認權限",token);
 					     return new ResponseEntity<String>("OK", HttpStatus.OK);
 					 }
+				 }
+				 //=========
+				 //處理抽菸紀錄功能
+				 //========
+				 if(Message.indexOf("抽菸")!=-1 && wisher=="U7a3d0a754eb02a8c7786e4ffd1f33b8b") {
+					 smokeService.RecordSmokeTime(token);
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
+				 }
+				 if(Message.indexOf("抽菸時間")!=-1 && wisher=="U7a3d0a754eb02a8c7786e4ffd1f33b8b") {
+					 smokeService.ReplySmokeTime(token);
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
 				 //=========
 				 //處理食譜功能
