@@ -272,10 +272,15 @@ public class MainController {
 					 smokeService.RecordSmokeTime(token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
-				 if(Message.indexOf("抽菸時間")!=-1) {
+				 if(Message.indexOf("剩餘時間")!=-1) {
 					 smokeService.ReplySmokeTime(token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
+				 if(Message.indexOf("我的LineID")!=-1) {
+					 replyMessageService.ReplyTextMessage("Line ID: "+wisher,token);
+					 return new ResponseEntity<String>("OK", HttpStatus.OK);
+				 }
+				 
 				 //=========
 				 //處理食譜功能
 				 //========
