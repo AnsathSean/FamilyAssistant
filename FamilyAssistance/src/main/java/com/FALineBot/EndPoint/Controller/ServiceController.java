@@ -21,12 +21,20 @@ public class ServiceController {
 	@Autowired
 	private CookingService cookingService;
 	
-	@Autowired
-	private SmokeService smokeservice;
+	//@Autowired
+	//private SmokeService smokeservice;
 	
 	@GetMapping("/ShowCookingList/{wisher}")
     public List<Cook> ShowCookingList(@PathVariable String wisher,Model model) {
 		System.out.println("wisher: "+wisher);
+        List<Cook> cookingList = cookingService.getCookingList(wisher);
+
+        return cookingList; // 返回HTML模板的名稱
+    }
+	
+	@GetMapping("/BentoInfo/{wisher}/{dateString}")
+    public List<Cook> ShowCookingList(@PathVariable String wisher,@PathVariable String dateString,Model model) {
+		//System.out.println("wisher: "+wisher);
         List<Cook> cookingList = cookingService.getCookingList(wisher);
 
         return cookingList; // 返回HTML模板的名稱

@@ -104,6 +104,7 @@ table, th, td {
 	align-items:center;
     text-align: center;
     justify-content: center;
+    margin: 10px 20px;
 }
 
 .rating-container textarea{
@@ -139,6 +140,7 @@ table, th, td {
 
 .rating-row{
 	font-size: var(--secondary-size);
+	margin:10px 20px;
 }
 
 .dishRating{
