@@ -268,11 +268,11 @@ public class MainController {
 				 //=========
 				 //處理抽菸紀錄功能
 				 //========
-				 if(Message.indexOf("抽菸")!=-1 && wisher=="U7a3d0a754eb02a8c7786e4ffd1f33b8b") {
+				 if(Message.indexOf("抽菸")!=-1) {
 					 smokeService.RecordSmokeTime(token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
-				 if(Message.indexOf("抽菸時間")!=-1 && wisher=="U7a3d0a754eb02a8c7786e4ffd1f33b8b") {
+				 if(Message.indexOf("抽菸時間")!=-1) {
 					 smokeService.ReplySmokeTime(token);
 					 return new ResponseEntity<String>("OK", HttpStatus.OK);
 				 }
