@@ -34,7 +34,7 @@ public class SmokeServiceImpl implements SmokeService{
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             sdf.setTimeZone(TimeZone.getTimeZone("Asia/Taipei"));
             String formattedLastSmokeTime = sdf.format(lastSmokeTime);
-            replyMessageDao.ReplyTextMessage("上次抽烟时间：" + formattedLastSmokeTime + "，剩餘" + remainingMinutes + "分鐘", token);
+            replyMessageDao.ReplyTextMessage("上次抽烟时间：" + formattedLastSmokeTime + "\n剩餘" + remainingMinutes + "分鐘", token);
             //System.out.println("上次抽烟时间：" + formattedLastSmokeTime + "，剩餘" + remainingMinutes + "分鐘");
         }
     }
