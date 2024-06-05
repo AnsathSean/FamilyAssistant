@@ -35,10 +35,8 @@ public class SmokeDaoImpl implements SmokeDao{
 
 	@Override
 	public Date GetLastSmokeTime() {
-        Timestamp lastSmokeTime = jdbcTemplate.queryForObject(
-                "SELECT CreateTime FROM smoke ORDER BY CreateTime DESC LIMIT 1",
-                Timestamp.class
-        );
-        return new Date(lastSmokeTime.getTime());
+	    String query = "SELECT CreateTime FROM smoke ORDER BY UUID DESC LIMIT 1";
+	    Timestamp lastSmokeTime = jdbcTemplate.queryForObject(query, Timestamp.class);
+	    return new Date(lastSmokeTime.getTime());
 	}
 }
