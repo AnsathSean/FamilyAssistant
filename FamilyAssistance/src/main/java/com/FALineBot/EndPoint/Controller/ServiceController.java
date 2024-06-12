@@ -3,6 +3,8 @@ package com.FALineBot.EndPoint.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,12 +36,19 @@ public class ServiceController {
     }
 	
 	@GetMapping("/BentoInfo/{wisher}/{dateString}")
-    public Bento ShowBentoInfo(@PathVariable String wisher,@PathVariable String dateString,Model model) {
-		//System.out.println("wisher: "+wisher);
-        Bento bento = cookingService.getBentoInfo(dateString,wisher);
-
-        return bento; // 返回HTML模板的名稱
-    }
+	public ResponseEntity<?> ShowBentoInfo(@PathVariable String wisher, @PathVariable String dateString, Model model) {
+	    try {
+	        Bento bento = cookingService.getBentoInfo(dateString, wisher);
+	        if (bento == null) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Bento found for the provided wisher and dateString.");
+	        }
+	        return ResponseEntity.ok(bento);
+	    } catch (Exception e) {
+	        // Log the error
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the request: " + e.getMessage());
+	    }
+	}
 	
 	
 	
