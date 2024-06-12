@@ -3,11 +3,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.FALineBot.EndPoint.Dao.CookingDao;
+import com.FALineBot.EndPoint.Model.Bento;
 import com.FALineBot.EndPoint.Model.Cook;
 
 @Component
@@ -83,4 +85,45 @@ public class CookingDaoImpl implements CookingDao{
 	    jdbcTemplate.update(sql, UUID);
 		
 	}
+	
+	public List<Cook> getCooks(String wisher,String dateString){
+        String sql = "SELECT * FROM CookingList WHERE LineID = ? AND CookDate = ? ORDER BY UUID DESC";
+
+        @SuppressWarnings("deprecation")
+		List<Cook> cookingList = jdbcTemplate.query(sql, new Object[]{wisher,dateString}, new BeanPropertyRowMapper<>(Cook.class));
+        //System.out.println("我執行了這個東西，目前的cookList為："+cookingList.size());
+        return cookingList;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public Bento getBento(String wisher, String dateString) {
+
+	   	    
+	    String sql = "SELECT * FROM Bento WHERE LineID = ? AND Date = ?";
+
+	    try {
+	        return jdbcTemplate.queryForObject(sql, new Object[]{wisher, dateString}, (rs, rowNum) -> {
+	            Bento bento = new Bento();
+	            bento.setBentoID(rs.getString("UUID")); 
+	            bento.setComment(rs.getString("Comment"));
+	            bento.setBentoRate(rs.getInt("Rate"));
+	            // 將 HashMap 的資料讀取並設置到 Bento 對象中
+	            
+	    	    // 首先從 getCookingList 方法中獲取所有的 Cook 對象
+	    	    List<Cook> cookingList = getCooks(wisher,dateString);
+	    	    bento.setWisher(wisher);
+	    	    bento.setDateString(dateString);
+	            bento.setCooks(cookingList);
+	            // 設置wishser和dateString
+	            bento.setWisher(wisher);
+	            bento.setDateString(dateString);
+	            return bento;
+	        });
+	    } catch (EmptyResultDataAccessException e) {
+	        return null; // 如果找不到記錄，返回 null
+	    }
+	    
+	}
+
 }

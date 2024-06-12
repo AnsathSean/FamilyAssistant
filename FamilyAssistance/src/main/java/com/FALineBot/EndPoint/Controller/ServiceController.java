@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.FALineBot.EndPoint.Model.Bento;
 import com.FALineBot.EndPoint.Model.Cook;
 import com.FALineBot.EndPoint.Service.CookingService;
 import com.FALineBot.EndPoint.Service.SmokeService;
@@ -33,12 +34,14 @@ public class ServiceController {
     }
 	
 	@GetMapping("/BentoInfo/{wisher}/{dateString}")
-    public List<Cook> ShowCookingList(@PathVariable String wisher,@PathVariable String dateString,Model model) {
+    public Bento ShowBentoInfo(@PathVariable String wisher,@PathVariable String dateString,Model model) {
 		//System.out.println("wisher: "+wisher);
-        List<Cook> cookingList = cookingService.getCookingList(wisher);
+        Bento bento = cookingService.getBentoInfo(dateString,wisher);
 
-        return cookingList; // 返回HTML模板的名稱
+        return bento; // 返回HTML模板的名稱
     }
+	
+	
 	
 	//@GetMapping("/RecordSmoke")
 	//public void RecordSmoke() {

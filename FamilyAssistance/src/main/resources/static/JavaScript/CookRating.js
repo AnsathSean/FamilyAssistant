@@ -4,13 +4,89 @@ var currentURL = window.location.href;
 var rootURL = currentURL.split('/').slice(0, 3).join('/');
 var wisher = document.getElementById('wisher').innerHTML
 var title = document.getElementById('title').innerHTML
-var dateStrgin = document.getElementById('dateString').innerHTML
-var targetURL = rootURL+"/service/ShowCookingList/"+wisher
+var dateString = document.getElementById('dateString').innerHTML
+var targetURL = rootURL+"/service/BentoInfo/"+wisher+"/"+dateString
 
 const mealStar = document.querySelector('.mealRating').children
 const dishRatingContainers = document.querySelectorAll('.dishRating');
 let mealRate = 3
 let dishNum = 0;
+
+
+
+
+ document.addEventListener("DOMContentLoaded", async function() {
+	       const res = await fetch(targetURL) 
+           const data = await res.json()
+            // Convert dateString to desired format and set to header
+            const dateString = data.dateString;
+            const year = dateString.slice(0, 4);
+            const month = dateString.slice(4, 6);
+            const day = dateString.slice(6, 8);
+            const formattedDate = `${year}年${month}月${day}日 (${new Date(year, month - 1, day).toLocaleDateString('zh-TW', { weekday: 'short' })})`;
+            document.getElementById('cookDate').innerText = formattedDate;
+
+            // Set bento rate stars
+            const bentoRateContainer = document.getElementById('bentoRate');
+            setRatingStars(bentoRateContainer, data.bentoRate);
+            addRatingFunctionality(bentoRateContainer, 1);
+
+
+        // Sort cooks based on type and cookName
+        const sortedCooks = data.cooks.sort((a, b) => {
+            if (a.type === "主菜") return -1;
+            if (b.type === "主菜") return 1;
+            if (a.cookName.includes("蛋") && a.type === "配菜") return 1;
+            if (b.cookName.includes("蛋") && b.type === "配菜") return -1;
+            if (a.type === "蔬菜") return 1;
+            if (b.type === "蔬菜") return -1;
+            return 0;
+        });
+
+    // Add each meal to the cooking list
+    const cookingListContainer = document.getElementById('cookingList');
+    sortedCooks.forEach((cook, index) => {
+        const mealDiv = document.createElement('div');
+        mealDiv.classList.add('meal');
+        mealDiv.innerHTML = `
+            <p>${cook.cookName}</p>
+            <div class="dishRating" id="dishRating-${index}"></div>
+        `;
+        cookingListContainer.appendChild(mealDiv);
+        const dishRatingContainer = document.getElementById(`dishRating-${index}`);
+        setRatingStars(dishRatingContainer, cook.rate);
+        addRatingFunctionality(dishRatingContainer, index);
+    });
+});
+
+function setRatingStars(container, rate) {
+    const fullStar = '<i class="fas fa-star"></i>';
+    const emptyStar = '<i class="far fa-star"></i>';
+    const rating = rate !== null ? rate : 0;
+    for (let i = 0; i < 5; i++) {
+        container.innerHTML += (i < rating) ? fullStar : emptyStar;
+    }
+}
+
+function addRatingFunctionality(container, idx) {
+        const stars = container.children;
+        for (let i = 0; i < stars.length; i++) {
+            stars[i].addEventListener('click', function() {
+                const rating = i + 1;
+                for (let j = 0; j < stars.length; j++) {
+                    stars[j].classList.remove("fas");
+                    stars[j].classList.add("far");
+                }
+                for (let j = 0; j <= i; j++) {
+                    stars[j].classList.remove("far");
+                    stars[j].classList.add("fas");
+                }
+                console.log(`第 ${idx + 1}道菜，Dish rating: ${rating}`);
+            });
+        }
+}
+
+
 
 for(let i=0;i< mealStar.length ;i++){
 	mealStar[i].addEventListener('click',function(){
@@ -24,7 +100,7 @@ for(let i=0;i< mealStar.length ;i++){
             mealStar[j].classList.add("fas") //添加新的星星 如果i=j表示選中的
 		}
 		
-		console.log(`meal rating: ${mealRating}`);
+		//console.log(`meal rating: ${mealRating}`);
 	})
 }
 

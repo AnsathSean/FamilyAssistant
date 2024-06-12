@@ -19,6 +19,7 @@ public class Cook {
     private String cookName;
     private Date createTime;
     private Date updateTime;
+    private Integer Rate;
 
     // Getters and Setters
     public String getLineID() {
@@ -84,4 +85,13 @@ public class Cook {
 	public void setUUID(String uUID) {
 		UUID = uUID;
 	}
+
+	public Integer getRate() {
+		return Rate;
+	}
+
+	public void setRate(Integer rate) {
+		Rate = rate;
+	}
+
 }

@@ -123,10 +123,11 @@ table, th, td {
 .cookingList-container .meal{
 	display: flex;
 	flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
 	align-items:center;
     text-align: center;
 }
+
 
 .cookingList-container P{
 	font-size: var(--secondary-size);

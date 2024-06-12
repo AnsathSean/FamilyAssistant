@@ -13,58 +13,19 @@
     <div class="hidden" id="title">[[${title}]]</div>
     <div class="hidden" id="dateString">[[${dateString}]]</div>
     <h1>便當評分</h1>
-    <div class="main" id="main">
-		<div class="rating-container">
-		    <h2>2024年05月24日(二) <button class="btn">提交</button></h2>
-		    <div class="rating-row">
-				<p>總體評分：</p>
-				<div class="mealRating">
-				<i  class="fas fa-star"></i>
-				<i  class="fas fa-star"></i>
-				<i  class="fas fa-star"></i>
-				<i  class="far fa-star"></i>
-				<i  class="far fa-star"></i>
-				</div>
-			</div>
-	        <div class="main-comment"></div>
-            <textarea class="text-comment"></textarea>
+    <div class="main" id="main">   
+	    <div class="rating-container">
+        <h2><span id="cookDate"></span> <button class="btn">提交</button></h2>
+        <div class="rating-row">
+            <p>總體評分：</p>
+            <div class="mealRating" id="bentoRate"></div>
         </div>
-        <div class="cookingList-container">
-			<div class="meal">
-			  <p>第一道菜：</p>
-	   	   	  <div class="dishRating">
-				 <i id="MealRate" class="fas fa-star"></i>
-				 <i id="MealRate" class="fas fa-star"></i>
-				 <i id="MealRate" class="fas fa-star"></i>
-				 <i id="MealRate" class="far fa-star"></i>
-				 <i id="MealRate" class="far fa-star"></i>
-             </div>
-            </div>
-            
-            <div class="meal">
-			  <p>第二道菜：</p>
-	   	   	  <div class="dishRating">
-				 <i id="MealRate" class="fas fa-star"></i>
-				 <i id="MealRate" class="fas fa-star"></i>
-				 <i id="MealRate" class="fas fa-star"></i>
-				 <i id="MealRate" class="far fa-star"></i>
-				 <i id="MealRate" class="far fa-star"></i>
-             </div>
-            </div>
-
-            <div class="meal">
-			  <p>第三道菜：</p>
-	   	   	  <div class="dishRating">
-				 <i id="MealRate" class="fas fa-star"></i>
-				 <i id="MealRate" class="fas fa-star"></i>
-				 <i id="MealRate" class="fas fa-star"></i>
-				 <i id="MealRate" class="far fa-star"></i>
-				 <i id="MealRate" class="far fa-star"></i>
-             </div>
-            </div>
-
-		</div>
-        
+        <div class="main-comment"></div>
+        <textarea class="text-comment"></textarea>
+        </div>
+        <div class="cookingList-container" id="cookingList">
+            <!-- Meals will be dynamically added here -->
+        </div>	     
 	</div>
 
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.FALineBot.EndPoint.Dao.CookingDao;
+import com.FALineBot.EndPoint.Model.Bento;
 import com.FALineBot.EndPoint.Model.Cook;
 import com.FALineBot.EndPoint.Service.CookingService;
 
@@ -110,6 +111,16 @@ public class CookingServiceImpl implements CookingService{
 
 	        return finalList; // 返回组合后的菜品列表
 	    }
+	}
+
+	@Override
+	public Bento getBentoInfo(String dateString, String wisher) {
+        // 從 CookingDao 獲取需要的資料
+        Bento bento = cookingDao.getBento(wisher,dateString); // 假設這裡是獲取到的Cook資料列表
+
+
+
+        return bento;
 	}
 
 	}
