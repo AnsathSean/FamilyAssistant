@@ -100,7 +100,7 @@ public class CookingDaoImpl implements CookingDao{
 	public Bento getBento(String wisher, String dateString) {
 
 	   	    
-	    String sql = "SELECT * FROM Bento WHERE LineID = ? AND Date = ?";
+	    String sql = "SELECT * FROM bento WHERE LineID = ? AND Date = ?";
 
 	    try {
 	        return jdbcTemplate.queryForObject(sql, new Object[]{wisher, dateString}, (rs, rowNum) -> {
