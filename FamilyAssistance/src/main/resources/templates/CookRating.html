@@ -12,16 +12,18 @@
 	<div class="hidden" id="wisher">[[${wisher}]]</div>
     <div class="hidden" id="title">[[${title}]]</div>
     <div class="hidden" id="dateString">[[${dateString}]]</div>
+    <div class="hidden" id="bentoID"></div>
     <h1>便當評分</h1>
     <div class="main" id="main">   
 	    <div class="rating-container">
-        <h2><span id="cookDate"></span> <button class="btn">提交</button></h2>
+        <h2><span id="cookDate"></span> <button id="submitComment"class="btn">提交</button></h2>
         <div class="rating-row">
             <p>總體評分：</p>
             <div class="mealRating" id="bentoRate"></div>
+            <div class="hidden" id="getBentoRate">0</div>
         </div>
         <div class="main-comment"></div>
-        <textarea class="text-comment" placeholder="請將評論輸入於此..."></textarea>
+        <textarea id="inputText" class="text-comment" placeholder="請將評論輸入於此..."></textarea>
         </div>
         <div class="cookingList-container" id="cookingList">
             <!-- Meals will be dynamically added here -->

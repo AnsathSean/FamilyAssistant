@@ -140,4 +140,24 @@ public class CookingDaoImpl implements CookingDao{
 	    }
 	}
 
+	@Override
+	public void updateBento(Bento bento) {
+		
+		//System.out.println("bento Comment: "+bento.getComment());
+		//System.out.println("bento BentoID: "+bento.getBentoID());
+		String bentoUpdateSql = "UPDATE Bento SET Comment = ?, Rate = ?, UpdateTime = NOW() WHERE UUID = ?";
+	    jdbcTemplate.update(bentoUpdateSql, bento.getComment(),bento.getBentoRate(), bento.getBentoID());
+
+	    // 更新 Bento 中的 Cooks
+	    List<Cook> cooks = bento.getCooks();
+	    for (Cook cook : cooks) {
+	    	//System.out.println("cook uuid: "+cook.getUUID());
+	    	//System.out.println("cook rate: "+cook.getRate());
+	        String cookUpdateSql = "UPDATE cookinglist SET Rate = ? WHERE UUID = ?";
+	        jdbcTemplate.update(cookUpdateSql, cook.getRate(), cook.getUUID());
+	    }
+	}
+	
+
+
 }

@@ -14,4 +14,5 @@ public interface CookingService {
     public void deleteCook(String UUID);
     List<Cook> getRandomCookList(String lineID);
     Bento getBentoInfo(String dateString,String wisher);
+    void addBento(Bento bento);
 }

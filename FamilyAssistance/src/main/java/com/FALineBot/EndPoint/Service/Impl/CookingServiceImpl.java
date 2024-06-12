@@ -123,6 +123,12 @@ public class CookingServiceImpl implements CookingService{
         return bento;
 	}
 
+	@Override
+	public void addBento(Bento bento) {
+		cookingDao.updateBento(bento);
+		
+	}
+
 	}
 	
 	

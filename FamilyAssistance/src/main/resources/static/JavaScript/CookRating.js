@@ -6,7 +6,7 @@ var wisher = document.getElementById('wisher').innerHTML
 var title = document.getElementById('title').innerHTML
 var dateString = document.getElementById('dateString').innerHTML
 var targetURL = rootURL+"/service/BentoInfo/"+wisher+"/"+dateString
-
+var Purl = rootURL+"/service/AddBento/"
 const mealStar = document.querySelector('.mealRating').children
 const dishRatingContainers = document.querySelectorAll('.dishRating');
 let mealRate = 3
@@ -29,7 +29,9 @@ let dishNum = 0;
             // Set bento rate stars
             const bentoRateContainer = document.getElementById('bentoRate');
             setRatingStars(bentoRateContainer, data.bentoRate);
-            addRatingFunctionality(bentoRateContainer, 1);
+            addRatingFunctionality(bentoRateContainer, 99);
+            const bentoID = document.getElementById('bentoID')
+            bentoID.innerHTML = data.bentoID
 
 
         // Sort cooks based on type and cookName
@@ -51,12 +53,60 @@ let dishNum = 0;
         mealDiv.innerHTML = `
             <p>${cook.cookName}</p>
             <div class="dishRating" id="dishRating-${index}"></div>
+            <div class="hidden" id="GetdishRating-${index}">0</div>
+            <div class="hidden" id="GetdishUUID-${index}">${cook.uuid}</div>
+            
         `;
         cookingListContainer.appendChild(mealDiv);
         const dishRatingContainer = document.getElementById(`dishRating-${index}`);
         setRatingStars(dishRatingContainer, cook.rate);
         addRatingFunctionality(dishRatingContainer, index);
     });
+
+    //提交按鈕
+    const submitButton = document.getElementById('submitComment');
+    submitButton.addEventListener('click', function() {
+    const bID = document.getElementById('bentoID').innerHTML;
+    const w = document.getElementById('wisher').innerHTML;
+    const d = document.getElementById('dateString').innerHTML;
+    const bRate = document.getElementById('getBentoRate').innerHTML;
+    const bc = document.getElementById('inputText').value; // 修改這裡
+
+    const dishRatings = document.querySelectorAll('[id^="GetdishRating-"]');
+    const dishUUID = document.querySelectorAll('[id^="GetdishUUID-"]');
+    // 將 NodeList 轉換為陣列，以便更容易處理
+    const dishRatingValues = Array.from(dishRatings).map(dishRating => dishRating.innerHTML);
+    const dishUUIDValues = Array.from(dishUUID).map(dishUUID => dishUUID.innerHTML);
+
+    // 創建 cook 物件的陣列
+    
+        const currentDate = new Date();
+    const cookDate = currentDate.toISOString().slice(0, 10); // 將日期轉換為 YYYY-MM-DD 格式
+    const cookTime = currentDate.toTimeString().slice(0, 8); // 將時間轉換為 HH:MM:SS 格式
+    
+    const cooks = dishUUIDValues.map((uuid, index) => {
+        const cook = createCookModel(uuid, wisher, cookDate, cookTime, "都可", "我不想知道", dishRatingValues[index]);
+        return cook;
+    });
+
+    // 創建 bento 物件
+    const bento = createBentoModel(w,bID ,d, bRate, bc, cooks);
+
+    // 在這裡可以將 bento 物件傳遞給後端的 addBento 函數，例如：
+     fetch(Purl, {
+         method: 'POST',
+         body: JSON.stringify(bento),
+         headers: {
+             'Content-Type': 'application/json'
+         }
+     }).then(response => {
+         // 處理回應
+     });
+    
+    window.location.href = rootURL+"/success";
+    //console.log(bento); // 在這裡輸出 bento 物件，以檢查是否正確組合
+});
+
 });
 
 function setRatingStars(container, rate) {
@@ -82,6 +132,13 @@ function addRatingFunctionality(container, idx) {
                     stars[j].classList.add("fas");
                 }
                 console.log(`第 ${idx + 1}道菜，Dish rating: ${rating}`);
+                if(idx==99){
+				  const ratingContainer = document.getElementById(`getBentoRate`);
+                  ratingContainer.innerHTML = rating;	
+				}else{
+                  const ratingContainer = document.getElementById(`GetdishRating-${idx}`);
+                  ratingContainer.innerHTML = rating;
+                }
             });
         }
 }
@@ -131,3 +188,37 @@ dishRatingContainers.forEach((dishRating,idx) => {
         });
     }
 });
+
+
+function createBentoModel(wisher,bentoID, dateString, bentoRate, comment, cooks) {
+    // 創建 Bento 對象
+    const bento = {
+        wisher: wisher,
+        bentoID: bentoID, // 請根據後端需求填寫
+        dateString: dateString,
+        comment: comment,
+        bentoRate: bentoRate,
+        cooks: cooks
+    };
+
+    return bento;
+}
+
+
+function createCookModel(UUID, lineID, cookDate, cookTime, type, cookName, rate) {
+	    // 將日期和時間格式化為 ISO 8601 格式
+    const formattedCookDate = new Date(cookDate)
+    const formattedCookTime = new Date(cookTime)
+    // 創建 Cook 對象
+    const cook = {
+        uuid: UUID,
+        lineID: lineID,
+        cookDate: null,
+        cookTime: null,
+        type: type,
+        cookName: cookName,
+        rate: rate
+    };
+
+    return cook;
+}

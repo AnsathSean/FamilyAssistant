@@ -14,4 +14,5 @@ public interface CookingDao {
 	void updateCook(Cook cook);
 	void deleteCook(String UUID);
 	Bento getBento(String wisher,String dateString);
+	void updateBento(Bento bento);
 }
