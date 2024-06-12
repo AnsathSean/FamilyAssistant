@@ -1,4 +1,5 @@
 package com.FALineBot.EndPoint.Dao.Impl;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,32 +99,45 @@ public class CookingDaoImpl implements CookingDao{
 	@SuppressWarnings("deprecation")
 	@Override
 	public Bento getBento(String wisher, String dateString) {
-
-	   	    
 	    String sql = "SELECT * FROM bento WHERE LineID = ? AND Date = ?";
-
+	    
 	    try {
 	        return jdbcTemplate.queryForObject(sql, new Object[]{wisher, dateString}, (rs, rowNum) -> {
 	            Bento bento = new Bento();
-	            bento.setBentoID(rs.getString("UUID")); 
+	            bento.setBentoID(rs.getString("UUID"));
 	            bento.setComment(rs.getString("Comment"));
 	            bento.setBentoRate(rs.getInt("Rate"));
 	            // 將 HashMap 的資料讀取並設置到 Bento 對象中
-	            
-	    	    // 首先從 getCookingList 方法中獲取所有的 Cook 對象
-	    	    List<Cook> cookingList = getCooks(wisher,dateString);
-	    	    bento.setWisher(wisher);
-	    	    bento.setDateString(dateString);
-	            bento.setCooks(cookingList);
-	            // 設置wishser和dateString
+
+	            // 首先從 getCookingList 方法中獲取所有的 Cook 對象
+	            List<Cook> cookingList = getCooks(wisher, dateString);
 	            bento.setWisher(wisher);
 	            bento.setDateString(dateString);
+	            bento.setCooks(cookingList);
 	            return bento;
 	        });
 	    } catch (EmptyResultDataAccessException e) {
-	        return null; // 如果找不到記錄，返回 null
+	        // 如果找不到記錄，插入新記錄
+	        String insertSql = "INSERT INTO bento (LineID, Date, CreateTime, UpdateTime) VALUES (?, ?, ?, ?)";
+	        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+	        jdbcTemplate.update(insertSql, wisher, dateString, currentTime, currentTime);
+
+	        // 再次查詢剛插入的記錄
+	        return jdbcTemplate.queryForObject(sql, new Object[]{wisher, dateString}, (rs, rowNum) -> {
+	            Bento bento = new Bento();
+	            bento.setBentoID(rs.getString("UUID"));
+	            bento.setComment(rs.getString("Comment"));
+	            bento.setBentoRate(rs.getInt("Rate"));
+	            // 將 HashMap 的資料讀取並設置到 Bento 對象中
+
+	            // 首先從 getCooks 方法中獲取所有的 Cook 對象
+	            List<Cook> cookingList = getCooks(wisher, dateString);
+	            bento.setWisher(wisher);
+	            bento.setDateString(dateString);
+	            bento.setCooks(cookingList);
+	            return bento;
+	        });
 	    }
-	    
 	}
 
 }
