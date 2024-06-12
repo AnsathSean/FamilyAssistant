@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..900&display=swap');
+
+:root{
+    --primary-size: 2.0rem;
+    --secondary-size:1.5rem;
+    --primary-color:#e7767f;
+    --secondary-color:#fdf2f7;
+    --third-color:#c14052;
+    --primary-fontsize:clamp(2rem, 3vw, 2.6rem);
+}
+
+*{
+	box-sizing:border-box;
+}
+
+h2{
+	font-size: var(--primary-size);
+}
+
+body {
+	background-color:var(--primary-color);
+    font-family: "Noto Serif TC", serif;
+    display:flex;
+    flex-direction: column;
+	justify-content: center;
+	align-items:center;
+    width: 100%;
+}
+
+.img{
+	width:120px ;
+	height:120px ;
+	object-fit: cover;
+}
+
+.Year-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+	align-items:center;
+    text-align: center;
+    font-size: var(--secondary-size);
+}
+
+.Year-container table{
+    background-color: var(--secondary-color);
+    padding:10px 20px;
+    border-radius: 30px;
+    margin:auto;
+    width: 100%;
+    
+}
+
+.hidden{
+	display: none;
+}
+
+.btn{
+    border: 0;
+    border-radius: 20px;
+    margin:0 10px;
+    background-color: var(--third-color);
+    color:#fff;
+    font-size: var(--secondary-size);
+    transition: transform 0.3s ease; /* 添加過渡效果 */
+}
+
+table, th, td {
+     border: 0px solid black;
+     border-collapse: collapse; /* 避免双重边框 */
+     padding: 2px 5px;
+     font-size: var(--secondary-size);
+ }
+
+.btn:active{
+	transform: scale(0.6); /* 点击时缩小为原来的 0.6 倍 */
+}
+
+.cookInfo{
+    margin: 1rem 1rem;
+    padding:10px 20px;
+
+    border-radius: 50px;
+    width: 100%;
+
+}
+
+.cookInfo a{
+    margin-left: 0.5rem;
+}
+
+.rating-container{
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+	align-items:center;
+    text-align: center;
+    margin:10px 20px;
+}
+
+.rating-container .rating-row{
+	display: flex;
+	flex-direction: row;
+	align-items:center;
+    text-align: center;
+    justify-content: center;
+    margin: 10px 20px;
+}
+
+.rating-container textarea{
+	width:90vw;
+	height:10vh;
+	
+}
+
+.cookingList-container{
+	display: flex;
+	flex-direction: column;
+	margin:10px 20px;
+}
+
+
+.cookingList-container .meal{
+	display: flex;
+	flex-direction: row;
+    justify-content: space-between;
+	align-items:center;
+    text-align: center;
+}
+
+
+.cookingList-container P{
+	font-size: var(--secondary-size);
+	margin:0 10px;
+}
+
+.rating-container P{
+	font-size: var(--secondary-size);
+	margin:0 10px;
+}
+
+.rating-row{
+	font-size: var(--secondary-size);
+	margin:10px 20px;
+}
+
+.dishRating{
+	font-size: var(--secondary-size);
+}
