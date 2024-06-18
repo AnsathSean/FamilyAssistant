@@ -9,7 +9,7 @@ import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.ReplyMessageService;
 
 @Component
-public class ReplyMessageServiceImpl implements ReplyMessageService{
+public class ReplyMessageServiceImpl implements ReplyMessageService {
 
 	@Autowired
 	private ReplyMessageDao replyMessageDao;

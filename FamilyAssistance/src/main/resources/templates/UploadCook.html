@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="BIG5">
-<title>Upload Cook</title>
+    <meta charset="UTF-8">
+    <title>Upload Image</title>
 </head>
 <body>
+    <h1>Upload Image</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="fileInput" name="file">
+        <button type="button" onclick="uploadFile()">Upload</button>
+    </form>
+    <script>
+        function uploadFile() {
+            var formData = new FormData();
+            var fileInput = document.getElementById('fileInput');
+            formData.append('file', fileInput.files[0]);
 
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8080/service/uploadfile', true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert('File uploaded successfully');
+                } else {
+                    alert('File upload failed');
+                }
+            };
+
+            xhr.send(formData);
+        }
+    </script>
 </body>
+</html>
 </html>

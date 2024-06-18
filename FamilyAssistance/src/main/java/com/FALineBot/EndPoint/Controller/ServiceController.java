@@ -1,23 +1,32 @@
 package com.FALineBot.EndPoint.Controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.FALineBot.EndPoint.Model.Bento;
 import com.FALineBot.EndPoint.Model.Cook;
 import com.FALineBot.EndPoint.Service.CookingService;
-import com.FALineBot.EndPoint.Service.SmokeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 
 @RequestMapping("/service")
@@ -26,9 +35,9 @@ public class ServiceController {
 
 	@Autowired
 	private CookingService cookingService;
-	
-	//@Autowired
-	//private SmokeService smokeservice;
+	// Update the upload directory path
+	private static String root = System.getProperty("user.dir");
+    private static final String UPLOAD_DIR = root+"/src/main/resources/static/CookPic/";
 	
 	@GetMapping("/ShowCookingList/{wisher}")
     public List<Cook> ShowCookingList(@PathVariable String wisher,Model model) {
@@ -72,7 +81,42 @@ public class ServiceController {
         }
     }
 	
-	
+    @PostMapping("/uploadfile")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    	
+    	String test = System.getProperty("user.dir");
+    	
+    	System.out.println(test);
+        if (file.isEmpty()) {
+            return new ResponseEntity<>("Please select a file to upload.", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            // Create the directory if it does not exist
+            Path uploadPath = Paths.get(UPLOAD_DIR);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // Save the original file
+            String originalFileName = file.getOriginalFilename();
+            File originalFile = new File(UPLOAD_DIR + originalFileName);
+            file.transferTo(originalFile);
+
+            // Compress the file by 40%
+            File compressedFile = new File(UPLOAD_DIR + "compressed_" + originalFileName);
+            Thumbnails.of(originalFile)
+                      .scale(0.6) // 60% of the original size, which is a 40% reduction
+                      .toFile(compressedFile);
+
+            return new ResponseEntity<>("File uploaded and compressed successfully", HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("File upload failed: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    
 	
 	//@GetMapping("/RecordSmoke")
 	//public void RecordSmoke() {

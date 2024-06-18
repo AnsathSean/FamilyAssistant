@@ -87,6 +87,12 @@ public class WebController {
         return "CookRating"; // 返回HTML模板的名稱
     }
 	
+	@GetMapping("/UploadCook/")
+    public String RatingCook(Model model) {
+
+        return "UploadCook"; // 返回HTML模板的名稱
+    }
+	
 	
 	@PostMapping("/updateCook/{cookID}")
 	public String updateCook(@PathVariable String cookID, @RequestParam(name = "CookName", required = false, defaultValue = "") String CookName,
@@ -128,6 +134,8 @@ public class WebController {
 		cookingService.deleteCook(uuid);
 		return "redirect:/success";
 	}
+	
+	
 	@PostMapping("/submitCooking/{wisher}")
 	public String submitCooking(@PathVariable String wisher,@RequestParam("cookNames") String[] cookNames, @RequestParam("types") String[] types, @RequestParam("lineID") String lineID) {
 	    List<Cook> cooks = new ArrayList<>();
