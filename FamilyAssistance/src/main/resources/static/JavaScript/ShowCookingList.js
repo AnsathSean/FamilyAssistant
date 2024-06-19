@@ -90,7 +90,7 @@ async function getCookingList(){
         var updateBtn = document.createElement('button');
         updateBtn.innerText = "上傳圖片";
         updateBtn.classList.add('btn');
-        updateBtn.addEventListener('click', ()=>redirectUpdateToRatePage);
+        updateBtn.addEventListener('click', ()=>redirectUpdateToRatePage(RateDate,wisher));
   
         //創建表格
         const table = document.createElement('table');
@@ -188,8 +188,8 @@ function redirectToRatePage(date,wisher){
 	 window.location.href = rootURL+"/RatingCook/"+wisher+"/"+date;
 }
 
-function redirectUpdateToRatePage(){
-	window.location.href = "#";
+function redirectUpdateToRatePage(date,wisher){
+	window.location.href = rootURL+"/UploadCook/"+wisher+"/"+date;
 }
 
 function redirectmodifyCookList(id,wisher){

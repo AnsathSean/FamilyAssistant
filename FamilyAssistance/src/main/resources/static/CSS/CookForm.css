@@ -11,6 +11,7 @@
 
 *{
 	box-sizing:border-box;
+	font-size: 1.5rem;
 }
 
 h2{
@@ -129,6 +130,10 @@ table, th, td {
 }
 
 
+.fileInput{
+	font-size: var(--secondary-size);
+}
+
 .cookingList-container P{
 	font-size: var(--secondary-size);
 	margin:0 10px;
@@ -147,3 +152,10 @@ table, th, td {
 .dishRating{
 	font-size: var(--secondary-size);
 }
+
+
+
+
+
+
+

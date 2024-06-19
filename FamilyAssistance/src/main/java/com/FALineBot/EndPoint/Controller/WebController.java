@@ -87,8 +87,10 @@ public class WebController {
         return "CookRating"; // 返回HTML模板的名稱
     }
 	
-	@GetMapping("/UploadCook/")
-    public String RatingCook(Model model) {
+	@GetMapping("/UploadCook/{wisher}/{dateString}")
+    public String UpdateCook(@PathVariable String wisher,@PathVariable String dateString,Model model) {
+        model.addAttribute("wisher", wisher);
+        model.addAttribute("dateString",dateString);
 
         return "UploadCook"; // 返回HTML模板的名稱
     }

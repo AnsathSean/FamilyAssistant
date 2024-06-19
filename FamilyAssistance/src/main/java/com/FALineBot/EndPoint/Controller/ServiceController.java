@@ -81,8 +81,8 @@ public class ServiceController {
         }
     }
 	
-    @PostMapping("/uploadfile")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/uploadfile/{bentoID}")
+    public ResponseEntity<String> handleFileUpload(@PathVariable String bentoID,@RequestParam("file") MultipartFile file) {
     	
     	String test = System.getProperty("user.dir");
     	

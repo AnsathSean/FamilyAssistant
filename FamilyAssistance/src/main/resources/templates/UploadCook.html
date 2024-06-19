@@ -2,34 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Upload Image</title>
+    <link rel="stylesheet" type="text/css" href="/CSS/CookForm.css">
+    <title>上傳圖片與檢視便當資訊</title>
 </head>
 <body>
-    <h1>Upload Image</h1>
-    <form id="uploadForm" enctype="multipart/form-data">
+    <h1>上傳圖片與檢視便當資訊</h1>
+    <div id="wisher" class="hidden">[[${wisher}]]</div>
+    <div id="dateString" class="hidden">[[${dateString}]]</div>
+     <div id="bentoID"  class="hidden"></div>
+     <h2><span id="cookDate"></span></h2>
+    <form id="uploadForm" enctype="multipart/form-data" >
         <input type="file" id="fileInput" name="file">
-        <button type="button" onclick="uploadFile()">Upload</button>
+        <button type="button" class="btn" onclick="uploadFile()">Upload</button>
     </form>
-    <script>
-        function uploadFile() {
-            var formData = new FormData();
-            var fileInput = document.getElementById('fileInput');
-            formData.append('file', fileInput.files[0]);
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://localhost:8080/service/uploadfile', true);
-
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    alert('File uploaded successfully');
-                } else {
-                    alert('File upload failed');
-                }
-            };
-
-            xhr.send(formData);
-        }
-    </script>
+    
+    
+    <script type="text/javascript" src="/JavaScript/Upload.js" th:inline="javascript"></script>
 </body>
 </html>
 </html>

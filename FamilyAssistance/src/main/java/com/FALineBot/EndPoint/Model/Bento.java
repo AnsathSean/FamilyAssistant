@@ -12,6 +12,7 @@ public class Bento {
 	private String BentoID;
 	private String DateString;
 	private String Comment;
+	private String BentoPicName;
 	private int BentoRate;
     private List<Cook> Cooks;
     
@@ -52,6 +53,12 @@ public class Bento {
 	}
 	public void setCooks(List<Cook> cooks) {
 		Cooks = cooks;
+	}
+	public String getBentoPicName() {
+		return BentoPicName;
+	}
+	public void setBentoPicName(String bentoPicName) {
+		BentoPicName = bentoPicName;
 	}
     
     
