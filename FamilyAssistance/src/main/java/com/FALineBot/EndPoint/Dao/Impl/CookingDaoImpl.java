@@ -156,7 +156,7 @@ public class CookingDaoImpl implements CookingDao{
 	    for (Cook cook : cooks) {
 	    	//System.out.println("cook uuid: "+cook.getUUID());
 	    	//System.out.println("cook rate: "+cook.getRate());
-	        String cookUpdateSql = "UPDATE cookinglist SET Rate = ? WHERE UUID = ?";
+	        String cookUpdateSql = "UPDATE CookingList SET Rate = ? WHERE UUID = ?";
 	        jdbcTemplate.update(cookUpdateSql, cook.getRate(), cook.getUUID());
 	    }
 	}
