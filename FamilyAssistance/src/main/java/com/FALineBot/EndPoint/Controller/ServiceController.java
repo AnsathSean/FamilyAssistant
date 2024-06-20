@@ -104,13 +104,18 @@ public class ServiceController {
             file.transferTo(originalFile);
             
             Bento bento = cookingService.getBentoById(bentoID);
+            
+         // Extract the file extension from the original file name
+            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+            
             // Compress the file by 40%
             File compressedFile = new File(UPLOAD_DIR + "compressed_" + bentoID);
             Thumbnails.of(originalFile)
                       .scale(0.6) // 60% of the original size, which is a 40% reduction
                       .toFile(compressedFile);
             
-            bento.setBentoPicName( "compressed_" + bentoID+ ".JPEG");
+            bento.setBentoPicName( "compressed_" + bentoID+ fileExtension);
             System.out.println(bento.getBentoPicName());
             cookingService.addBento(bento);
 
