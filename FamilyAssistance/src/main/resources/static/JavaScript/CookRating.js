@@ -131,7 +131,7 @@ function addRatingFunctionality(container, idx) {
                     stars[j].classList.remove("far");
                     stars[j].classList.add("fas");
                 }
-                console.log(`第 ${idx + 1}道菜，Dish rating: ${rating}`);
+                //console.log(`第 ${idx + 1}道菜，Dish rating: ${rating}`);
                 if(idx==99){
 				  const ratingContainer = document.getElementById(`getBentoRate`);
                   ratingContainer.innerHTML = rating;	
@@ -184,7 +184,7 @@ dishRatingContainers.forEach((dishRating,idx) => {
             }
 
             // 在这里你可以执行其他操作，比如将评分保存到数据库等
-            console.log(`第 ${idx+1}道菜，Dish rating: ${rating}`);
+            //console.log(`第 ${idx+1}道菜，Dish rating: ${rating}`);
         });
     }
 });

@@ -148,7 +148,7 @@ public class CookingDaoImpl implements CookingDao{
 		
 		//System.out.println("bento Comment: "+bento.getComment());
 		//System.out.println("bento BentoID: "+bento.getBentoID());
-		String bentoUpdateSql = "UPDATE Bento SET Comment = ?, Rate = ? , PictureName = ?, UpdateTime = NOW() WHERE UUID = ?";
+		String bentoUpdateSql = "UPDATE bento SET Comment = ?, Rate = ? , PictureName = ?, UpdateTime = NOW() WHERE UUID = ?";
 	    jdbcTemplate.update(bentoUpdateSql, bento.getComment(),bento.getBentoRate(),bento.getBentoPicName(), bento.getBentoID());
 
 	    // 更新 Bento 中的 Cooks

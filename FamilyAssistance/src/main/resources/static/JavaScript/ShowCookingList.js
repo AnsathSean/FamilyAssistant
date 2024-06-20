@@ -130,9 +130,9 @@ async function getCookingList(){
         bentores =  await fetch(rootURL+"/service/BentoInfo/"+cook.lineID+"/"+formatDateToYYYYMMDD(year,FormatDate)) 
         bentodata = await bentores.json()
         if(formatDateToYYYYMMDD == "20240517"){
-			console.log(bentodata)
+			//console.log(bentodata)
 		}
-        console.log(bentodata)
+        //console.log(bentodata)
         }else{
 			bentodata = null
 		}
