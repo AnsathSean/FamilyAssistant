@@ -1,6 +1,8 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +109,7 @@ public class CookingDaoImpl implements CookingDao{
 	            bento.setBentoID(rs.getString("UUID"));
 	            bento.setComment(rs.getString("Comment"));
 	            bento.setBentoRate(rs.getInt("Rate"));
+	            bento.setBentoPicName(rs.getString("PictureName"));
 	            // 將 HashMap 的資料讀取並設置到 Bento 對象中
 
 	            // 首先從 getCookingList 方法中獲取所有的 Cook 對象
@@ -145,8 +148,8 @@ public class CookingDaoImpl implements CookingDao{
 		
 		//System.out.println("bento Comment: "+bento.getComment());
 		//System.out.println("bento BentoID: "+bento.getBentoID());
-		String bentoUpdateSql = "UPDATE Bento SET Comment = ?, Rate = ?, UpdateTime = NOW() WHERE UUID = ?";
-	    jdbcTemplate.update(bentoUpdateSql, bento.getComment(),bento.getBentoRate(), bento.getBentoID());
+		String bentoUpdateSql = "UPDATE Bento SET Comment = ?, Rate = ? , PictureName = ?, UpdateTime = NOW() WHERE UUID = ?";
+	    jdbcTemplate.update(bentoUpdateSql, bento.getComment(),bento.getBentoRate(),bento.getBentoPicName(), bento.getBentoID());
 
 	    // 更新 Bento 中的 Cooks
 	    List<Cook> cooks = bento.getCooks();
@@ -157,7 +160,37 @@ public class CookingDaoImpl implements CookingDao{
 	        jdbcTemplate.update(cookUpdateSql, cook.getRate(), cook.getUUID());
 	    }
 	}
+
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public Bento getBentoById(String bentoID) {
+	    String sql = "SELECT * FROM bento WHERE UUID = ?";
+
+	    return jdbcTemplate.queryForObject(sql, new Object[]{bentoID}, (rs, rowNum) -> {
+	        Bento bento = new Bento();
+	        bento.setBentoID(rs.getString("UUID"));
+	        bento.setComment(rs.getString("Comment"));
+	        bento.setBentoRate(rs.getInt("Rate"));
+	        
+	        // 讀取 date 欄位並轉換為字串格式
+	        Date date = rs.getDate("date");
+	        String formattedDate = formatDateTime(date);
+
+	        // 從 getCooks 方法中獲取所有的 Cook 對象
+	        List<Cook> cookingList = getCooks(rs.getString("LineID"), formattedDate);
+	        
+	        bento.setWisher(rs.getString("LineID"));
+	        bento.setDateString(formattedDate);
+	        bento.setCooks(cookingList);
+	        return bento;
+	    });
+	}
 	
 
+	 public static String formatDateTime(Date date) {
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        return sdf.format(date);
+     }
 
 }

@@ -129,6 +129,11 @@ public class CookingServiceImpl implements CookingService{
 		
 	}
 
+	@Override
+	public Bento getBentoById(String bentoID) {
+		return cookingDao.getBentoById(bentoID);
+	}
+
 	}
 	
 	

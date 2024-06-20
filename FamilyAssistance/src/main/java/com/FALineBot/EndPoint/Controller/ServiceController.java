@@ -84,9 +84,9 @@ public class ServiceController {
     @PostMapping("/uploadfile/{bentoID}")
     public ResponseEntity<String> handleFileUpload(@PathVariable String bentoID,@RequestParam("file") MultipartFile file) {
     	
-    	String test = System.getProperty("user.dir");
+    	//String test = System.getProperty("user.dir");
+    	//System.out.println(test);
     	
-    	System.out.println(test);
         if (file.isEmpty()) {
             return new ResponseEntity<>("Please select a file to upload.", HttpStatus.BAD_REQUEST);
         }
@@ -102,13 +102,25 @@ public class ServiceController {
             String originalFileName = file.getOriginalFilename();
             File originalFile = new File(UPLOAD_DIR + originalFileName);
             file.transferTo(originalFile);
-
+            
+            Bento bento = cookingService.getBentoById(bentoID);
             // Compress the file by 40%
-            File compressedFile = new File(UPLOAD_DIR + "compressed_" + originalFileName);
+            File compressedFile = new File(UPLOAD_DIR + "compressed_" + bentoID);
             Thumbnails.of(originalFile)
                       .scale(0.6) // 60% of the original size, which is a 40% reduction
                       .toFile(compressedFile);
+            
+            bento.setBentoPicName( "compressed_" + bentoID+ ".JPEG");
+            System.out.println(bento.getBentoPicName());
+            cookingService.addBento(bento);
 
+            // Delete the original file after compression
+            if (originalFile.delete()) {
+                System.out.println("Original file deleted successfully.");
+            } else {
+                System.out.println("Failed to delete the original file.");
+            }
+            
             return new ResponseEntity<>("File uploaded and compressed successfully", HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();

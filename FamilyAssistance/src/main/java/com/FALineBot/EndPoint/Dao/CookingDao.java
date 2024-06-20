@@ -15,4 +15,5 @@ public interface CookingDao {
 	void deleteCook(String UUID);
 	Bento getBento(String wisher,String dateString);
 	void updateBento(Bento bento);
+	Bento getBentoById(String bentoID);
 }

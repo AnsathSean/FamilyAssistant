@@ -72,6 +72,8 @@ async function getCookingList(){
     //=================
     for (const [date, cooks] of Object.entries(dateMap)){
         // 創建 <div> 元素
+
+        
         let isCreate = false
         var cookInfoDiv = document.createElement('div');
         cookInfoDiv.classList.add('cookInfo');
@@ -120,7 +122,20 @@ async function getCookingList(){
         const tableBody = document.createElement('tbody');
 
         // 將每個菜的資料填入表格
-        cooks.forEach(cook => {
+        cooks.forEach(async cook => {
+			
+		if(cook.lineID !=""){
+		let FormatDate =new Date(date)
+		
+        bentores =  await fetch(rootURL+"/service/BentoInfo/"+cook.lineID+"/"+formatDateToYYYYMMDD(year,FormatDate)) 
+        bentodata = await bentores.json()
+        if(formatDateToYYYYMMDD == "20240517"){
+			console.log(bentodata)
+		}
+        console.log(bentodata)
+        }else{
+			bentodata = null
+		}
         const row = document.createElement('tr');
 
         // 如果 title 不包含 "Me"，则添加跨列的图片单元格
@@ -129,7 +144,11 @@ async function getCookingList(){
         imgCell.rowSpan = cooks.length; // 设置跨越的行数为 cooks 的长度
         const img = document.createElement('img');
         img.classList.add('img');
-        img.src = '../CookPic/NoPic.png'; // 设置图片的 URL
+        if(bentodata.bentoPicName!=null){
+			img.src = '../CookPic/'+bentodata.bentoPicName;
+		}else{
+        img.src = '../CookPic/NoPic.png';
+        } // 设置图片的 URL
         img.alt = 'Image';
         imgCell.appendChild(img);
         row.appendChild(imgCell);
@@ -161,7 +180,7 @@ async function getCookingList(){
 
         tableBody.appendChild(row);
         });
-
+///////////
         table.appendChild(tableBody);
   
         // 將 <h2> 、rateBtn 添加到 cookInfoDiv
@@ -194,4 +213,11 @@ function redirectUpdateToRatePage(date,wisher){
 
 function redirectmodifyCookList(id,wisher){
 	window.location.href = rootURL+"/CookModify/"+id+"/"+wisher;
+}
+
+function formatDateToYYYYMMDD(yearString,date) {
+    const year = yearString;
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}${month}${day}`;
 }
