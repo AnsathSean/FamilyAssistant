@@ -123,11 +123,17 @@ async function getCookingList(){
 
         // 將每個菜的資料填入表格
         cooks.forEach(async cook => {
-			
+
 		if(cook.lineID !=""){
-		let FormatDate =new Date(date)
+        var newDate = date.slice(0, -3).replace("/", "");
+        console.log(year+newDate)
+		let FormatDate =new Date(year+newDate)
 		
-        bentores =  await fetch(rootURL+"/service/BentoInfo/"+cook.lineID+"/"+formatDateToYYYYMMDD(year,FormatDate)) 
+		
+        bentores =  await fetch(rootURL+"/service/BentoInfo/"+cook.lineID+"/"+year+newDate) 
+        //測試輸入的資料是否正確
+        //console.log("Formate: "+formatDateToYYYYMMDD(year,FormatDate))
+        //console.log("Date: "+FormatDate)
         bentodata = await bentores.json()
         if(formatDateToYYYYMMDD == "20240517"){
 			//console.log(bentodata)
