@@ -88,11 +88,11 @@ async function getCookingList(){
         rateBtn.classList.add('btn');
         rateBtn.addEventListener('click', ()=>redirectToRatePage(RateDate,wisher));
   
-        // 創建上傳圖片btn
+        // 創建檢視btn
         var updateBtn = document.createElement('button');
-        updateBtn.innerText = "上傳圖片";
+        updateBtn.innerText = "檢視";
         updateBtn.classList.add('btn');
-        updateBtn.addEventListener('click', ()=>redirectUpdateToRatePage(RateDate,wisher));
+        updateBtn.addEventListener('click', ()=>redirectCheckBento(RateDate,wisher));
   
         //創建表格
         const table = document.createElement('table');
@@ -139,21 +139,21 @@ async function getCookingList(){
         const row = document.createElement('tr');
 
         // 如果 title 不包含 "Me"，则添加跨列的图片单元格
-        if (!title.includes("Me") && isCreate==false) {
-        const imgCell = document.createElement('td');
-        imgCell.rowSpan = cooks.length; // 设置跨越的行数为 cooks 的长度
-        const img = document.createElement('img');
-        img.classList.add('img');
-        if(bentodata.bentoPicName!=null){
-			img.src = '../CookPic/'+bentodata.bentoPicName;
-		}else{
-        img.src = '../CookPic/NoPic.png';
-        } // 设置图片的 URL
-        img.alt = 'Image';
-        imgCell.appendChild(img);
-        row.appendChild(imgCell);
-        isCreate = true;
-        }
+        //if (!title.includes("Me") && isCreate==false) {
+        //const imgCell = document.createElement('td');
+        //imgCell.rowSpan = cooks.length; // 设置跨越的行数为 cooks 的长度
+        //const img = document.createElement('img');
+        //img.classList.add('img');
+        //if(bentodata.bentoPicName!=null){
+	//		img.src = '../CookPic/'+bentodata.bentoPicName;
+	//	}else{
+     //   img.src = '../CookPic/NoPic.png';
+     //   } // 设置图片的 URL
+     //   img.alt = 'Image';
+      //  imgCell.appendChild(img);
+      //  row.appendChild(imgCell);
+      //  isCreate = true;
+      //  }
 
         // 菜名
         const nameCell = document.createElement('td');
@@ -209,6 +209,10 @@ function redirectToRatePage(date,wisher){
 
 function redirectUpdateToRatePage(date,wisher){
 	window.location.href = rootURL+"/UploadCook/"+wisher+"/"+date;
+}
+//進入檢視便當資料環節
+function redirectCheckBento(date,wisher){
+	window.location.href = rootURL+"/CheckBento/"+wisher+"/"+date;
 }
 
 function redirectmodifyCookList(id,wisher){

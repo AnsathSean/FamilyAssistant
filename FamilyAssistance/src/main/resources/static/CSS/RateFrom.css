@@ -147,3 +147,11 @@ table, th, td {
 .dishRating{
 	font-size: var(--secondary-size);
 }
+
+.reply-comment{
+	width:90vw;
+	height:10vh;
+	background-color:#fff;
+	border-radius: 20px;
+	font-size: var(--secondary-size);
+}

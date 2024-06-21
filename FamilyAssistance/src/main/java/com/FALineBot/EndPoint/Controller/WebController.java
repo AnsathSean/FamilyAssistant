@@ -87,6 +87,16 @@ public class WebController {
         return "CookRating"; // 返回HTML模板的名稱
     }
 	
+	@GetMapping("/CheckBento/{wisher}/{dateString}")
+    public String CheckBento(@PathVariable String wisher,@PathVariable String dateString,Model model) {
+		System.out.println("wisher: "+wisher);
+        String title = "OP";
+        model.addAttribute("wisher", wisher);
+        model.addAttribute("dateString",dateString);
+        model.addAttribute("title",title);
+        return "CheckBento"; // 返回HTML模板的名稱
+    }
+	
 	@GetMapping("/UploadCook/{wisher}/{dateString}")
     public String UpdateCook(@PathVariable String wisher,@PathVariable String dateString,Model model) {
         model.addAttribute("wisher", wisher);
