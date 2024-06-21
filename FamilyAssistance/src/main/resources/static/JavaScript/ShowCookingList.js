@@ -103,9 +103,9 @@ async function getCookingList(){
         const headerRow = document.createElement('tr');
         let headers;
         if(title.includes("Me")){
-			 headers = ['', '',''];
+			 headers = ['',''];
 		}else{
-			 headers = ['','', ''];
+			 headers = ['', ''];
 		}
 
         headers.forEach(headerText => {
