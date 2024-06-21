@@ -101,7 +101,11 @@ let dishNum = 0;
          }
      }).then(response => {
          // 處理回應
-     });
+     }).catch(error => {
+    // 處理錯誤
+    console.error('發生錯誤:', error);
+    alert('發生錯誤: ' + error.message);
+});;
     
     window.location.href = rootURL+"/success";
     //console.log(bento); // 在這裡輸出 bento 物件，以檢查是否正確組合
