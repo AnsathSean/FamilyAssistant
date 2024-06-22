@@ -64,55 +64,44 @@ let dishNum = 0;
         setRatingStars(dishRatingContainer, cook.rate);
         addRatingFunctionality(dishRatingContainer, index);
     });
+    
+    
+    //點擊執行按鈕
+    const submitButton = document.getElementById('submitComment');    
+    submitButton.addEventListener('click', function() {
+		
+    const bID = document.getElementById('bentoID').innerHTML;
+    const w = document.getElementById('wisher').innerHTML;
+    const d = document.getElementById('dateString').innerHTML;
+    const bRate = document.getElementById('getBentoRate').innerHTML;
+    const bc = document.getElementById('inputText').value; 
+    
+    const dishRatings = document.querySelectorAll('[id^="GetdishRating-"]');
+    const dishUUID = document.querySelectorAll('[id^="GetdishUUID-"]');
+    // 將 NodeList 轉換為陣列，以便更容易處理
+    const dishRatingValues = Array.from(dishRatings).map(dishRating => dishRating.innerHTML);
+    const dishUUIDValues = Array.from(dishUUID).map(dishUUID => dishUUID.innerHTML);
 
-   $(document).ready(function() {
-            $('#submitComment').on('click', function() {
-                const bID = $('#bentoID').text();
-                const w = $('#wisher').text();
-                const d = $('#dateString').text();
-                const bRate = $('#getBentoRate').text();
-                const bc = $('#inputText').val();
+    // 創建 cook 物件的陣列
+    
+    const currentDate = new Date();
+    const cookDate = currentDate.toISOString().slice(0, 10); // 將日期轉換為 YYYY-MM-DD 格式
+    const cookTime = currentDate.toTimeString().slice(0, 8); // 將時間轉換為 HH:MM:SS 格式
+    
+    const cooks = dishUUIDValues.map((uuid, index) => {
+        const cook = createCookModel(uuid, wisher, cookDate, cookTime, "都可", "我不想知道", dishRatingValues[index]);
+        return cook;
+    });
 
-                const dishRatings = $('[id^="GetdishRating-"]');
-                const dishUUID = $('[id^="GetdishUUID-"]');
-                // 將 NodeList 轉換為陣列，以便更容易處理
-                const dishRatingValues = $.map(dishRatings, function(dishRating) {
-                    return $(dishRating).text();
-                });
-                const dishUUIDValues = $.map(dishUUID, function(dishUUID) {
-                    return $(dishUUID).text();
-                });
-
-                // 創建 cook 物件的陣列
-                const currentDate = new Date();
-                const cookDate = currentDate.toISOString().slice(0, 10); // 將日期轉換為 YYYY-MM-DD 格式
-                const cookTime = currentDate.toTimeString().slice(0, 8); // 將時間轉換為 HH:MM:SS 格式
-
-                const cooks = dishUUIDValues.map((uuid, index) => {
-                    const cook = createCookModel(uuid, w, cookDate, cookTime, "都可", "我不想知道", dishRatingValues[index]);
-                    return cook;
-                });
-
-                // 創建 bento 物件
-                const bento = createBentoModel(w, bID, d, bRate, bc, cooks);
-
-                // 在這裡可以將 bento 物件傳遞給後端的 addBento 函數，例如：
-                $.ajax({
-                    url: Purl,
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(bento),
-                    success: function(response) {
-                        alert('執行成功: ' + response);
-                        window.location.href = rootURL + "/success";
-                    },
-                    error: function(error) {
-                        console.error('發生錯誤:', error);
-                        alert('發生錯誤: ' + error.message);
-                    }
-                });
-            });
-        });
+    // 創建 bento 物件
+    const bento = createBentoModel(w,bID ,d, bRate, bc, cooks);
+    const bentoInfo = document.getElementById("bentoInfo")
+    // 将 bento 对象转换为 JSON 字符串并显示在 bentoInfo 中
+    //.value = JSON.stringify(bentoData);
+    bentoInfo.value = JSON.stringify(bento)
+    console.log(bento)
+});
+    
 
 });
 

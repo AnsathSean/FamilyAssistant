@@ -16,6 +16,7 @@
     <div class="hidden" id="bentoID"></div>
     <h1>便當評分</h1>
     <div class="main" id="main">   
+      <form  th:action="@{/AddBento/}" method="post" th:object="${bento}">
 	    <div class="rating-container">
         <h2><span id="cookDate"></span> <button id="submitComment"class="btn">提交</button></h2>
         <div class="rating-row">
@@ -28,7 +29,9 @@
         </div>
         <div class="cookingList-container" id="cookingList">
             <!-- Meals will be dynamically added here -->
-        </div>	     
+        </div>
+        <input class="hidden" name="bento" id="bentoInfo"></input>
+      </form>	     
 	</div>
 
 

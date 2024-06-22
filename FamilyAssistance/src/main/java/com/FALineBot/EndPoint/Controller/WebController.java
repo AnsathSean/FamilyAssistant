@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +25,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.FALineBot.EndPoint.Model.Bento;
 import com.FALineBot.EndPoint.Model.Cook;
 import com.FALineBot.EndPoint.Model.User;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.CookingService;
 import com.FALineBot.EndPoint.Service.UserManagerService;
 import com.FALineBot.EndPoint.Service.WishListService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class WebController {
@@ -171,6 +175,32 @@ public class WebController {
 	    cookingService.addCookList(cooks, wisher);
 	    return "redirect:/success"; // 重定向到成功頁面
 	}
+	
+	@PostMapping("/AddBento")
+	public String AddBento(@RequestParam("bento") String bentoString) {
+		System.out.println("獲得的資料"+bentoString);
+	       try {
+	    	   // 創建 ObjectMapper 實例
+	            ObjectMapper objectMapper = new ObjectMapper();
+	            
+	            // 將 JSON 字符串轉換為 Bento 對象
+	            Bento bento = objectMapper.readValue(bentoString, Bento.class);
+	            
+	            // 打印轉換后的 Bento 對象
+	            String bentoJson = objectMapper.writeValueAsString(bento);
+	            System.out.println("bento: " + bentoJson);
+	            
+	            // 使用服務處理 Bento 對象
+	            cookingService.addBento(bento);
+	        	
+	        } catch (Exception e) {
+	            // Log the error
+	            e.printStackTrace();
+	        }
+	    return "redirect:/success"; // 重定向到成功頁面
+	}
+	
+	
 
 	@GetMapping("/CookModify/{UUID}/{wisher}")
 	public String CookModify(@PathVariable String UUID,@PathVariable String wisher,Model model) {
