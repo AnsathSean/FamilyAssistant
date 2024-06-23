@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.FALineBot.EndPoint.Model.Bento;
 import com.FALineBot.EndPoint.Model.Cook;
+import com.FALineBot.EndPoint.Model.CookInfo;
 import com.FALineBot.EndPoint.Model.User;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.CookingService;
@@ -233,28 +234,6 @@ public class WebController {
         return "redirect:/success"; // 重定向到成功页面
     }
 
-    // 内部类，用于接收 cookInfo 的简单结构
-    private static class CookInfo {
-        private String uuid;
-        private String rate;
-
-        // Getters and Setters
-        public String getUuid() {
-            return uuid;
-        }
-
-        public void setUuid(String uuid) {
-            this.uuid = uuid;
-        }
-
-        public String getRate() {
-            return rate;
-        }
-
-        public void setRate(String rate) {
-            this.rate = rate;
-        }
-	}
 	
 	
 
