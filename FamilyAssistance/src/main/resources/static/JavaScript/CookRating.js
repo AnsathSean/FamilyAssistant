@@ -93,9 +93,19 @@ let dishNum = 0;
         return cook;
     });
 
+    //傳送BentoID到input中
+    const inputBentoID = document.getElementById("inputBentoID")
+    inputBentoID.value = bID
+    const bentoComment = document.getElementById('bentoComment')
+    bentoComment.value = bc
+    const bentoRate = document.getElementById('inputbentoRate')
+    bentoRate.value = bRate
+    const cookInfo = document.getElementById('cookInfo')
+    cookInfo.value = JSON.stringify(createPostCook(cooks))
     // 創建 bento 物件
     const bento = createBentoModel(w,bID ,d, bRate, bc, cooks);
     const bentoInfo = document.getElementById("bentoInfo")
+
     // 将 bento 对象转换为 JSON 字符串并显示在 bentoInfo 中
     //.value = JSON.stringify(bentoData);
     bentoInfo.value = JSON.stringify(bento)
@@ -223,4 +233,13 @@ function createCookModel(UUID, lineID, cookDate, cookTime, type, cookName, rate)
     };
 
     return cook;
+}
+
+function createPostCook(cooks) {
+    const postCook = cooks.map(cook => ({
+        uuid: cook.uuid,
+        rate: cook.rate
+    }));
+
+    return postCook;
 }

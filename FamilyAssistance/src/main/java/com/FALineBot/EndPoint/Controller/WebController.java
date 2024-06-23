@@ -74,7 +74,7 @@ public class WebController {
 	
 	@GetMapping("/ShowOPCooking/{wisher}")
     public String ShowOPCooking(@PathVariable String wisher,Model model) {
-		System.out.println("wisher: "+wisher);
+		//System.out.println("wisher: "+wisher);
         String title = "OP";
         model.addAttribute("wisher", wisher);
         model.addAttribute("title",title);
@@ -83,7 +83,7 @@ public class WebController {
 	
 	@GetMapping("/RatingCook/{wisher}/{dateString}")
     public String RatingCook(@PathVariable String wisher,@PathVariable String dateString,Model model) {
-		System.out.println("wisher: "+wisher);
+		//System.out.println("wisher: "+wisher);
         String title = "OP";
         model.addAttribute("wisher", wisher);
         model.addAttribute("dateString",dateString);
@@ -93,7 +93,7 @@ public class WebController {
 	
 	@GetMapping("/CheckBento/{wisher}/{dateString}")
     public String CheckBento(@PathVariable String wisher,@PathVariable String dateString,Model model) {
-		System.out.println("wisher: "+wisher);
+		//System.out.println("wisher: "+wisher);
         String title = "OP";
         model.addAttribute("wisher", wisher);
         model.addAttribute("dateString",dateString);
@@ -124,7 +124,7 @@ public class WebController {
 		SimpleDateFormat formatter1 = new SimpleDateFormat("HH:mm:ss");
 		Time defaultTime = new Time(formatter1.parse("12:00:00").getTime());
 		
-		System.out.println("LineID為："+LineID+"," + "Type為："+ type);
+		//System.out.println("LineID為："+LineID+"," + "Type為："+ type);
 	    Cook cook = new Cook();
 	    cook.setUUID(cookID);
 	    cook.setLineID(LineID);
@@ -146,7 +146,7 @@ public class WebController {
 	}
 	@PostMapping("/deleteCook/{uuid}")
 	public String deleteCook(@PathVariable String uuid) {
-		System.out.println("UUID:"+uuid);
+		//System.out.println("UUID:"+uuid);
 		cookingService.deleteCook(uuid);
 		return "redirect:/success";
 	}
@@ -176,28 +176,84 @@ public class WebController {
 	    return "redirect:/success"; // 重定向到成功頁面
 	}
 	
-	@PostMapping("/AddBento")
-	public String AddBento(@RequestParam("bento") String bentoString) {
-		System.out.println("獲得的資料"+bentoString);
-	       try {
-	    	   // 創建 ObjectMapper 實例
-	            ObjectMapper objectMapper = new ObjectMapper();
-	            
-	            // 將 JSON 字符串轉換為 Bento 對象
-	            Bento bento = objectMapper.readValue(bentoString, Bento.class);
-	            
-	            // 打印轉換后的 Bento 對象
-	            String bentoJson = objectMapper.writeValueAsString(bento);
-	            System.out.println("bento: " + bentoJson);
-	            
-	            // 使用服務處理 Bento 對象
-	            cookingService.addBento(bento);
-	        	
-	        } catch (Exception e) {
-	            // Log the error
-	            e.printStackTrace();
-	        }
-	    return "redirect:/success"; // 重定向到成功頁面
+	@PostMapping("/AddBento/{wisher}")
+	public String AddBento(@RequestParam("lineID") String wisher,
+			@RequestParam("bentoID") String bentoID,
+			@RequestParam("bentoComment") String bentoComment,
+			@RequestParam("bentoRate") String bentoRate,
+			@RequestParam("cookInfo") String cookInfo) {
+		//System.out.println("獲得的資料"+bentoString);
+		//System.out.println("LineID: "+wisher+" bentoID: "+ bentoID);
+		//System.out.println("bentoComment: "+bentoComment+" bentoRate: "+ bentoRate);
+		//System.out.println("cookInfo: "+cookInfo);
+		try {
+            // 创建 ObjectMapper 实例
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            // 将 cookInfo 字符串转换为简单的 CookInfo 对象数组
+            CookInfo[] cookInfos = objectMapper.readValue(cookInfo, CookInfo[].class);
+
+            // 创建 Bento 对象并设置属性
+            Bento bento = new Bento();
+            bento.setWisher(wisher);
+            bento.setBentoID(bentoID);
+            bento.setComment(bentoComment);
+            bento.setBentoRate(Integer.parseInt(bentoRate)); // 确保 bentoRate 是整数类型
+
+            // 重组 cooks 列表
+            List<Cook> cooks = new ArrayList<>();
+            for (CookInfo info : cookInfos) {
+                Cook cook = new Cook();
+                cook.setUUID(info.getUuid());
+                cook.setRate(Integer.parseInt(info.getRate())); // 确保 rate 是整数类型
+                cook.setLineID(wisher); // 使用 wisher 作为 lineID
+                cook.setType("都可");
+                cook.setCookName("我不想知道");
+                // 其他字段可以设置为默认值或null
+                cook.setCookDate(null);
+                cook.setCookTime(null);
+                cooks.add(cook);
+            }
+
+            bento.setCooks(cooks);
+
+            // 打印转换后的 Bento 对象
+            //String bentoJson = objectMapper.writeValueAsString(bento);
+            //System.out.println("bento: " + bentoJson);
+
+            // 使用服务处理 Bento 对象
+            cookingService.addBento(bento);
+
+        } catch (Exception e) {
+            // 记录错误
+            e.printStackTrace();
+            return "redirect:/error"; // 重定向到错误页面
+        }
+
+        return "redirect:/success"; // 重定向到成功页面
+    }
+
+    // 内部类，用于接收 cookInfo 的简单结构
+    private static class CookInfo {
+        private String uuid;
+        private String rate;
+
+        // Getters and Setters
+        public String getUuid() {
+            return uuid;
+        }
+
+        public void setUuid(String uuid) {
+            this.uuid = uuid;
+        }
+
+        public String getRate() {
+            return rate;
+        }
+
+        public void setRate(String rate) {
+            this.rate = rate;
+        }
 	}
 	
 	
