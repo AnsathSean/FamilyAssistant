@@ -150,8 +150,8 @@ table, th, td {
 
 .reply-comment {
     display: inline-block;
-    max-width: 90vw; /* 防止宽度过大 */
-    height: 30vh; /* 防止宽度过大 */
+    width: 90vw; /* 防止宽度过大 */
+    min-height: 10vh; /* 防止宽度过大 */
     background-color: #fff;
     border-radius: 20px;
     font-size: var(--secondary-size);
