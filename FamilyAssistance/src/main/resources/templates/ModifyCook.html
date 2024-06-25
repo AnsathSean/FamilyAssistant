@@ -3,16 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <style>
+    
+    :root{
+    --primary-size: 3.8rem;
+    --secondary-size:2.8rem;
+    --primary-color:#e7767f;
+    --secondary-color:#fdf2f7;
+    --third-color:#c14052;
+    --primary-fontsize:clamp(2rem, 3vw, 2.6rem);
+}
 /* 将输入字段和按钮放大三倍 */
        input[type="text"], select, input[type="submit"] {
-         width: calc(100% + 100px); /* 将宽度增加30像素 */
+         width: 100%; /* 将宽度增加30像素 */ 
          padding: 15px; /* 增加内边距 */
          font-size: 300%; /* 将字体大小增加三倍 */
          box-sizing: border-box; /* 让内边距和边框计入元素的宽度和高度 */
         }
         /* 設定整個頁面的背景顏色為淺藍色 */
         body {
-            background-color: #f0f8ff; /* 淺藍色 */
+            background-color: var(--secondary-color);
+            width:100%;
+            height:100vh;
+            display:flex;
+            flex-direction:column; 
+            align-items:center;
+            text-align: center;
+
         }
 
         /* 設定原始資料表格 */
@@ -23,7 +39,7 @@
 
         /* 設定原始資料表格的單元格 */
         #originalData td {
-            padding: 20px; /* 添加一些內邊距 */
+            padding: 10px; /* 添加一些內邊距 */
         }
 
         /* 設定表單內容為行列式排列 */
@@ -32,9 +48,12 @@
             grid-template-columns: 1fr; /* 只有一列 */
             gap: 10px; /* 設定行間距 */
             border: none; /* 去除邊框 */
-            background-color: #f0f8ff;; /* 設定表單背景顏色為白色 */
+            background-color: var(--secondary-color); /* 設定表單背景顏色為白色 */
             padding: 20px; /* 加上內邊距 */
             width: 50%; /* 寬度縮小50% */
+            align-items:center;
+            text-align: center;
+            justify-content: center;
         }
 
         /* 設定標籤和輸入框的樣式 */
@@ -48,7 +67,7 @@
 <body>
 
 <h1>修改菜餚</h1>
-<table id="originalData" border="1">
+<table id="originalData" border="3" style="font-size:20px">
     <thead>
         <tr>
             <th>CookName</th>
@@ -69,12 +88,12 @@
 <form th:action="@{/updateCook/{cookID}(cookID=${items.UUID})}" method="post" th:object="${cook}">
     <!-- 菜名 -->
     <div>
-        <label for="CookName">菜名:</label>
+        <label for="CookName">修改菜名:</label>
         <input type="text" id="CookName" name="CookName" th:value="${cook.CookName}" />
     </div>
     <!-- 類型 -->
     <div>
-        <label for="Type">類型:</label>
+        <label for="Type">修改類型:</label>
         <select id="Type" name="Type">
             <option th:value="'主菜'" th:selected="${cook.Type == '主菜'}">主菜</option>
             <option th:value="'配菜'" th:selected="${cook.Type == '配菜'}">配菜</option>
@@ -83,23 +102,23 @@
     </div>
     <!-- 日子 -->
     <div>
-        <label for="CookDate">日期(YYYY/MM/DD):</label>
+        <label for="CookDate">修改日期(YYYY/MM/DD):</label>
         <input type="text" id="CookDate" name="CookDate" th:value="${cook.CookDate}" />
     </div>
     <!-- 時間 -->
     <div>
-        <label for="CookTime">時間(HH:MM:ss):</label>
+        <label for="CookTime">修改時間(HH:MM:ss):</label>
         <input type="text" id="CookTime" name="CookTime" th:value="${cook.CookTime}" />
     </div>
 
     <!-- 隱藏的 cook.lineID -->
     <input type="hidden" id="lineID" name="lineID" th:value="${items.lineID}" />
     <!-- 提交按鈕 -->
-    <input type="submit" value="修改資料" />
+    <input type="submit" value="修改資料" style="border-radius:20px;background-color:var(--third-color);color:var(--secondary-color)" />
 </form>
 <!-- 刪除按鈕 -->
 <form id="deleteForm" th:action="@{/deleteCook/{uuid}(uuid=${items.UUID})}" method="post">
-    <input type="submit" value="刪除資料" onclick="return confirmDelete();" />
+    <input type="submit" value="刪除資料" onclick="return confirmDelete();" style="border-radius:20px;background-color:var(--third-color);color:var(--secondary-color)" />
 </form>
 
 <script>
