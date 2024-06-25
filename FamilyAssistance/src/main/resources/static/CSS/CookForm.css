@@ -155,7 +155,14 @@ table, th, td {
 }
 
 
-
+.inputCooks{
+	display:felx;
+    justify-content: center;
+	align-items:center;
+    text-align: center;
+    margin: 10px 10px;
+	
+}
 
 
 
