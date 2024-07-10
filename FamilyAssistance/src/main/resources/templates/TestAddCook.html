@@ -2,43 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新增菜餚</title>
+    <link rel="stylesheet" type="text/css" href="/CSS/CookForm.css">
     <style>
-        /* 使页面内容填满整个视口 */
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden; /* 禁止横向滚动条 */
+        body {
+            width:100%;
+            height:100vh;
         }
-        /* 使表格响应式，自动适应屏幕大小 */
-        table {
-            width: 100%;
-        }
-        /* 调整输入框和下拉框宽度 */
-        input, select {
-            width: calc(100% - 5px); /* 使输入框宽度为表格宽度减去5像素 */
-        }
-        /* 将菜名输入字段宽度设置为60% */
-        input[name="cookNames"] {
-            width: 60%;
-        }
-        /* 调整菜名和类型的布局和间距 */
-        td:first-child input[type="text"] {
-            width: calc(100% - 5px); /* 使输入框宽度为表格列宽度减去5像素 */
-            margin-bottom: 5px; /* 添加底部间距 */
-            text-align: center; /* 文字居中 */
-        }
-        td:last-child select {
-            width: calc(100% - 5px); /* 使下拉框宽度为表格列宽度减去5像素 */
+        
+        *{
+        font-size: 1rem;
         }
     </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增便當菜</title>
 </head>
 <body>
     <h2>新增菜餚</h2>
-    <form th:action="@{'/submitCooking/' + ${wisher}}" method="post">
+    <form th:action="@{'/submitCooking/' + ${wisher}}" method="post" class="inputCooks">
         <table>
             <thead>
                 <tr>
@@ -46,12 +26,12 @@
                     <th>類型</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody >
                 <!-- Display six empty rows for user input -->
                 <tr th:each="row : ${#numbers.sequence(1, 4)}">
-                    <td><input type="text" name="cookNames" /></td>
+                    <td><input type="text" name="cookNames" style="border-radius: 10px;padding:10px;"/></td>
                     <td>
-                        <select name="types">
+                        <select name="types" style="border-radius: 10px;padding:10px;">
                             <option value="配菜">配菜</option>
                             <option value="主菜">主菜</option>
                             <option value="蔬菜">蔬菜</option>
@@ -62,7 +42,7 @@
         </table>
         <!-- Add a hidden input field to submit the wisher value -->
         <input type="hidden" name="lineID" value="${wisher}" />
-        <button type="submit">提交</button>
+        <button type="submit" class="btn" style="margin:30px 20px;">提交</button>
     </form>
 </body>
 </html>

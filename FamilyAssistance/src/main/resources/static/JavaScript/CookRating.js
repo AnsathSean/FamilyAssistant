@@ -27,13 +27,17 @@ let dishNum = 0;
             const day = dateString.slice(6, 8);
             const formattedDate = `${year}年${month}月${day}日 (${new Date(year, month - 1, day).toLocaleDateString('zh-TW', { weekday: 'short' })})`;
             document.getElementById('cookDate').innerText = formattedDate;
-
+            
             // Set bento rate stars
             const bentoRateContainer = document.getElementById('bentoRate');
             setRatingStars(bentoRateContainer, data.bentoRate);
             addRatingFunctionality(bentoRateContainer, 99);
             const bentoID = document.getElementById('bentoID')
+            const hidbentoRate = document.getElementById('getBentoRate')
+            hidbentoRate.innerHTML = data.bentoRate
             bentoID.innerHTML = data.bentoID
+            const commentEl = document.getElementById('inputText')
+            commentEl.innerText = data.comment
 
 
         // Sort cooks based on type and cookName
@@ -46,7 +50,7 @@ let dishNum = 0;
             if (b.type === "蔬菜") return -1;
             return 0;
         });
-
+    //console.log(data.cooks);
     // Add each meal to the cooking list
     const cookingListContainer = document.getElementById('cookingList');
     sortedCooks.forEach((cook, index) => {
@@ -55,18 +59,22 @@ let dishNum = 0;
         mealDiv.innerHTML = `
             <p>${cook.cookName}</p>
             <div class="dishRating" id="dishRating-${index}"></div>
-            <div class="hidden" id="GetdishRating-${index}">0</div>
+            <div class="hidden" id="GetdishRating-${index}">${cook.rate==='' ? '0' : cook.rate}</div>
             <div class="hidden" id="GetdishUUID-${index}">${cook.uuid}</div>
             
         `;
+        
+        //${e.key ===' ' ? 'Space' : e.key}
         cookingListContainer.appendChild(mealDiv);
         const dishRatingContainer = document.getElementById(`dishRating-${index}`);
         setRatingStars(dishRatingContainer, cook.rate);
         addRatingFunctionality(dishRatingContainer, index);
     });
     
-    
+    //-------------
     //點擊執行按鈕
+    //-----------------
+    
     const submitButton = document.getElementById('submitComment');    
     submitButton.addEventListener('click', function() {
 		
@@ -130,7 +138,7 @@ function setRatingStars(container, rate) {
     }
 }
 
-function addRatingFunctionality(container, idx) {
+function addRatingFunctionality(container, idx, bentoRate) {
         const stars = container.children;
         for (let i = 0; i < stars.length; i++) {
             stars[i].addEventListener('click', function() {
