@@ -99,7 +99,7 @@ public class MainController {
 		            replyMessageService.bindRichMenuToUser(userId, richMenuId);
 
 		            // 回應訊息給用戶
-		            replyMessageService.ReplyTextMessage("已切換至閱讀模式圖文選單", token);
+		            //replyMessageService.ReplyTextMessage("已切換至閱讀模式圖文選單", token);
 
 		            return new ResponseEntity<String>("OK", HttpStatus.OK);
 		        }
@@ -114,7 +114,7 @@ public class MainController {
 		            replyMessageService.bindRichMenuToUser(userId, richMenuId);
 
 		            // 回應訊息給用戶
-		            replyMessageService.ReplyTextMessage("已切換至閱讀模式圖文選單", token);
+		            //replyMessageService.ReplyTextMessage("已切換至處菜與願望選單", token);
 
 		            return new ResponseEntity<String>("OK", HttpStatus.OK);
 		        }
