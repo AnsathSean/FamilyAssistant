@@ -78,7 +78,55 @@ public class MainController {
 		JSONObject event = new JSONObject();
 		boolean SelfWish = true;
 		
-		//處理Message訊息
+		// 處理 Post back 訊息
+		for (int i = 0; i < object.getJSONArray("events").length(); i++) {
+		    JSONObject currentEvent = object.getJSONArray("events").getJSONObject(i);
+
+		    if (currentEvent.getString("type").equals("postback")) {
+		        String token = currentEvent.getString("replyToken");
+		        JSONObject postbackObject = currentEvent.getJSONObject("postback");
+
+		        // 取得 post back 的 data 資料
+		        String postbackData = postbackObject.getString("data");
+
+		        // 解析 data，確認是 query_reading
+		        if ("action=query_reading".equals(postbackData)) {
+		            // 取得使用者 ID
+		            String userId = currentEvent.getJSONObject("source").getString("userId");
+
+		            // 將圖文選單綁定給該用戶
+		            String richMenuId = "richmenu-c47a9ef6e0daa38cccfaaca4ec9b059a";
+		            replyMessageService.bindRichMenuToUser(userId, richMenuId);
+
+		            // 回應訊息給用戶
+		            replyMessageService.ReplyTextMessage("已切換至閱讀模式圖文選單", token);
+
+		            return new ResponseEntity<String>("OK", HttpStatus.OK);
+		        }
+		        
+		        // 解析 data，確認是 query_reading
+		        if ("action=query_wish".equals(postbackData)) {
+		            // 取得使用者 ID
+		            String userId = currentEvent.getJSONObject("source").getString("userId");
+
+		            // 將圖文選單綁定給該用戶
+		            String richMenuId = "richmenu-a716736f68c17ebf890577c44e7bc7af";
+		            replyMessageService.bindRichMenuToUser(userId, richMenuId);
+
+		            // 回應訊息給用戶
+		            replyMessageService.ReplyTextMessage("已切換至閱讀模式圖文選單", token);
+
+		            return new ResponseEntity<String>("OK", HttpStatus.OK);
+		        }
+		        
+		    }
+		}
+
+		
+
+		
+		
+		//處理一般Message訊息
 		for(int i=0; i<object.getJSONArray("events").length(); i++) {
 			//判斷陣列是否正常
 			 if(object.getJSONArray("events").getJSONObject(i).getString("type").equals("message")) {

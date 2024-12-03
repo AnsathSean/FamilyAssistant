@@ -7,7 +7,9 @@ import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -417,6 +419,37 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		System.out.println(PayloadContent.toString());
         HttpEntity<String> entity = new HttpEntity<String>(PayloadContent.toString(), headers);
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
+		
+	}
+
+	@Override
+	public void bindRichMenuToUser(String userId, String richMenuId) {
+		  // API URL
+	    String apiUrl = "https://api.line.me/v2/bot/user/" + userId + "/richmenu/" + richMenuId;
+
+	    // 建立 RestTemplate
+	    RestTemplate restTemplate = new RestTemplate();
+
+	    // 設定 Headers
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    headers.setBearerAuth(LINE_SECRET); // 替換成你的 Channel Access Token
+
+	    // 建立請求
+	    HttpEntity<String> request = new HttpEntity<>(headers);
+
+	    // 發送請求
+	    try {
+	        ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, request, String.class);
+	        if (response.getStatusCode() == HttpStatus.OK) {
+	            System.out.println("成功綁定圖文選單給使用者: " + userId);
+	        } else {
+	            System.out.println("綁定失敗: " + response.getStatusCode());
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("綁定過程中發生錯誤");
+	    }
 		
 	}
 }

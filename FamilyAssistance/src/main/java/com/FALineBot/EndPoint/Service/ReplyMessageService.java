@@ -12,4 +12,5 @@ public interface ReplyMessageService {
 	void ReplyFlexMessageTemplate(String token);
 	void ReplyCheckDeleteMessage(Integer id,String token);
 	void ReplyWebClickTemplate(String Message,String token,String webfunction,String wisher);
+	void bindRichMenuToUser(String userId, String richMenuId);
 }

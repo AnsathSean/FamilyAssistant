@@ -2,7 +2,15 @@ package com.FALineBot.EndPoint.Service.Impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
 import com.FALineBot.EndPoint.Dao.ReplyMessageDao;
 import com.FALineBot.EndPoint.Dao.WishListDao;
 import com.FALineBot.EndPoint.Model.WishList;
@@ -47,6 +55,12 @@ public class ReplyMessageServiceImpl implements ReplyMessageService {
 	@Override
 	public void ReplyWebClickTemplate(String Message, String token, String webfunction,String wisher) {
 		replyMessageDao.ReplyFlexWebContentMessage(token, Message,wisher, webfunction);
+	}
+
+	@Override
+	public void bindRichMenuToUser(String userId, String richMenuId) {
+		replyMessageDao.bindRichMenuToUser(userId, richMenuId);
+		
 	}
 	
 }
