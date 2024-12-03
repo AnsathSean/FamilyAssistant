@@ -95,7 +95,7 @@ public class MainController {
 		            String userId = currentEvent.getJSONObject("source").getString("userId");
 
 		            // 將圖文選單綁定給該用戶
-		            String richMenuId = "richmenu-c47a9ef6e0daa38cccfaaca4ec9b059a";
+		            String richMenuId = "richmenu-2be56f583ed9fa0f7c3e55f8d6e6b75a";
 		            replyMessageService.bindRichMenuToUser(userId, richMenuId);
 
 		            // 回應訊息給用戶
@@ -110,7 +110,7 @@ public class MainController {
 		            String userId = currentEvent.getJSONObject("source").getString("userId");
 
 		            // 將圖文選單綁定給該用戶
-		            String richMenuId = "richmenu-a716736f68c17ebf890577c44e7bc7af";
+		            String richMenuId = "richmenu-0501fca8e01ac0fa9c77c14e5039ae72";
 		            replyMessageService.bindRichMenuToUser(userId, richMenuId);
 
 		            // 回應訊息給用戶
