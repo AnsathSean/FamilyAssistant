@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.FALineBot.EndPoint.Dto.WishListParam;
 import com.FALineBot.EndPoint.Model.Cook;
 import com.FALineBot.EndPoint.Model.User;
+import com.FALineBot.EndPoint.Model.Vocabulary;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.CookingService;
 import com.FALineBot.EndPoint.Service.ReplyMessageService;
 import com.FALineBot.EndPoint.Service.SmokeService;
 import com.FALineBot.EndPoint.Service.UserManagerService;
+import com.FALineBot.EndPoint.Service.VocabularyService;
 import com.FALineBot.EndPoint.Service.WishListService;
 import java.util.ArrayList;
 
@@ -44,6 +46,8 @@ public class MainController {
     private CookingService cookingService;
     @Autowired
     private SmokeService smokeService;
+    @Autowired
+    private VocabularyService vocabularyService;
 	
 	//設置驗證代碼
 	private String allValidationCode = "QWERASD123";
@@ -205,9 +209,27 @@ public class MainController {
 				 //查詢單字功能
 				 //---------------------------------------------
 				 if (Message.matches("^[a-zA-Z]+$")) {
-					    replyMessageService.ReplyTextMessage("這應該是個英文單字", token);
-					    return new ResponseEntity<String>("OK", HttpStatus.OK);
-					}
+			            // 呼叫 VocabularyService 獲取單字資訊
+			            Vocabulary vocabulary = vocabularyService.getDefinitions(Message);
+
+			            // 檢查是否有定義
+			            if (vocabulary != null && vocabulary.getDefinition() != null && !vocabulary.getDefinition().isEmpty()) {
+			                // 將 definitions 格式化為 "1. <definition> 2. <definition>" 的形式
+			                StringBuilder formattedDefinitions = new StringBuilder();
+			                for (int q = 0; q < vocabulary.getDefinition().size(); q++) {
+			                    formattedDefinitions.append(q + 1).append(". ")
+			                            .append(vocabulary.getDefinition().get(q)).append("\n");
+			                }
+
+			                // 傳送回應訊息
+			                replyMessageService.ReplyTextMessage(formattedDefinitions.toString().trim(), token);
+			            } else {
+			                // 如果沒有定義，回傳提示訊息
+			                replyMessageService.ReplyTextMessage("抱歉，未能找到該單字的定義。", token);
+			            }
+
+			            return new ResponseEntity<>("OK", HttpStatus.OK);
+			        }
 
 				 
 				 //=========

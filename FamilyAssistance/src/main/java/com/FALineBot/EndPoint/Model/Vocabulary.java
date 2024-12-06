@@ -1,21 +1,31 @@
 package com.FALineBot.EndPoint.Model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
 
 @Entity
 public class Vocabulary {
 
-    private Integer id;
+
+	public List<String> getPartOfSpeech() {
+		return partOfSpeech;
+	}
+
+	public void setPartOfSpeech(List<String> partOfSpeech) {
+		this.partOfSpeech = partOfSpeech;
+	}
+
+	private Integer id;
 
     private String lineId;
 
     private String word;
 
-    private String definition;
+    private List<String> definition;
 
-    private String exampleSentence;
+    private List<String> exampleSentence;
 
     private Integer repetitions;
 
@@ -31,7 +41,7 @@ public class Vocabulary {
 
     private LocalDate updatedAt;
 
-    private String partOfSpeech;
+    private List<String> partOfSpeech;
 
 	public Integer getId() {
 		return id;
@@ -57,21 +67,7 @@ public class Vocabulary {
 		this.word = word;
 	}
 
-	public String getDefinition() {
-		return definition;
-	}
 
-	public void setDefinition(String definition) {
-		this.definition = definition;
-	}
-
-	public String getExampleSentence() {
-		return exampleSentence;
-	}
-
-	public void setExampleSentence(String exampleSentence) {
-		this.exampleSentence = exampleSentence;
-	}
 
 	public Integer getRepetitions() {
 		return repetitions;
@@ -129,14 +125,24 @@ public class Vocabulary {
 		this.updatedAt = updatedAt;
 	}
 
-	public String getPartOfSpeech() {
-		return partOfSpeech;
+
+	
+
+    
+    public List<String> getDefinition() {
+		return definition;
 	}
 
-	public void setPartOfSpeech(String partOfSpeech) {
-		this.partOfSpeech = partOfSpeech;
+	public void setDefinition(List<String> definition) {
+		this.definition = definition;
 	}
-    
-    
+
+	public List<String> getExampleSentence() {
+		return exampleSentence;
+	}
+
+	public void setExampleSentence(List<String> exampleSentence) {
+		this.exampleSentence = exampleSentence;
+	}
 
 }

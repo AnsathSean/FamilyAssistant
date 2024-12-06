@@ -1,5 +1,8 @@
 package com.FALineBot.EndPoint.Dao;
 
-public interface VocabularyDao {
+import com.FALineBot.EndPoint.Model.Vocabulary;
 
+public interface VocabularyDao {
+	
+	 public Vocabulary getDefinitions(String word);
 }
