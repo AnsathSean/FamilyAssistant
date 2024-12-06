@@ -46,6 +46,7 @@ public class VocabularyDaoImpl implements VocabularyDao{
         List<String> definitions = response.stream()
                 .map(entry -> (String) entry.get("text")) // 取得 "text" 作為定義
                 .filter(Objects::nonNull) // 避免空值
+                .map(text -> text.replaceAll("<xref>", " ").replaceAll("</xref>", " ")) // 去除 <xref> 標籤
                 .limit(3) // 取最多3個定義
                 .collect(Collectors.toList());
         
