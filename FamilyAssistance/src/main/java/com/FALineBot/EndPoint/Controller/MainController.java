@@ -205,38 +205,46 @@ public class MainController {
 				 //===========================================
 				 
 				 
-				 //------------------------------------------
-				 //查詢單字功能
-				 //---------------------------------------------
-				 if (Message.matches("^[a-zA-Z-]+$")) {
-			            // 呼叫 VocabularyService 獲取單字資訊
-			            Vocabulary vocabulary = vocabularyService.getDefinitions(Message);
+				//------------------------------------------
+				// 查詢單字功能
+				//---------------------------------------------
+				if (Message.matches("^[a-zA-Z-]+$")) {
+				    // 將 Message 轉換為小寫單字
+				    String lowerCaseWord = Message.toLowerCase();
 
-			         // 檢查是否有定義
-			            if (vocabulary != null 
-			                    && vocabulary.getDefinition() != null 
-			                    && !vocabulary.getDefinition().isEmpty()) {
+				    // 呼叫 VocabularyService 使用小寫單字查詢
+				    Vocabulary vocabulary = vocabularyService.getDefinitions(lowerCaseWord);
 
-			                // 獲取詞性，若為空則設置為預設值 "none"
-			                List<String> partOfSpeechList = vocabulary.getPartOfSpeech() != null && !vocabulary.getPartOfSpeech().isEmpty()
-			                        ? vocabulary.getPartOfSpeech()
-			                        : List.of("none");
+				    // 如果小寫查詢失敗，嘗試將首字母大寫
+				    if (vocabulary == null || vocabulary.getDefinition() == null || vocabulary.getDefinition().isEmpty()) {
+				        // 將第一個字母大寫的單字
+				        String capitalizedWord = lowerCaseWord.substring(0, 1).toUpperCase() + lowerCaseWord.substring(1);
+				        vocabulary = vocabularyService.getDefinitions(capitalizedWord);
+				    }
 
-			                // 使用 ReplyVocFlexMessage 發送 Flex Message
-			                replyMessageService.ReplyVocFlexMessage(
-			                        token,                       // replyToken
-			                        vocabulary.getWord(),        // 單字
-			                        vocabulary.getDefinition(),  // 定義
-			                        vocabulary.getExampleSentence() != null ? vocabulary.getExampleSentence() : List.of(), // 例句，若無則使用空列表
-			                        partOfSpeechList             // 詞性列表
-			                );
-			            } else {
-			                // 如果沒有定義，回傳提示訊息
-			                replyMessageService.ReplyTextMessage("抱歉，未能找到該單字的定義。", token);
-			            }
+				    // 檢查是否查詢到結果
+				    if (vocabulary != null && vocabulary.getDefinition() != null && !vocabulary.getDefinition().isEmpty()) {
+				        // 獲取詞性，若為空則設置為預設值 "none"
+				        List<String> partOfSpeechList = vocabulary.getPartOfSpeech() != null && !vocabulary.getPartOfSpeech().isEmpty()
+				                ? vocabulary.getPartOfSpeech()
+				                : List.of("none");
 
-			            return new ResponseEntity<>("OK", HttpStatus.OK);
-			        }
+				        // 使用 ReplyVocFlexMessage 發送 Flex Message
+				        replyMessageService.ReplyVocFlexMessage(
+				                token,                       // replyToken
+				                vocabulary.getWord(),        // 單字
+				                vocabulary.getDefinition(),  // 定義
+				                vocabulary.getExampleSentence() != null ? vocabulary.getExampleSentence() : List.of(), // 例句，若無則使用空列表
+				                partOfSpeechList             // 詞性列表
+				        );
+				    } else {
+				        // 如果仍然找不到定義，回傳提示訊息
+				        replyMessageService.ReplyTextMessage("抱歉，未能找到該單字的定義。", token);
+				    }
+
+				    return new ResponseEntity<>("OK", HttpStatus.OK);
+				}
+
 
 				 
 				 //=========

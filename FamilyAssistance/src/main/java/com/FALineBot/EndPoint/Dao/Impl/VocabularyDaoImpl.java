@@ -55,7 +55,7 @@ public class VocabularyDaoImpl implements VocabularyDao{
                 .map(entry -> (String) entry.get("text")) // 取得 "text" 作為例子
                 .filter(Objects::nonNull) // 避免空值
                 .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
-                .limit(3) // 取最多3個例子
+                .limit(2) // 取最多2個例子
                 .collect(Collectors.toList());
 
         // 組裝 Vocabulary 物件
