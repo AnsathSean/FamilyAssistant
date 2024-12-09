@@ -9,14 +9,6 @@ import javax.persistence.Entity;
 public class Vocabulary {
 
 
-	public List<String> getPartOfSpeech() {
-		return partOfSpeech;
-	}
-
-	public void setPartOfSpeech(List<String> partOfSpeech) {
-		this.partOfSpeech = partOfSpeech;
-	}
-
 	private Integer id;
 
     private String lineId;
@@ -125,8 +117,13 @@ public class Vocabulary {
 		this.updatedAt = updatedAt;
 	}
 
+	public List<String> getPartOfSpeech() {
+		return partOfSpeech;
+	}
 
-	
+	public void setPartOfSpeech(List<String> partOfSpeech) {
+		this.partOfSpeech = partOfSpeech;
+	}
 
     
     public List<String> getDefinition() {

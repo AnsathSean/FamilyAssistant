@@ -208,21 +208,19 @@ public class MainController {
 				 //------------------------------------------
 				 //查詢單字功能
 				 //---------------------------------------------
-				 if (Message.matches("^[a-zA-Z]+$")) {
+				 if (Message.matches("^[a-zA-Z-]+$")) {
 			            // 呼叫 VocabularyService 獲取單字資訊
 			            Vocabulary vocabulary = vocabularyService.getDefinitions(Message);
 
 			            // 檢查是否有定義
 			            if (vocabulary != null && vocabulary.getDefinition() != null && !vocabulary.getDefinition().isEmpty()) {
-			                // 將 definitions 格式化為 "1. <definition> 2. <definition>" 的形式
-			                StringBuilder formattedDefinitions = new StringBuilder();
-			                for (int q = 0; q < vocabulary.getDefinition().size(); q++) {
-			                    formattedDefinitions.append(q + 1).append(". ")
-			                            .append(vocabulary.getDefinition().get(q)).append("\n");
-			                }
-
-			                // 傳送回應訊息
-			                replyMessageService.ReplyTextMessage(formattedDefinitions.toString().trim(), token);
+			                // 使用 ReplyVocFlexMessage 發送 Flex Message
+			                replyMessageService.ReplyVocFlexMessage(
+			                        token,                       // replyToken
+			                        vocabulary.getWord(),        // 單字
+			                        vocabulary.getDefinition(),  // 定義
+			                        vocabulary.getExampleSentence() != null ? vocabulary.getExampleSentence() : List.of() // 例句，若無則使用空列表
+			                );
 			            } else {
 			                // 如果沒有定義，回傳提示訊息
 			                replyMessageService.ReplyTextMessage("抱歉，未能找到該單字的定義。", token);

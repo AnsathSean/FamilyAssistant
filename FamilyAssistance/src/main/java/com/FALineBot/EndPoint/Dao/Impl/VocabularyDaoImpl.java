@@ -20,42 +20,50 @@ public class VocabularyDaoImpl implements VocabularyDao{
     private String API_KEY = "jqijpq8io3sqdk7c7lt5t0hv3dp4tywufxd36upsgy19odx44"; 
 
     public Vocabulary getDefinitions(String word) {
-        // 構建 API URL
-        String url = UriComponentsBuilder.fromUriString(DEFINITION_URL)
+        // 構建 Definitions API URL
+        String definitionUrl = UriComponentsBuilder.fromUriString(DEFINITION_URL)
                 .queryParam("limit", 10) // 限制返回的定義數量
                 .queryParam("api_key", API_KEY)
                 .build(word)
-                .toString();    
-        
-        
-        // 使用 RestTemplate 發送 GET definition的請求
-        List<Map<String, Object>> response  = restTemplate.getForObject(url, List.class);
-        
-        if (response == null || response.isEmpty()) {
-            // 如果沒有回應，返回空結果
-            return new Vocabulary();
-        }
-        
-        // 提取詞性與定義
-        List<String> partOfSpeech = response.stream()
-                .map(entry -> (String) entry.get("partOfSpeech")) // 取得 "partOfSpeech"
-                .filter(Objects::nonNull) // 避免空值
-                .distinct() // 去重
-                .collect(Collectors.toList());
+                .toString();
 
-        List<String> definitions = response.stream()
+        // 使用 RestTemplate 發送 GET definition 的請求
+        List<Map<String, Object>> definitionResponse = restTemplate.getForObject(definitionUrl, List.class);
+
+        // 構建 Examples API URL
+        String exampleUrl = UriComponentsBuilder.fromUriString(EXAMPLE_URL)
+                .queryParam("limit", 5) // 限制返回的例子數量
+                .queryParam("includeDuplicates", false)
+                .queryParam("useCanonical", false)
+                .queryParam("api_key", API_KEY)
+                .build(word)
+                .toString();
+
+        // 使用 RestTemplate 發送 GET examples 的請求
+        Map<String, Object> exampleResponse = restTemplate.getForObject(exampleUrl, Map.class);
+
+        // 處理 Definitions
+        List<String> definitions = definitionResponse.stream()
                 .map(entry -> (String) entry.get("text")) // 取得 "text" 作為定義
                 .filter(Objects::nonNull) // 避免空值
-                .map(text -> text.replaceAll("<xref>", " ").replaceAll("</xref>", " ")) // 去除 <xref> 標籤
+                .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
                 .limit(3) // 取最多3個定義
                 .collect(Collectors.toList());
-        
+
+        // 處理 Examples
+        List<String> exampleSentences = ((List<Map<String, Object>>) exampleResponse.get("examples")).stream()
+                .map(entry -> (String) entry.get("text")) // 取得 "text" 作為例子
+                .filter(Objects::nonNull) // 避免空值
+                .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
+                .limit(3) // 取最多3個例子
+                .collect(Collectors.toList());
+
+        // 組裝 Vocabulary 物件
         Vocabulary voc = new Vocabulary();
         voc.setWord(word);
-        voc.setPartOfSpeech(partOfSpeech);
         voc.setDefinition(definitions);
-        
-        
-    	return voc;
+        voc.setExampleSentence(exampleSentences); // 設置例句
+
+        return voc;
     }
 }

@@ -62,5 +62,11 @@ public class ReplyMessageServiceImpl implements ReplyMessageService {
 		replyMessageDao.bindRichMenuToUser(userId, richMenuId);
 		
 	}
+
+	@Override
+	public void ReplyVocFlexMessage(String replyToken, String word, List<String> definition, List<String> example) {
+		replyMessageDao.ReplyVocFlexMessage(replyToken, word, definition, example);
+		
+	}
 	
 }
