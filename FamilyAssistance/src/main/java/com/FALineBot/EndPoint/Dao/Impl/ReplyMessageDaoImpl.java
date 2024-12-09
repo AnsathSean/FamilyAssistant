@@ -119,6 +119,9 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	        requestBody.put("replyToken", replyToken);
 	        requestBody.put("messages", messages);
 
+	        //打印出完整的 JSON 結構
+	        System.out.println("Request JSON: " + requestBody.toString(4));
+	        
 	        // 設定 Headers
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setContentType(MediaType.APPLICATION_JSON);
