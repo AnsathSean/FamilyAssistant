@@ -27,123 +27,124 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	private String LINE_SECRET = "/SG/if6TI6qOaEqeniCsdaX4Y/R7pzzjw6mhQrwsCCQK0aItavD/9jhH/OwsAlDbNAlWcGJU2W5hn9hK2WrkU1kk0bM77KdRfIVcop96uIJurFGCpGMEiNoGlmjo59dGdMNOSUBi8AhTwwTyDHeCuAdB04t89/1O/w1cDnyilFU=";
 
 	public void ReplyVocFlexMessage(String replyToken, String word, List<String> definition, List<String> example, List<String> partOfSpeechList) {
-	    try {
-	        // 創建 Flex Message JSON 結構
-	        JSONObject flexMessage = new JSONObject();
-	        flexMessage.put("type", "bubble");
+		  try {
+		        // 創建 Body
+		        LinkedHashMap<String, Object> bodyMap = new LinkedHashMap<>();
+		        bodyMap.put("type", "box");
+		        bodyMap.put("layout", "vertical");
 
-	        // Body
-	        JSONObject body = new JSONObject();
-	        body.put("type", "box");
-	        body.put("layout", "vertical");
+		        JSONArray bodyContents = new JSONArray();
+		        bodyContents.put(new JSONObject().put("type", "text").put("text", "單字查詢結果").put("weight", "bold")
+		                .put("color", "#1DB446").put("size", "sm"));
+		        bodyContents.put(new JSONObject().put("type", "text").put("text", word).put("weight", "bold")
+		                .put("size", "xxl").put("margin", "md"));
 
-	        JSONArray bodyContents = new JSONArray();
-	        bodyContents.put(new JSONObject().put("type", "text").put("text", "單字查詢結果").put("weight", "bold")
-	                .put("color", "#1DB446").put("size", "sm"));
-	        bodyContents.put(new JSONObject().put("type", "text").put("text", word).put("weight", "bold")
-	                .put("size", "xxl").put("margin", "md"));
+		        // 動態生成詞性
+		        String partOfSpeech = partOfSpeechList != null && !partOfSpeechList.isEmpty()
+		                ? "詞性：" + String.join(", ", partOfSpeechList)
+		                : "詞性：none";
+		        bodyContents.put(new JSONObject().put("type", "text").put("text", partOfSpeech).put("size", "sm")
+		                .put("color", "#aaaaaa").put("margin", "sm").put("wrap", true));
 
-	        // 動態生成詞性
-	        String partOfSpeech = partOfSpeechList != null && !partOfSpeechList.isEmpty()
-	                ? "詞性：" + String.join(", ", partOfSpeechList)
-	                : "詞性：none";
-	        bodyContents.put(new JSONObject().put("type", "text").put("text", partOfSpeech).put("size", "sm")
-	                .put("color", "#aaaaaa").put("margin", "sm").put("wrap", true));
+		        bodyContents.put(new JSONObject().put("type", "text").put("text", "定義").put("weight", "bold")
+		                .put("size", "sm").put("margin", "lg").put("color", "#555555"));
 
-	        bodyContents.put(new JSONObject().put("type", "text").put("text", "定義").put("weight", "bold")
-	                .put("size", "sm").put("margin", "lg").put("color", "#555555"));
+		        // 定義內容
+		        LinkedHashMap<String, Object> definitionBoxMap = new LinkedHashMap<>();
+		        definitionBoxMap.put("type", "box");
+		        definitionBoxMap.put("layout", "vertical");
+		        JSONArray definitionContents = new JSONArray();
+		        for (int i = 0; i < definition.size(); i++) {
+		            definitionContents.put(new JSONObject().put("type", "text")
+		                    .put("text", (i + 1) + ". " + definition.get(i))
+		                    .put("size", "sm")
+		                    .put("color", "#111111")
+		                    .put("wrap", true)
+		                    .put("margin", "md"));
+		        }
+		        definitionBoxMap.put("contents", definitionContents);
+		        bodyContents.put(new JSONObject(definitionBoxMap));
 
-	        // 定義內容
-	        JSONObject definitionBox = new JSONObject();
-	        definitionBox.put("type", "box");
-	        definitionBox.put("layout", "vertical");
-	        JSONArray definitionContents = new JSONArray();
-	        for (int i = 0; i < definition.size(); i++) {
-	            definitionContents.put(new JSONObject().put("type", "text")
-	                    .put("text", (i + 1) + ". " + definition.get(i))
-	                    .put("size", "sm")
-	                    .put("color", "#111111")
-	                    .put("wrap", true)
-	                    .put("margin", "md"));
-	        }
-	        definitionBox.put("contents", definitionContents);
-	        bodyContents.put(definitionBox);
+		        bodyContents.put(new JSONObject().put("type", "separator").put("margin", "xxl"));
+		        bodyContents.put(new JSONObject().put("type", "text").put("text", "例句").put("weight", "bold")
+		                .put("size", "sm").put("margin", "lg").put("color", "#555555"));
 
-	        bodyContents.put(new JSONObject().put("type", "separator").put("margin", "xxl"));
-	        bodyContents.put(new JSONObject().put("type", "text").put("text", "例句").put("weight", "bold")
-	                .put("size", "sm").put("margin", "lg").put("color", "#555555"));
+		        // 例句內容
+		        for (String sentence : example) {
+		            bodyContents.put(new JSONObject().put("type", "text")
+		                    .put("text", sentence)
+		                    .put("size", "sm")
+		                    .put("color", "#111111")
+		                    .put("wrap", true)
+		                    .put("margin", "md"));
+		        }
+		        bodyMap.put("contents", bodyContents);
+		        JSONObject body = new JSONObject(bodyMap);
 
-	        // 例句內容
-	        for (String sentence : example) {
-	            bodyContents.put(new JSONObject().put("type", "text")
-	                    .put("text", sentence)
-	                    .put("size", "sm")
-	                    .put("color", "#111111")
-	                    .put("wrap", true)
-	                    .put("margin", "md"));
-	        }
+		        // 創建 Footer
+		        LinkedHashMap<String, Object> footerMap = new LinkedHashMap<>();
+		        footerMap.put("type", "box");
+		        footerMap.put("layout", "vertical");
+		        footerMap.put("spacing", "sm");
 
-	        body.put("contents", bodyContents);
-	        flexMessage.put("body", body);
+		        JSONArray footerContents = new JSONArray();
+		        footerContents.put(new JSONObject().put("type", "button")
+		                .put("action", new JSONObject()
+		                        .put("type", "postback")
+		                        .put("label", "儲存單字")
+		                        .put("data", "action=save&word=" + word)
+		                        .put("displayText", "我要儲存這個單字：" + word))
+		                .put("style", "primary")
+		                .put("color", "#1DB446")
+		                .put("margin", "xs")
+		                .put("height", "sm"));
+		        footerMap.put("contents", footerContents);
+		        JSONObject footer = new JSONObject(footerMap);
 
-	        // Footer
-	        JSONObject footer = new JSONObject();
-	        footer.put("type", "box");
-	        footer.put("layout", "vertical");
-	        footer.put("spacing", "sm");
+		        // 創建 Flex Message
+		        LinkedHashMap<String, Object> flexMessageMap = new LinkedHashMap<>();
+		        flexMessageMap.put("type", "bubble");
+		        flexMessageMap.put("body", body);
+		        flexMessageMap.put("footer", footer);
+		        JSONObject flexMessage = new JSONObject(flexMessageMap);
 
-	        JSONArray footerContents = new JSONArray();
-	        footerContents.put(new JSONObject().put("type", "button")
-	                .put("action", new JSONObject()
-	                        .put("type", "postback")
-	                        .put("label", "儲存單字")
-	                        .put("data", "action=save&word=" + word)
-	                        .put("displayText", "我要儲存這個單字：" + word))
-	                .put("style", "primary")
-	                .put("color", "#1DB446")
-	                .put("margin", "xs")
-	                .put("height", "sm"));
-	        footer.put("contents", footerContents);
-	        footer.put("separator", true);
-	        flexMessage.put("footer", footer);
+		        // 創建主訊息結構
+		        LinkedHashMap<String, Object> messageMap = new LinkedHashMap<>();
+		        messageMap.put("type", "flex");
+		        messageMap.put("altText", "單字查詢結果：" + word);
+		        messageMap.put("contents", flexMessage);
+		        JSONObject message = new JSONObject(messageMap);
 
-	        // 使用 LinkedHashMap 強制順序
-	        LinkedHashMap<String, Object> messageMap = new LinkedHashMap<>();
-	        messageMap.put("type", "flex"); // 保證 type 是第一個字段
-	        messageMap.put("altText", "單字查詢結果：" + word);
-	        messageMap.put("contents", flexMessage);
+		        JSONArray messages = new JSONArray();
+		        messages.put(message);
 
-	        JSONObject message = new JSONObject(messageMap);
+		        LinkedHashMap<String, Object> requestBodyMap = new LinkedHashMap<>();
+		        requestBodyMap.put("replyToken", replyToken);
+		        requestBodyMap.put("messages", messages);
+		        JSONObject requestBody = new JSONObject(requestBodyMap);
 
-	        JSONArray messages = new JSONArray();
-	        messages.put(message);
+		        // 打印出完整的 JSON 結構
+		        System.out.println("Request JSON: " + requestBody.toString(4)); // 格式化輸出
 
-	        JSONObject requestBody = new JSONObject();
-	        requestBody.put("replyToken", replyToken);
-	        requestBody.put("messages", messages);
+		        // 設定 Headers
+		        HttpHeaders headers = new HttpHeaders();
+		        headers.setContentType(MediaType.APPLICATION_JSON);
+		        headers.setBearerAuth(LINE_SECRET);
 
-	        //打印出完整的 JSON 結構
-	        System.out.println("Request JSON: " + requestBody.toString(4));
-	        
-	        // 設定 Headers
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.setContentType(MediaType.APPLICATION_JSON);
-	        headers.setBearerAuth(LINE_SECRET);
+		        HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
 
-	        HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
+		        // 發送 POST 請求
+		        ResponseEntity<String> response = restTemplate.exchange(Reply_Url, HttpMethod.POST, entity, String.class);
 
-	        // 發送 POST 請求
-	        ResponseEntity<String> response = restTemplate.exchange(Reply_Url, HttpMethod.POST, entity, String.class);
-
-	        // 檢查回應狀態
-	        if (response.getStatusCode() == HttpStatus.OK) {
-	            System.out.println("Flex Message 發送成功");
-	        } else {
-	            System.err.println("Flex Message 發送失敗: " + response.getBody());
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+		        // 檢查回應狀態
+		        if (response.getStatusCode() == HttpStatus.OK) {
+		            System.out.println("Flex Message 發送成功");
+		        } else {
+		            System.err.println("Flex Message 發送失敗: " + response.getBody());
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
 	}
 
 	
