@@ -124,7 +124,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		        JSONObject requestBody = new JSONObject(requestBodyMap);
 
 		        // 打印出完整的 JSON 結構
-		        System.out.println("Request JSON: " + requestBody.toString(4)); // 格式化輸出
+		        //System.out.println("Request JSON: " + requestBody.toString(4)); // 格式化輸出
 
 		        // 設定 Headers
 		        HttpHeaders headers = new HttpHeaders();
