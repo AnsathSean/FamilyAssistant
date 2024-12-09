@@ -108,8 +108,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 
 	        // 組裝完整的訊息物件
 	        JSONObject message = new JSONObject();
+	        message.put("altText", "單字查詢結果");
 	        message.put("type", "flex");
-	        message.put("altText", "單字查詢結果：" + word);
 	        message.put("contents", flexMessage);
 
 	        JSONArray messages = new JSONArray();
