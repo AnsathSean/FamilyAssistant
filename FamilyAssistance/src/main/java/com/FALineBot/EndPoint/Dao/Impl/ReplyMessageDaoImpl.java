@@ -1,5 +1,6 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -106,11 +107,13 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	        footer.put("separator", true);
 	        flexMessage.put("footer", footer);
 
-	        // 組裝完整的訊息物件
-	        JSONObject message = new JSONObject();
-	        message.put("altText", "單字查詢結果");
-	        message.put("type", "flex");
-	        message.put("contents", flexMessage);
+	        // 使用 LinkedHashMap 強制順序
+	        LinkedHashMap<String, Object> messageMap = new LinkedHashMap<>();
+	        messageMap.put("type", "flex"); // 保證 type 是第一個字段
+	        messageMap.put("altText", "單字查詢結果：" + word);
+	        messageMap.put("contents", flexMessage);
+
+	        JSONObject message = new JSONObject(messageMap);
 
 	        JSONArray messages = new JSONArray();
 	        messages.put(message);
