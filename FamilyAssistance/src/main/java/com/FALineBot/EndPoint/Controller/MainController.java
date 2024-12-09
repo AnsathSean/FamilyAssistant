@@ -212,14 +212,23 @@ public class MainController {
 			            // 呼叫 VocabularyService 獲取單字資訊
 			            Vocabulary vocabulary = vocabularyService.getDefinitions(Message);
 
-			            // 檢查是否有定義
-			            if (vocabulary != null && vocabulary.getDefinition() != null && !vocabulary.getDefinition().isEmpty()) {
+			         // 檢查是否有定義
+			            if (vocabulary != null 
+			                    && vocabulary.getDefinition() != null 
+			                    && !vocabulary.getDefinition().isEmpty()) {
+
+			                // 獲取詞性，若為空則設置為預設值 "none"
+			                List<String> partOfSpeechList = vocabulary.getPartOfSpeech() != null && !vocabulary.getPartOfSpeech().isEmpty()
+			                        ? vocabulary.getPartOfSpeech()
+			                        : List.of("none");
+
 			                // 使用 ReplyVocFlexMessage 發送 Flex Message
 			                replyMessageService.ReplyVocFlexMessage(
 			                        token,                       // replyToken
 			                        vocabulary.getWord(),        // 單字
 			                        vocabulary.getDefinition(),  // 定義
-			                        vocabulary.getExampleSentence() != null ? vocabulary.getExampleSentence() : List.of() // 例句，若無則使用空列表
+			                        vocabulary.getExampleSentence() != null ? vocabulary.getExampleSentence() : List.of(), // 例句，若無則使用空列表
+			                        partOfSpeechList             // 詞性列表
 			                );
 			            } else {
 			                // 如果沒有定義，回傳提示訊息
