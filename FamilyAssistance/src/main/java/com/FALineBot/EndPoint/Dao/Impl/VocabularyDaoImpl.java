@@ -49,13 +49,21 @@ public class VocabularyDaoImpl implements VocabularyDao{
                 .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
                 .limit(3) // 取最多3個定義
                 .collect(Collectors.toList());
+        
+        // 處理 partOfSpeech
+        List<String> partOfSpeeches = definitionResponse.stream()
+                .map(entry -> (String) entry.get("partOfSpeech")) // 取得 "text" 作為定義
+                .filter(Objects::nonNull) // 避免空值
+                .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
+                .limit(3) // 取最多3個定義
+                .collect(Collectors.toList());   
 
         // 處理 Examples
         List<String> exampleSentences = ((List<Map<String, Object>>) exampleResponse.get("examples")).stream()
                 .map(entry -> (String) entry.get("text")) // 取得 "text" 作為例子
                 .filter(Objects::nonNull) // 避免空值
                 .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
-                .limit(2) // 取最多2個例子
+                .limit(3) // 取最多2個例子
                 .collect(Collectors.toList());
 
         // 組裝 Vocabulary 物件
@@ -63,6 +71,7 @@ public class VocabularyDaoImpl implements VocabularyDao{
         voc.setWord(word);
         voc.setDefinition(definitions);
         voc.setExampleSentence(exampleSentences); // 設置例句
+        voc.setPartOfSpeech(partOfSpeeches);
 
         return voc;
     }
