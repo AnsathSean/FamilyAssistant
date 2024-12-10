@@ -222,6 +222,12 @@ public class MainController {
 				        vocabulary = vocabularyService.getDefinitions(capitalizedWord);
 				    }
 
+				    // 檢查是否超過查詢次數限制
+				    if ( vocabulary.isLimit()) {
+				        replyMessageService.ReplyTextMessage("已達到查詢次數上限，請於下個小時再進行查詢。", token);
+				        return new ResponseEntity<>("OK", HttpStatus.OK);
+				    }
+				    
 				    // 檢查是否查詢到結果
 				    if (vocabulary != null && vocabulary.getDefinition() != null && !vocabulary.getDefinition().isEmpty()) {
 				        // 獲取詞性，若為空則設置為預設值 "none"

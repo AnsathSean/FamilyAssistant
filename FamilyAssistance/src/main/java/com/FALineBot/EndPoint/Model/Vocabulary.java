@@ -34,7 +34,17 @@ public class Vocabulary {
     private LocalDate updatedAt;
 
     private List<String> partOfSpeech;
+    
+    private boolean isLimit;
 
+	public boolean isLimit() {
+		return isLimit;
+	}
+
+	public void setLimit(boolean isLimit) {
+		this.isLimit = isLimit;
+	}
+    
 	public Integer getId() {
 		return id;
 	}
