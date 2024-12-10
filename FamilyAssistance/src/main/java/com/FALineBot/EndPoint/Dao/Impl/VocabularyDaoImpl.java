@@ -1,5 +1,6 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
+import java.net.http.HttpHeaders;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -77,13 +78,30 @@ public class VocabularyDaoImpl implements VocabularyDao{
             voc.setDefinition(definitions);
             voc.setExampleSentence(exampleSentences);
             voc.setPartOfSpeech(partOfSpeeches);
-            voc.setLimit(false); // 正常情況下未達到上限
+            voc.setMinLimit(false);
+            voc.setHourLimit(false);
         } catch (HttpClientErrorException e) {
-            // 判斷是否為 429 Too Many Requests
+        	 // 捕捉限流錯誤
             if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
-                voc.setLimit(true); // 設置為已達上限
+                org.springframework.http.HttpHeaders headers = e.getResponseHeaders();
+                if (headers != null) {
+                    String remainingMinute = headers.getFirst("X-RateLimit-Remaining-Minute");
+                    String remainingHour = headers.getFirst("X-RateLimit-Remaining-Hour");
+
+                    if ("0".equals(remainingMinute)) {
+                        voc.setMinLimit(true);
+                    } else {
+                        voc.setMinLimit(false);
+                    }
+
+                    if ("0".equals(remainingHour)) {
+                        voc.setHourLimit(true);
+                    } else {
+                        voc.setHourLimit(false);
+                    }
+                }
             } else {
-                throw e; // 其他錯誤繼續丟出
+                throw e; // 如果不是限流錯誤，繼續丟出異常
             }
         }
 
