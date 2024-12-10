@@ -35,15 +35,28 @@ public class Vocabulary {
 
     private List<String> partOfSpeech;
     
-    private boolean isLimit;
+    private boolean isMinLimit;
+    
+    private boolean isHourLimit;
 
-	public boolean isLimit() {
-		return isLimit;
+
+	public boolean isMinLimit() {
+		return isMinLimit;
 	}
 
-	public void setLimit(boolean isLimit) {
-		this.isLimit = isLimit;
+	public void setMinLimit(boolean isMinLimit) {
+		this.isMinLimit = isMinLimit;
 	}
+
+	public boolean isHourLimit() {
+		return isHourLimit;
+	}
+
+	public void setHourLimit(boolean isHourLimit) {
+		this.isHourLimit = isHourLimit;
+	}
+
+
     
 	public Integer getId() {
 		return id;
