@@ -222,9 +222,12 @@ public class MainController {
 				        vocabulary = vocabularyService.getDefinitions(capitalizedWord);
 				    }
 
-				    // 檢查是否超過查詢次數限制
-				    if ( vocabulary.isLimit()) {
-				        replyMessageService.ReplyTextMessage("已達到查詢次數上限，請於下個小時再進行查詢。", token);
+				 // 檢查是否超過查詢次數限制
+				    if (vocabulary.isMinLimit()) {
+				        replyMessageService.ReplyTextMessage("已達到每分鐘查詢次數上限，請稍後再試。", token);
+				        return new ResponseEntity<>("OK", HttpStatus.OK);
+				    } else if (vocabulary.isHourLimit()) {
+				        replyMessageService.ReplyTextMessage("已達到每小時查詢次數上限，請於下個小時再進行查詢。", token);
 				        return new ResponseEntity<>("OK", HttpStatus.OK);
 				    }
 				    
