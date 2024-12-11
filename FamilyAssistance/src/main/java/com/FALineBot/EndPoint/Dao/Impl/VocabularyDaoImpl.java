@@ -1,12 +1,13 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
-import java.net.http.HttpHeaders;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -16,13 +17,17 @@ import com.FALineBot.EndPoint.Dao.VocabularyDao;
 import com.FALineBot.EndPoint.Model.Vocabulary;
 
 @Component
-public class VocabularyDaoImpl implements VocabularyDao{
-	private RestTemplate restTemplate = new RestTemplate();
-	private String DEFINITION_URL = "https://api.wordnik.com/v4/word.json/{word}/definitions";
-	private String EXAMPLE_URL = "https://api.wordnik.com/v4/word.json/{word}/examples";
-    private String API_KEY = "jqijpq8io3sqdk7c7lt5t0hv3dp4tywufxd36upsgy19odx44"; 
+public class VocabularyDaoImpl implements VocabularyDao {
+    private RestTemplate restTemplate = new RestTemplate();
+    private String DEFINITION_URL = "https://api.wordnik.com/v4/word.json/{word}/definitions";
+    private String EXAMPLE_URL = "https://api.wordnik.com/v4/word.json/{word}/examples";
+    private String API_KEY = "jqijpq8io3sqdk7c7lt5t0hv3dp4tywufxd36upsgy19odx44";
 
-    public Vocabulary getDefinitions(String word) {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public Vocabulary getDefinitions(String word,String LineId) {
         Vocabulary voc = new Vocabulary();
         voc.setWord(word);
 
@@ -80,8 +85,13 @@ public class VocabularyDaoImpl implements VocabularyDao{
             voc.setPartOfSpeech(partOfSpeeches);
             voc.setMinLimit(false);
             voc.setHourLimit(false);
+
+            // 儲存到 TempVocabulary 並取得生成的 ID
+            int generatedId = saveToTempVocabulary(voc,LineId);
+            voc.setId(generatedId);
+
         } catch (HttpClientErrorException e) {
-        	 // 捕捉限流錯誤
+            // 捕捉限流錯誤
             if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
                 org.springframework.http.HttpHeaders headers = e.getResponseHeaders();
                 if (headers != null) {
@@ -107,5 +117,19 @@ public class VocabularyDaoImpl implements VocabularyDao{
 
         return voc;
     }
-  
+
+    private int saveToTempVocabulary(Vocabulary voc, String LineId) {
+        String definitions = String.join(",", voc.getDefinition());
+        String examples = String.join(",", voc.getExampleSentence());
+        String partOfSpeeches = String.join(",", voc.getPartOfSpeech());
+
+        String sql = "INSERT INTO TempVocabulary (line_id, word, definition, example_sentence, part_of_speech) " +
+                     "VALUES (?, ?, ?, ?, ?)";
+
+        jdbcTemplate.update(sql, LineId, voc.getWord(), definitions, examples, partOfSpeeches);
+
+        // 取得自動生成的 ID
+        String idQuery = "SELECT LAST_INSERT_ID()";
+        return jdbcTemplate.queryForObject(idQuery, Integer.class);
+    }
 }

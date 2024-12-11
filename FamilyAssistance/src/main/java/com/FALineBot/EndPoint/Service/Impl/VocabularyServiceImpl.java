@@ -14,8 +14,8 @@ public class VocabularyServiceImpl implements VocabularyService{
 	private VocabularyDao vocabularyDao;
 
 	@Override
-	public Vocabulary getDefinitions(String word) {
-		Vocabulary getVoc =  vocabularyDao.getDefinitions(word);
+	public Vocabulary getDefinitions(String word, String LindId) {
+		Vocabulary getVoc =  vocabularyDao.getDefinitions(word,LindId);
 		return getVoc;
 	}
 }

@@ -81,8 +81,9 @@ public class MainController {
 		JSONObject object = new JSONObject(requestBody);	
 		JSONObject event = new JSONObject();
 		boolean SelfWish = true;
-		
+		//-----------------------
 		// 處理 Post back 訊息
+		//-------------------------
 		for (int i = 0; i < object.getJSONArray("events").length(); i++) {
 		    JSONObject currentEvent = object.getJSONArray("events").getJSONObject(i);
 
@@ -213,13 +214,13 @@ public class MainController {
 				    String lowerCaseWord = Message.toLowerCase();
 
 				    // 呼叫 VocabularyService 使用小寫單字查詢
-				    Vocabulary vocabulary = vocabularyService.getDefinitions(lowerCaseWord);
+				    Vocabulary vocabulary = vocabularyService.getDefinitions(lowerCaseWord,wisher);
 
 				    // 如果小寫查詢失敗，嘗試將首字母大寫
 				    if (vocabulary == null || vocabulary.getDefinition() == null || vocabulary.getDefinition().isEmpty()) {
 				        // 將第一個字母大寫的單字
 				        String capitalizedWord = lowerCaseWord.substring(0, 1).toUpperCase() + lowerCaseWord.substring(1);
-				        vocabulary = vocabularyService.getDefinitions(capitalizedWord);
+				        vocabulary = vocabularyService.getDefinitions(capitalizedWord,wisher);
 				    }
 
 				 // 檢查是否超過查詢次數限制
