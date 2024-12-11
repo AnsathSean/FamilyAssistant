@@ -26,7 +26,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	private String Reply_Url = "https://api.line.me/v2/bot/message/reply";
 	private String LINE_SECRET = "/SG/if6TI6qOaEqeniCsdaX4Y/R7pzzjw6mhQrwsCCQK0aItavD/9jhH/OwsAlDbNAlWcGJU2W5hn9hK2WrkU1kk0bM77KdRfIVcop96uIJurFGCpGMEiNoGlmjo59dGdMNOSUBi8AhTwwTyDHeCuAdB04t89/1O/w1cDnyilFU=";
 
-	public void ReplyVocFlexMessage(String replyToken, String word, List<String> definition, List<String> example, List<String> partOfSpeechList) {
+	public void ReplyVocFlexMessage(String replyToken, String word, List<String> definition, List<String> example, List<String> partOfSpeechList,String tempId) {
 		  try {
 		        // 創建 Body
 		        LinkedHashMap<String, Object> bodyMap = new LinkedHashMap<>();
@@ -92,8 +92,9 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		                .put("action", new JSONObject()
 		                        .put("type", "postback")
 		                        .put("label", "儲存單字")
-		                        .put("data", "action=save&word=" + word)
-		                        .put("displayText", "我要儲存這個單字：" + word))
+		                        .put("data", "action=save&id=" + tempId)
+		                       // .put("displayText", "我要儲存這個單字：" + word))
+		                        .put("displayText", "這個單字在Temp id為：" + tempId))
 		                .put("style", "primary")
 		                .put("color", "#1DB446")
 		                .put("margin", "xs")

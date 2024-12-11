@@ -245,7 +245,8 @@ public class MainController {
 				                vocabulary.getWord(),        // 單字
 				                vocabulary.getDefinition(),  // 定義
 				                vocabulary.getExampleSentence() != null ? vocabulary.getExampleSentence() : List.of(), // 例句，若無則使用空列表
-				                partOfSpeechList             // 詞性列表
+				                partOfSpeechList  ,        // 詞性列表
+				                vocabulary.getId().toString()
 				        );
 				    } else {
 				        // 如果仍然找不到定義，回傳提示訊息

@@ -64,8 +64,8 @@ public class ReplyMessageServiceImpl implements ReplyMessageService {
 	}
 
 	@Override
-	public void ReplyVocFlexMessage(String replyToken, String word, List<String> definition, List<String> example, List<String> partOfSpeechList) {
-		replyMessageDao.ReplyVocFlexMessage(replyToken, word, definition, example, partOfSpeechList);
+	public void ReplyVocFlexMessage(String replyToken, String word, List<String> definition, List<String> example, List<String> partOfSpeechList,String tempId) {
+		replyMessageDao.ReplyVocFlexMessage(replyToken, word, definition, example, partOfSpeechList,tempId);
 		
 	}
 	

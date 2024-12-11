@@ -13,5 +13,5 @@ public interface ReplyMessageService {
 	void ReplyCheckDeleteMessage(Integer id,String token);
 	void ReplyWebClickTemplate(String Message,String token,String webfunction,String wisher);
 	void bindRichMenuToUser(String userId, String richMenuId);
-	void ReplyVocFlexMessage(String replyToken, String word, List<String> definition, List<String> example, List<String> partOfSpeechList);
+	void ReplyVocFlexMessage(String replyToken, String word, List<String> definition, List<String> example, List<String> partOfSpeechList,String tempId);
 }
