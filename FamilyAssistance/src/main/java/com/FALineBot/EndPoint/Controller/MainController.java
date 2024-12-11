@@ -137,9 +137,9 @@ public class MainController {
 		                // 回應成功或失敗訊息
 		                if (success) {
 		                	vocabularyService.deleteToTempVocabulary(id);
-		                    replyMessageService.ReplyTextMessage("更新成功！", token);
+		                    replyMessageService.ReplyTextMessage("儲存成功！", token);
 		                } else {
-		                    replyMessageService.ReplyTextMessage("更新失敗，請稍後再試！", token);
+		                    replyMessageService.ReplyTextMessage("儲存失敗，請稍後再試！", token);
 		                }
 		            } catch (NumberFormatException e) {
 		                replyMessageService.ReplyTextMessage("ID 格式錯誤！", token);
