@@ -5,4 +5,5 @@ import com.FALineBot.EndPoint.Model.Vocabulary;
 public interface VocabularyDao {
 	
 	 public Vocabulary getDefinitions(String word, String LineId);
+	 public void saveVocabulary(int id);
 }

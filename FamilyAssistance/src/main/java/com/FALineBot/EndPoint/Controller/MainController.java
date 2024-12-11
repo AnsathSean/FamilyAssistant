@@ -82,7 +82,7 @@ public class MainController {
 		JSONObject event = new JSONObject();
 		boolean SelfWish = true;
 		//-----------------------
-		// 處理 Post back 訊息
+		// 處理 Postback 訊息
 		//-------------------------
 		for (int i = 0; i < object.getJSONArray("events").length(); i++) {
 		    JSONObject currentEvent = object.getJSONArray("events").getJSONObject(i);
@@ -123,6 +123,32 @@ public class MainController {
 
 		            return new ResponseEntity<String>("OK", HttpStatus.OK);
 		        }
+		        
+		        // 判斷是否是 action=save&id=*
+		        if (postbackData.startsWith("action=save&id=")) {
+		            try {
+		                // 取得 id
+		                String idStr = postbackData.substring("action=save&id=".length());
+		                int id = Integer.parseInt(idStr);
+
+		                // 執行 saveVocabulary
+		                boolean success = vocabularyService.saveVocabulary(id);
+
+		                // 回應成功或失敗訊息
+		                if (success) {
+		                    replyMessageService.ReplyTextMessage("更新成功！", token);
+		                } else {
+		                    replyMessageService.ReplyTextMessage("更新失敗，請稍後再試！", token);
+		                }
+		            } catch (NumberFormatException e) {
+		                replyMessageService.ReplyTextMessage("ID 格式錯誤！", token);
+		            } catch (Exception e) {
+		                replyMessageService.ReplyTextMessage("處理失敗：" + e.getMessage(), token);
+		            }
+
+		            return new ResponseEntity<String>("OK", HttpStatus.OK);
+		        }
+		    
 		        
 		    }
 		}

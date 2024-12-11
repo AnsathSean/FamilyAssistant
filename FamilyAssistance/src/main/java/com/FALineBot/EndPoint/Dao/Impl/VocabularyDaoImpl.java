@@ -118,6 +118,31 @@ public class VocabularyDaoImpl implements VocabularyDao {
         return voc;
     }
 
+    public void saveVocabulary(int id) {
+        // 從 TempVocabulary 獲取資料
+        String selectSql = "SELECT line_id, word, definition, example_sentence, part_of_speech FROM TempVocabulary WHERE id = ?";
+        Map<String, Object> tempData = jdbcTemplate.queryForMap(selectSql, id);
+
+        // 將 TempVocabulary 的資料存入 Vocabulary
+        String insertSql = "INSERT INTO Vocabulary (line_id, word, definition, example_sentence, repetitions, ease_factor, next_review_date, last_review_date, status, created_at, updated_at, part_of_speech) " +
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        jdbcTemplate.update(insertSql,
+                tempData.get("line_id"),
+                tempData.get("word"),
+                tempData.get("definition"),
+                tempData.get("example_sentence"),
+                0, // repetitions
+                2.5, // ease_factor
+                null, // next_review_date
+                null, // last_review_date
+                "new", // status
+                new java.sql.Timestamp(System.currentTimeMillis()), // created_at
+                new java.sql.Timestamp(System.currentTimeMillis()), // updated_at
+                tempData.get("part_of_speech")
+        );
+    }
+    
     private int saveToTempVocabulary(Vocabulary voc, String LineId) {
         String definitions = String.join(",", voc.getDefinition());
         String examples = String.join(",", voc.getExampleSentence());

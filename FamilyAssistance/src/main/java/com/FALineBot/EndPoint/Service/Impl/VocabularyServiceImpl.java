@@ -18,4 +18,15 @@ public class VocabularyServiceImpl implements VocabularyService{
 		Vocabulary getVoc =  vocabularyDao.getDefinitions(word,LindId);
 		return getVoc;
 	}
+	
+    public boolean saveVocabulary(int id) {
+        try {
+            vocabularyDao.saveVocabulary(id);
+            return true;
+        } catch (Exception e) {
+            // 可以選擇記錄錯誤日誌
+            System.err.println("Error saving vocabulary: " + e.getMessage());
+            return false;
+        }
+    }
 }
