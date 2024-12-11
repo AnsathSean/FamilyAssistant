@@ -29,4 +29,15 @@ public class VocabularyServiceImpl implements VocabularyService{
             return false;
         }
     }
+    
+    public boolean deleteToTempVocabulary(int id) {
+        try {
+            vocabularyDao.deleteToTempVocabulary(id);
+            return true;
+        } catch (Exception e) {
+            // 可以選擇記錄錯誤日誌
+            System.err.println("Error deleting temp vocabulary: " + e.getMessage());
+            return false;
+        }
+    }
 }

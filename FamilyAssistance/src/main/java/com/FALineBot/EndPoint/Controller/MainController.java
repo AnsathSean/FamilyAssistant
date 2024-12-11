@@ -136,6 +136,7 @@ public class MainController {
 
 		                // 回應成功或失敗訊息
 		                if (success) {
+		                	vocabularyService.deleteToTempVocabulary(id);
 		                    replyMessageService.ReplyTextMessage("更新成功！", token);
 		                } else {
 		                    replyMessageService.ReplyTextMessage("更新失敗，請稍後再試！", token);

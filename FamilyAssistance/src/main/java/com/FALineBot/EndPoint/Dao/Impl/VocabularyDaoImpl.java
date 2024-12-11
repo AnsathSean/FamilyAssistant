@@ -144,9 +144,15 @@ public class VocabularyDaoImpl implements VocabularyDao {
     }
     
     private int saveToTempVocabulary(Vocabulary voc, String LineId) {
-        String definitions = String.join(",", voc.getDefinition());
-        String examples = String.join(",", voc.getExampleSentence());
-        String partOfSpeeches = String.join(",", voc.getPartOfSpeech());
+        String definitions = voc.getDefinition().stream()
+                .map(s -> s.replace("@", ""))
+                .collect(Collectors.joining("@"));
+String examples = voc.getExampleSentence().stream()
+              .map(s -> s.replace("@", ""))
+              .collect(Collectors.joining("@"));
+String partOfSpeeches = voc.getPartOfSpeech().stream()
+                    .map(s -> s.replace("@", ""))
+                    .collect(Collectors.joining("@"));
 
         String sql = "INSERT INTO TempVocabulary (line_id, word, definition, example_sentence, part_of_speech) " +
                      "VALUES (?, ?, ?, ?, ?)";
@@ -157,4 +163,10 @@ public class VocabularyDaoImpl implements VocabularyDao {
         String idQuery = "SELECT LAST_INSERT_ID()";
         return jdbcTemplate.queryForObject(idQuery, Integer.class);
     }
+
+    public void deleteToTempVocabulary(int id) {
+        String deleteSql = "DELETE FROM TempVocabulary WHERE id = ?";
+        jdbcTemplate.update(deleteSql, id);
+    }
+
 }
