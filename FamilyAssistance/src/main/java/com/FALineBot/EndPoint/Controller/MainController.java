@@ -282,6 +282,18 @@ public class MainController {
 
 				    return new ResponseEntity<>("OK", HttpStatus.OK);
 				}
+				
+				//顯示單字清單
+				 if(Message.indexOf("檢視單字")!=-1) {
+					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show") ) {
+						 replyMessageService.ReplyWebClickTemplate("檢視單字",token, "ShowVocabulary", wisher);
+						 return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
+					 }else {
+						 replyMessageService.ReplyTextMessage("無法顯示，請確認權限",token);
+					     return new ResponseEntity<String>("OK", HttpStatus.OK);
+					 }
+					 
+				 }
 
 
 				 

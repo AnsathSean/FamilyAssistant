@@ -23,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.FALineBot.EndPoint.Model.Bento;
 import com.FALineBot.EndPoint.Model.Cook;
+import com.FALineBot.EndPoint.Model.Vocabulary;
 import com.FALineBot.EndPoint.Service.CookingService;
+import com.FALineBot.EndPoint.Service.VocabularyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.coobird.thumbnailator.Thumbnails;
@@ -46,6 +48,7 @@ public class ServiceController {
 
         return cookingList; // 返回HTML模板的名稱
     }
+	
 	
 	@GetMapping("/BentoInfo/{wisher}/{dateString}")
 	public ResponseEntity<?> ShowBentoInfo(@PathVariable String wisher, @PathVariable String dateString, Model model) {

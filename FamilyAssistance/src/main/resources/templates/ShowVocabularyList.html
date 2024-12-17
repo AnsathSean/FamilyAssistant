@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/CSS/VocForm.css">
+    <title th:text="${title}">Vocabulary List</title>
+</head>
+<body>
+    <!-- 總單字資訊標題 -->
+    <h1>總單字資訊</h1>
+    
+    
+    
+    <!-- Flexbox 容器區塊 -->
+    <div class="container">
+    
+    <!-- 左側圓形進度圖容器 -->
+    <div class="left-section">
+    <div class="circle-container ">
+        <!-- 環繞的圓形邊框 -->
+        <div id="circle" class="circle"></div>
+        <!-- 中心文字顯示 -->
+        <div class="circle-text">
+            <h2>單字總數</h2>
+            <span id="totalCount" th:text="${totalCount}">0</span>
+        </div>
+    </div>
+    </div>
+    
+        <!-- 右側：顯示難度分類統計 -->
+        <div class="right-section">
+            <ul class="no-bullets">
+                <li>困難 (Hard): <span th:text="${hardCount}">0</span></li>
+                <li>中等 (Mid): <span th:text="${midCount}">0</span></li>
+                <li>簡單 (Easy): <span th:text="${easyCount}">0</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 功能按鈕區塊 -->
+    
+    <div class="action-buttons">
+        <!-- 查詢單一單字按鈕 -->
+        <button class="button single-word">
+            <span class="icon">A</span> 查詢單一單字
+        </button>
+        <!-- 查看單字清單按鈕 -->
+        <button class="button word-list">
+            <span class="icon">&#128218;</span> 查看單字清單
+        </button>
+    </div>
+
+    <script>
+        // 後端提供的數據 (使用 Thymeleaf 插值，或透過 AJAX 獲取 JSON 數據)
+        const hardCount = parseInt(/*[[${hardCount}]]*/ 2);  // Thymeleaf 變數
+        const midCount = parseInt(/*[[${midCount}]]*/ 1);
+        const easyCount = parseInt(/*[[${easyCount}]]*/ 2);
+
+        // 計算總數與百分比
+        const totalCount = hardCount + midCount + easyCount;
+        const hardPercent = (hardCount / totalCount) * 100;
+        const midPercent = (midCount / totalCount) * 100;
+        const easyPercent = (easyCount / totalCount) * 100;
+
+        // 動態設置圓形漸變背景
+        const circleElement = document.getElementById('circle');
+        circleElement.style.background = `conic-gradient(
+            #c14052 0% ${hardPercent}%,         /* 困難 (Hard) */
+            #f5c242 ${hardPercent}% ${hardPercent + midPercent}%, /* 中等 (Mid) */
+            #4caf50 ${hardPercent + midPercent}% 100% /* 簡單 (Easy) */
+        )`;
+    </script>
+    
+    
+</body>
+</html>

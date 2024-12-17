@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200..900&display=swap');
+
+/* 全域變數設定 */
+:root {
+    --primary-size: 1.5rem;
+    --secondary-size: 1rem;
+    --primary-color: #e7767f;
+    --secondary-color: #fdf2f7;
+    --third-color: #c14052;
+    --primary-fontsize: clamp(1rem, 2vw, 1.6rem);
+}
+
+* {
+    box-sizing: border-box;
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--primary-color);
+    font-family: "Noto Serif TC", serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: var(--primary-size);
+    margin: 20px 0;
+    color: var(--secondary-color);
+}
+
+h3 {
+    font-size: var(--secondary-size);
+    color: var(--third-color);
+}
+
+/* 容器設計 */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--secondary-color);
+    border-radius: 30px;
+    padding: 20px;
+    width: 90%;
+    max-width: 1200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.right-section {
+    width: 45%;
+}
+
+.left-section {
+    display: flex; /* 啟用 Flexbox */
+    justify-content: flex-start; /* 將內容往右靠 */
+    align-items: center; /* 垂直置中 */
+    padding-left: 10%; /* 添加左側內邊距，增加右移效果 */
+    height: 100%; /* 確保有足夠的高度來垂直置中 */
+    text-align: left; /* 文字左對齊 */
+}
+
+
+ul.no-bullets {
+    list-style: none;
+    padding: 0;
+}
+
+ul.no-bullets li {
+    font-size: var(--secondary-size);
+    margin-bottom: 10px;
+    color: var(--third-color);
+}
+
+/* 功能按鈕樣式 */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.button {
+    border: none;
+    border-radius: 20px;
+    margin: 0 10px;
+    background-color: var(--third-color);
+    color: #fff;
+    font-size: var(--secondary-size);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.button:active {
+    transform: scale(0.9);
+}
+
+.button:hover {
+    background-color: var(--primary-color);
+}
+
+/* 圓形進度圖容器 */
+.circle-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+}
+
+/* 環繞的圓形區域 */
+.circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: absolute;
+    background: conic-gradient(
+        var(--hard-color) 0% 40%, /* 40% 困難 */
+        var(--mid-color) 40% 65%, /* 25% 中等 */
+        var(--easy-color) 65% 100% /* 35% 簡單 */
+    );
+    border: 10px solid var( --secondary-color); /* 外圍邊緣 */
+}
+
+/* 中心文字 */
+.circle-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var( --secondary-color);
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.circle-text h2 {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.circle-text span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+/* 響應式設計 */
+@media (max-width: 768px) {
+    /* 調整圓形容器尺寸 */
+    .circle-container {
+        width: 80vw; /* 使用視窗寬度的 80% */
+        height: 80vw; /* 高度等於寬度，維持正方形 */
+    }
+
+    /* 圓形中心文字 */
+    .circle-text h2 {
+        font-size: 1.2rem; /* 縮小標題字體 */
+    }
+
+    .circle-text span {
+        font-size: 2rem; /* 縮小數字字體 */
+    }
+
+    /* 總容器區塊調整 */
+    .container {
+        padding: 10px;
+        width: 95%; /* 讓容器幾乎滿版 */
+    }
+
+    /* 左側與右側區域 */
+    .left-section,
+    .right-section {
+        width: 100%; /* 在小螢幕下讓內容滿版 */
+        text-align: center;
+    }
+
+    /* 功能按鈕調整 */
+    .action-buttons {
+        flex-direction: column; /* 按鈕堆疊顯示 */
+        gap: 10px; /* 增加按鈕間距 */
+    }
+
+    .button {
+        width: 80%; /* 按鈕寬度設為 80% */
+        font-size: 1.2rem; /* 調整字體大小 */
+        padding: 8px 0;
+    }
+}

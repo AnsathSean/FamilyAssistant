@@ -29,9 +29,11 @@ import com.FALineBot.EndPoint.Model.Bento;
 import com.FALineBot.EndPoint.Model.Cook;
 import com.FALineBot.EndPoint.Model.CookInfo;
 import com.FALineBot.EndPoint.Model.User;
+import com.FALineBot.EndPoint.Model.Vocabulary;
 import com.FALineBot.EndPoint.Model.WishList;
 import com.FALineBot.EndPoint.Service.CookingService;
 import com.FALineBot.EndPoint.Service.UserManagerService;
+import com.FALineBot.EndPoint.Service.VocabularyService;
 import com.FALineBot.EndPoint.Service.WishListService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,6 +46,8 @@ public class WebController {
 	private UserManagerService userManagerService;
 	@Autowired
 	private CookingService cookingService;
+	@Autowired
+	private VocabularyService vocabularyService;
 	
 	@GetMapping("/MyWishlist/{wisher}")
     public String MyWishList(@PathVariable String wisher,Model model) {
@@ -72,6 +76,28 @@ public class WebController {
         model.addAttribute("title",title);
         return "ShowCookingList"; // 返回HTML模板的名稱
     }
+	
+	@GetMapping("/ShowVocabulary/{user}")
+	public String ShowVocabulary(@PathVariable String user, Model model) {
+	    String title = "Vocabulary List";
+	  System.out.println("User: "+user);
+	    List<Vocabulary> vocList = vocabularyService.getVocabularyList(user);
+	    // 計算 Hard, Mid, Easy 的數量
+	    long hardCount = vocList.stream().filter(v -> "Hard".equalsIgnoreCase(v.getStatus())).count();
+	    long midCount = vocList.stream().filter(v -> "Mid".equalsIgnoreCase(v.getStatus())).count();
+	    long easyCount = vocList.stream().filter(v -> "Easy".equalsIgnoreCase(v.getStatus())).count();
+	    long totalCount = vocList.size();
+
+	    // 傳遞資料到前端
+	    model.addAttribute("user", user);
+	    model.addAttribute("title", title);
+	    model.addAttribute("hardCount", hardCount);
+	    model.addAttribute("midCount", midCount);
+	    model.addAttribute("easyCount", easyCount);
+	    model.addAttribute("totalCount", totalCount);
+	    return "ShowVocabularyList"; // 返回對應的 HTML 模板名稱
+	}
+
 	
 	@GetMapping("/ShowOPCooking/{wisher}")
     public String ShowOPCooking(@PathVariable String wisher,Model model) {

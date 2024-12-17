@@ -536,7 +536,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		//FlexMessage.put("footer", FMFooter);
 		
 		//設定訊息類別
-		FlexMessage.put("altText","新增菜餚功能"); 
+		FlexMessage.put("altText","新增功能"); 
 		FlexMessage.put("type","flex"); 
 		Messages.put(FlexMessage);
 		PayloadContent.put("messages",Messages); 

@@ -1,5 +1,7 @@
 package com.FALineBot.EndPoint.Service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,4 +42,10 @@ public class VocabularyServiceImpl implements VocabularyService{
             return false;
         }
     }
+
+	@Override
+	public List<Vocabulary> getVocabularyList(String lineId) {
+		List<Vocabulary> vocList = vocabularyDao.getVocabularyList(lineId);
+		return vocList;
+	}
 }
