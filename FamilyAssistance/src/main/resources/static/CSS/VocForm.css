@@ -168,7 +168,7 @@ ul.no-bullets li {
     }
 	:root {
         --primary-size: 2.8rem;
-        --secondary-size: 1.5rem;
+        --secondary-size: 1.2rem;
         --primary-fontsize: clamp(0.5rem, 1vw, 2.0rem);
 }
 
