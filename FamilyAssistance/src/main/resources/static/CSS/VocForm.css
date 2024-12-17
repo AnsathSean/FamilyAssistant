@@ -26,6 +26,7 @@ body {
     align-items: center;
     width: 100%;
     min-height: 100vh;
+    transform: translateY(-5px); /* 將元素向上移動 5px */
 }
 
 h1 {
