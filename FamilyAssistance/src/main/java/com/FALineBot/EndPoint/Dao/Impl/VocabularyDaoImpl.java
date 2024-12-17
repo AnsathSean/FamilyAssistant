@@ -136,7 +136,7 @@ public class VocabularyDaoImpl implements VocabularyDao {
                 2.5, // ease_factor
                 null, // next_review_date
                 null, // last_review_date
-                "new", // status
+                "Mid", // status
                 new java.sql.Timestamp(System.currentTimeMillis()), // created_at
                 new java.sql.Timestamp(System.currentTimeMillis()), // updated_at
                 tempData.get("part_of_speech")
