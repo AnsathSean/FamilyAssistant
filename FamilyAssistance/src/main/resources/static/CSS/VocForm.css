@@ -156,10 +156,28 @@ ul.no-bullets li {
 }
 /* 響應式設計 */
 @media (max-width: 768px) {
+	
+    /* 總容器區塊調整 */
+    .container {
+        padding: 10px;
+        width: 95%; /* 讓容器幾乎滿版 */
+        height: 50vh; /* 新增高度設置為 50% 視窗高度 */
+        display: flex;
+        flex-direction: column; /* 確保內容垂直堆疊 */
+        align-items: center; /* 水平置中內容 */
+    }
+	:root {
+    --primary-size: 2.8rem;
+    --secondary-size: 1.5rem;
+    --primary-color: #e7767f;
+    --secondary-color: #fdf2f7;
+    --third-color: #c14052;
+    --primary-fontsize: clamp(1.5rem, 2vw, 2.6rem);
+}
     /* 調整圓形容器尺寸 */
     .circle-container {
-        width: 80vw; /* 使用視窗寬度的 80% */
-        height: 80vw; /* 高度等於寬度，維持正方形 */
+        width: 30vw; /* 使用視窗寬度的 80% */
+        height: 30vw; /* 高度等於寬度，維持正方形 */
     }
 
     /* 圓形中心文字 */
