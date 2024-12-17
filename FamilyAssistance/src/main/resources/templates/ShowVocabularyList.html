@@ -30,9 +30,9 @@
         <!-- 右側：顯示難度分類統計 -->
         <div class="right-section">
             <ul class="no-bullets">
-                <li>困難 : <span th:text="${hardCount}">0</span></li>
-                <li>中等 : <span th:text="${midCount}">0</span></li>
-                <li>簡單 : <span th:text="${easyCount}">0</span></li>
+                <li>困難 : <span id="hardCount" th:text="${hardCount}">0</span></li>
+                <li>中等 : <span id="midCount" th:text="${midCount}">0</span></li>
+                <li>簡單 : <span id="easyCount" th:text="${easyCount}">0</span></li>
             </ul>
         </div>
     </div>
@@ -51,10 +51,10 @@
     </div>
 
     <script>
- // 後端提供的數據 (Thymeleaf 直接插值)
-    const hardCount = parseInt( /*[[${hardCount}]]*/ );
-    const midCount = parseInt( /*[[${midCount}]]*/ );
-    const easyCount = parseInt(/*[[${easyCount}]]*/);
+ // 從 HTML 元素讀取值
+    const hardCount = parseInt(document.getElementById("hardCount").innerText) || 0;
+    const midCount = parseInt(document.getElementById("midCount").innerText) || 0;
+    const easyCount = parseInt(document.getElementById("easyCount").innerText) || 0;
 
     // 計算總數與百分比
     const totalCount = hardCount + midCount + easyCount;
@@ -69,6 +69,8 @@
         #f5c242 ${hardPercent}% ${hardPercent + midPercent}%, /* 中等 (Mid) */
         #4caf50 ${hardPercent + midPercent}% 100% /* 簡單 (Easy) */
     )`;
+    
+    console.log(hardCount);
 
     </script>
     
