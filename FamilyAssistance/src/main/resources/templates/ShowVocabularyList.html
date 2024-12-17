@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/CSS/VocForm.css">
     <title th:text="${title}">Vocabulary List</title>
 </head>
@@ -30,9 +30,9 @@
         <!-- 右側：顯示難度分類統計 -->
         <div class="right-section">
             <ul class="no-bullets">
-                <li>困難 (Hard): <span th:text="${hardCount}">0</span></li>
-                <li>中等 (Mid): <span th:text="${midCount}">0</span></li>
-                <li>簡單 (Easy): <span th:text="${easyCount}">0</span></li>
+                <li>困難 : <span th:text="${hardCount}">0</span></li>
+                <li>中等 : <span th:text="${midCount}">0</span></li>
+                <li>簡單 : <span th:text="${easyCount}">0</span></li>
             </ul>
         </div>
     </div>

@@ -160,39 +160,82 @@ ul.no-bullets li {
     /* 總容器區塊調整 */
     .container {
         padding: 10px;
-        width: 95%; /* 讓容器幾乎滿版 */
+        width: 90%; /* 讓容器幾乎滿版 */
         height: 50vh; /* 新增高度設置為 50% 視窗高度 */
         display: flex;
         flex-direction: column; /* 確保內容垂直堆疊 */
         align-items: center; /* 水平置中內容 */
     }
 	:root {
-    --primary-size: 2.8rem;
-    --secondary-size: 1.5rem;
-    --primary-color: #e7767f;
-    --secondary-color: #fdf2f7;
-    --third-color: #c14052;
-    --primary-fontsize: clamp(1.5rem, 2vw, 2.6rem);
+        --primary-size: 2.8rem;
+        --secondary-size: 1.5rem;
+        --primary-fontsize: clamp(0.5rem, 1vw, 2.0rem);
 }
-    /* 調整圓形容器尺寸 */
-    .circle-container {
-        width: 30vw; /* 使用視窗寬度的 80% */
-        height: 30vw; /* 高度等於寬度，維持正方形 */
-    }
 
-    /* 圓形中心文字 */
-    .circle-text h2 {
-        font-size: 1.2rem; /* 縮小標題字體 */
-    }
+	.left-section {
+        padding-left: 0%; /* 添加左側內邊距，增加右移效果 */
+	}
 
-    .circle-text span {
-        font-size: 2rem; /* 縮小數字字體 */
-    }
+/* 調整圓形容器尺寸並置中 */
+.circle-container {
+    display: flex; /* 使用 Flexbox */
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    margin: 0 auto; /* 保證水平方向置中 */
+    position: relative; /* 相對定位 */
+    width: 45vw; /* 設定寬度 */
+    height: 45vw; /* 高度等於寬度，維持正方形 */
+    max-width: 400px; /* 避免過大 */
+    max-height: 400px;
+}
+
+/* 放大中心文字 */
+.circle-text h2 {
+    font-size: 1rem; /* 放大標題字體 */
+    margin-bottom: 5px; /* 添加間距 */
+}
+
+.circle-text span {
+    font-size: 1.8rem; /* 放大數字字體 */
+    font-weight: bold; /* 加粗字體 */
+}
+
+/* 確保圓形佔據完整容器並放大 */
+.circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%; /* 保持圓形 */
+    position: absolute;
+    background: conic-gradient(
+        #e57373 0% 40%,  /* 困難 - 紅色 */
+        #f5c242 40% 65%, /* 中等 - 黃色 */
+        #81c784 65% 100% /* 簡單 - 綠色 */
+    );
+    border: 10px solid #fdf2f7; /* 外圍邊緣 */
+}
+
+/* 中心文字的容器 */
+.circle-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fdf2f7;
+    width: 70%; /* 確保中心文字區域相對於圓圈縮小 */
+    height: 70%;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
 
     /* 總容器區塊調整 */
     .container {
         padding: 10px;
-        width: 95%; /* 讓容器幾乎滿版 */
+        width: 90%; /* 讓容器幾乎滿版 */
     }
 
     /* 左側與右側區域 */
@@ -204,12 +247,16 @@ ul.no-bullets li {
 
     /* 功能按鈕調整 */
     .action-buttons {
-        flex-direction: column; /* 按鈕堆疊顯示 */
+        display: flex; /* 使用 Flexbox 進行置中 */
+        flex-direction: column; /* 按鈕垂直堆疊 */
+        align-items: center; /* 水平置中 */
+        justify-content: center; /* 垂直置中（若有父容器高度） */
         gap: 10px; /* 增加按鈕間距 */
+        width: 100%;
     }
 
     .button {
-        width: 80%; /* 按鈕寬度設為 80% */
+        width: 90%; /* 按鈕寬度設為 80% */
         font-size: 1.2rem; /* 調整字體大小 */
         padding: 8px 0;
     }
