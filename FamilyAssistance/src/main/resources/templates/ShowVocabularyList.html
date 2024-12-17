@@ -51,24 +51,25 @@
     </div>
 
     <script>
-        // 後端提供的數據 (使用 Thymeleaf 插值，或透過 AJAX 獲取 JSON 數據)
-        const hardCount = parseInt(/*[[${hardCount}]]*/ 2);  // Thymeleaf 變數
-        const midCount = parseInt(/*[[${midCount}]]*/ 1);
-        const easyCount = parseInt(/*[[${easyCount}]]*/ 2);
+ // 後端提供的數據 (Thymeleaf 直接插值)
+    const hardCount = parseInt( /*[[${hardCount}]]*/ );
+    const midCount = parseInt( /*[[${midCount}]]*/ );
+    const easyCount = parseInt(/*[[${easyCount}]]*/);
 
-        // 計算總數與百分比
-        const totalCount = hardCount + midCount + easyCount;
-        const hardPercent = (hardCount / totalCount) * 100;
-        const midPercent = (midCount / totalCount) * 100;
-        const easyPercent = (easyCount / totalCount) * 100;
+    // 計算總數與百分比
+    const totalCount = hardCount + midCount + easyCount;
+    const hardPercent = (hardCount / totalCount) * 100;
+    const midPercent = (midCount / totalCount) * 100;
+    const easyPercent = (easyCount / totalCount) * 100;
 
-        // 動態設置圓形漸變背景
-        const circleElement = document.getElementById('circle');
-        circleElement.style.background = `conic-gradient(
-            #c14052 0% ${hardPercent}%,         /* 困難 (Hard) */
-            #f5c242 ${hardPercent}% ${hardPercent + midPercent}%, /* 中等 (Mid) */
-            #4caf50 ${hardPercent + midPercent}% 100% /* 簡單 (Easy) */
-        )`;
+    // 動態設置圓形漸變背景
+    const circleElement = document.getElementById('circle');
+    circleElement.style.background = `conic-gradient(
+        #c14052 0% ${hardPercent}%,         /* 困難 (Hard) */
+        #f5c242 ${hardPercent}% ${hardPercent + midPercent}%, /* 中等 (Mid) */
+        #4caf50 ${hardPercent + midPercent}% 100% /* 簡單 (Easy) */
+    )`;
+
     </script>
     
     
