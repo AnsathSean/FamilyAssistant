@@ -95,7 +95,7 @@ public class WebController {
 	    model.addAttribute("midCount", midCount);
 	    model.addAttribute("easyCount", easyCount);
 	    model.addAttribute("totalCount", totalCount);
-	    return "ShowVocabularyList"; // 返回對應的 HTML 模板名稱
+	    return "VocabularyTotal"; // 返回對應的 HTML 模板名稱
 	}
 
 	
