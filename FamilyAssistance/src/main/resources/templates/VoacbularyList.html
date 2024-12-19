@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/CSS/VocForm.css">
     <title>單字清單</title>
 </head>
+<body>
 
     <!-- 頁面標題 -->
     <header>
@@ -21,9 +23,9 @@
     <!-- 頁面分頁 -->
     <footer>
         <nav>
-            <button id="prev-page">&lt;</button>
-            <span id="current-page">1</span>
-            <button id="next-page">&gt;</button>
+            <button class="arrow-button" id="prev-page">&lt;</button>
+            <span id="current-page">[[${page}]]</span>
+            <button class="arrow-button" id="next-page">&gt;</button>
         </nav>
     </footer>
 

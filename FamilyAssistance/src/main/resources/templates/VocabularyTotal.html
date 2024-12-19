@@ -8,7 +8,7 @@
 <body>
     <!-- 總單字資訊標題 -->
     <h1>總單字資訊</h1>
-    
+     <div class="hidden" id="user">[[${user}]]</div>
     
     
     <!-- Flexbox 容器區塊 -->
@@ -44,10 +44,11 @@
         <button class="button single-word">
             <span class="icon">A</span> 查詢單一單字
         </button>
-        <!-- 查看單字清單按鈕 -->
-        <button class="button word-list">
-            <span class="icon">&#128218;</span> 查看單字清單
-        </button>
+	    <!-- 查看單字清單按鈕 -->
+	    <button class="button word-list" onclick="location.href=`${window.location.origin}/VocabularyList/${document.getElementById('user').innerText.trim()}/1`">
+   		   <span class="icon">&#128218;</span> 查看單字清單
+		</button>
+
     </div>
 
     <script>
@@ -72,6 +73,8 @@
     
     console.log(hardCount);
 
+    
+    
     </script>
     
     

@@ -29,6 +29,10 @@ body {
     transform: translateY(-10px); /* 將元素向上移動 5px */
 }
 
+.hidden{
+	display: none;
+}
+
 h1 {
     font-size: var(--primary-size);
     margin: 20px 0;
@@ -156,9 +160,36 @@ ul.no-bullets li {
     font-weight: bold;
     color: var(--text-color);
 }
+
+/* 箭頭按鈕樣式 */
+.arrow-button {
+    background-color: transparent; /* 背景透明 */
+    border: none; /* 無邊框 */
+    cursor: pointer; /* 滑鼠變成指針 */
+    font-size: 2rem; /* 設定箭頭的大小 */
+    color: var(--third-color); /* 使用主題色 */
+    padding: 5px; /* 添加一些內邊距 */
+    transition: transform 0.2s ease, color 0.3s ease; /* 過渡效果 */
+}
+
+/* 滑鼠懸停效果 */
+.arrow-button:hover {
+    color: var(--primary-color); /* 懸停時變更顏色 */
+    transform: scale(1.1); /* 放大效果 */
+}
+
+/* 按下時效果 */
+.arrow-button:active {
+    transform: scale(0.9); /* 按下時縮小 */
+}
+
+
 /* 響應式設計 */
 @media (max-width: 768px) {
 	
+	.hidden{
+	display: none !important;
+}
     /* 總容器區塊調整 */
     .container {
         padding: 10px;

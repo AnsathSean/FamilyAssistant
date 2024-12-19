@@ -112,6 +112,7 @@ public class WebController {
 	            .collect(Collectors.toMap(Vocabulary::getId, Vocabulary::getWord));
 
 	    // 將封裝的字典傳遞到前端
+	    model.addAttribute("page",page);
 	    model.addAttribute("vocDictionary", vocDictionary);
 	    
 	    

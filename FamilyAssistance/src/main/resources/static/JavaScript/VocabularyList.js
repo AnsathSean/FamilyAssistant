@@ -12,18 +12,19 @@ function getWordDataFromHiddenDiv() {
 
     try {
 
-        // 修正 Map 格式為 JSON 格式
-        const jsonData = mapData
-            .replace(/([0-9]+)=/g, '"$1":') // 將鍵轉換為 JSON 格式鍵 (數字鍵加雙引號)
-            .replace(/=/g, ':') // 將等號轉為 JSON 的冒號
-            .replace(/, /g, ',') // 去掉鍵值對之間的多餘空格
-            .replace(/(\w+)=/g, '"$1":'); // 將非數字鍵加上引號
-
-
-        console.log("轉換後的 JSON 字串:", `{${jsonData}}`);
+    // 修正 Map 格式為 JSON 格式
+    const jsonData = mapData
+        .replace(/=([^,]+)/g, '="$1"') // 匹配等號後的所有值，直到下一個逗號
+        .replace(/([0-9]+)=/g, '"$1":') // 將數字鍵加上雙引號
+        .replace(/=/g, ':') // 將等號轉換為 JSON 冒號
+        .replace(/, /g, ',') // 去掉逗號後的多餘空格
+        .replace(/^"|"$/g, '')
+        .replace(/}$/, '"}');  // 在最右邊的 `}` 左側插入一個雙引號
+        
+        console.log("轉換後的 JSON 字串:", `${jsonData}`);
 
         // 嘗試解析為 JSON
-        const vocDictionary = JSON.parse(`${mapData}`);
+        const vocDictionary = JSON.parse(`${jsonData}`);
 
         // 將 JSON 字典轉換為陣列格式 [{ id: "1", name: "Ambiguous" }, ...]
         return Object.entries(vocDictionary).map(([id, word]) => ({ id, name: word }));
@@ -69,6 +70,7 @@ function generateTable(data) {
         const queryButton = document.createElement("button");
         queryButton.textContent = "查詢";
         queryCell.appendChild(queryButton);
+        queryButton.classList.add("button");
         row.appendChild(queryCell);
 
         // 刪除按鈕
@@ -76,6 +78,7 @@ function generateTable(data) {
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "刪除";
         deleteCell.appendChild(deleteButton);
+        deleteButton.classList.add("button");
         row.appendChild(deleteCell);
 
         tbody.appendChild(row);
