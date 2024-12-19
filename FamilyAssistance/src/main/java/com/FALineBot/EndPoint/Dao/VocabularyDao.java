@@ -10,4 +10,5 @@ public interface VocabularyDao {
 	 public void saveVocabulary(int id);
 	 public void deleteToTempVocabulary(int id);
 	 public List<Vocabulary> getVocabularyList(String LineId);
+	 public List<Vocabulary> getVocListPage(String lineId, int page, int pageSize);
 }

@@ -48,4 +48,10 @@ public class VocabularyServiceImpl implements VocabularyService{
 		List<Vocabulary> vocList = vocabularyDao.getVocabularyList(lineId);
 		return vocList;
 	}
+
+	@Override
+	public List<Vocabulary> getVocListPage(String lineId, int page, int pageSize) {
+		List<Vocabulary> vocList = vocabularyDao.getVocListPage(lineId, page, pageSize);
+		return vocList;
+	}
 }

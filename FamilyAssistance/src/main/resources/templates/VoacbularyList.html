@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>單字清單</title>
+</head>
+
+    <!-- 頁面標題 -->
+    <header>
+        <h1>單字清單</h1>
+    </header>
+    <!-- 隱藏輸入欄位，包含 JSON 格式的字典資料 -->
+   <div class="hidden" id="voc-data">[[${vocDictionary}]]</div>
+
+    <!-- 單字清單 -->
+    <main>
+        <div id="table-container"></div>
+    </main>
+
+    <!-- 頁面分頁 -->
+    <footer>
+        <nav>
+            <button id="prev-page">&lt;</button>
+            <span id="current-page">1</span>
+            <button id="next-page">&gt;</button>
+        </nav>
+    </footer>
+
+    <!-- 引用JS -->
+   <script type="text/javascript" src="/JavaScript/VocabularyList.js" th:inline="javascript"></script>
+</body>
+</html>

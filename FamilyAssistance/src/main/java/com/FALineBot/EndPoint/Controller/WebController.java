@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,7 @@ import com.FALineBot.EndPoint.Service.CookingService;
 import com.FALineBot.EndPoint.Service.UserManagerService;
 import com.FALineBot.EndPoint.Service.VocabularyService;
 import com.FALineBot.EndPoint.Service.WishListService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
@@ -80,7 +83,7 @@ public class WebController {
 	@GetMapping("/ShowVocabulary/{user}")
 	public String ShowVocabulary(@PathVariable String user, Model model) {
 	    String title = "Vocabulary List";
-	  System.out.println("User: "+user);
+	  //System.out.println("User: "+user);
 	    List<Vocabulary> vocList = vocabularyService.getVocabularyList(user);
 	    // 計算 Hard, Mid, Easy 的數量
 	    long hardCount = vocList.stream().filter(v -> "Hard".equalsIgnoreCase(v.getStatus())).count();
@@ -97,6 +100,23 @@ public class WebController {
 	    model.addAttribute("totalCount", totalCount);
 	    return "VocabularyTotal"; // 返回對應的 HTML 模板名稱
 	}
+	
+	@GetMapping("/VocabularyList/{user}/{page}")
+	public String VocabularyList(@PathVariable String user,@PathVariable int page, Model model) throws JsonProcessingException {
+	   //String title = "Vocabulary List";
+	  //System.out.println("User: "+user);
+	    List<Vocabulary> vocList = vocabularyService.getVocListPage(user, page, 10);
+
+	    // 將資料封裝為 Map
+	    Map<Integer, String> vocDictionary = vocList.stream()
+	            .collect(Collectors.toMap(Vocabulary::getId, Vocabulary::getWord));
+
+	    // 將封裝的字典傳遞到前端
+	    model.addAttribute("vocDictionary", vocDictionary);
+	    
+	    
+	    return "VoacbularyList"; // 返回對應的 HTML 模板名稱
+	}	
 
 	
 	@GetMapping("/ShowOPCooking/{wisher}")
