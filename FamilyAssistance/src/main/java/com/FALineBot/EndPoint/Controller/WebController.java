@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.FALineBot.EndPoint.Model.Bento;
 import com.FALineBot.EndPoint.Model.Cook;
 import com.FALineBot.EndPoint.Model.CookInfo;
+import com.FALineBot.EndPoint.Model.Page;
 import com.FALineBot.EndPoint.Model.User;
 import com.FALineBot.EndPoint.Model.Vocabulary;
 import com.FALineBot.EndPoint.Model.WishList;
@@ -106,13 +107,16 @@ public class WebController {
 	   //String title = "Vocabulary List";
 	  //System.out.println("User: "+user);
 	    List<Vocabulary> vocList = vocabularyService.getVocListPage(user, page, 10);
-
+	    Page currentPageProp = vocabularyService.getPageProperties(user, 10, page);
 	    // 將資料封裝為 Map
 	    Map<Integer, String> vocDictionary = vocList.stream()
 	            .collect(Collectors.toMap(Vocabulary::getId, Vocabulary::getWord));
 
 	    // 將封裝的字典傳遞到前端
 	    model.addAttribute("page",page);
+	   // model.addAttribute(currentPageProp.getTotalPages());
+	    model.addAttribute("HasBefore",currentPageProp.isHasBeofre());
+	    model.addAttribute("HasNext",currentPageProp.isHasNext());
 	    model.addAttribute("vocDictionary", vocDictionary);
 	    
 	    

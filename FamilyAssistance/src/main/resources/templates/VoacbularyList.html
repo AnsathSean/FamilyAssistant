@@ -14,6 +14,8 @@
     </header>
     <!-- 隱藏輸入欄位，包含 JSON 格式的字典資料 -->
    <div class="hidden" id="voc-data">[[${vocDictionary}]]</div>
+    <div class="hidden" id="has-before">[[${HasBefore}]]</div>
+     <div class="hidden" id="has-next">[[${HasNext}]]</div>
 
     <!-- 單字清單 -->
     <main>
@@ -23,9 +25,17 @@
     <!-- 頁面分頁 -->
     <footer>
         <nav>
+        <!-- 上一頁按鈕，當前頁減 1 -->
+        <a th:if="${HasBefore}" 
+           th:href="@{/VocabularyList/{user}/{page}(user=${user}, page=${page - 1})}">
             <button class="arrow-button" id="prev-page">&lt;</button>
+        </a>
             <span id="current-page">[[${page}]]</span>
+        <!-- 下一頁按鈕，當前頁加 1 -->
+        <a th:if="${HasNext}" 
+           th:href="@{/VocabularyList/{user}/{page}(user=${user}, page=${page + 1})}">
             <button class="arrow-button" id="next-page">&gt;</button>
+        </a>
         </nav>
     </footer>
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.FALineBot.EndPoint.Dao.VocabularyDao;
+import com.FALineBot.EndPoint.Model.Page;
 import com.FALineBot.EndPoint.Model.Vocabulary;
 import com.FALineBot.EndPoint.Service.VocabularyService;
 
@@ -53,5 +54,11 @@ public class VocabularyServiceImpl implements VocabularyService{
 	public List<Vocabulary> getVocListPage(String lineId, int page, int pageSize) {
 		List<Vocabulary> vocList = vocabularyDao.getVocListPage(lineId, page, pageSize);
 		return vocList;
+	}
+
+	@Override
+	public Page getPageProperties(String lineId, int pageSize, int currentPage) {
+		Page page = vocabularyDao.getPageProperties(lineId, pageSize, currentPage);
+		return page;
 	}
 }

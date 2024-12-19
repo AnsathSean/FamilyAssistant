@@ -2,6 +2,7 @@ package com.FALineBot.EndPoint.Service;
 
 import java.util.List;
 
+import com.FALineBot.EndPoint.Model.Page;
 import com.FALineBot.EndPoint.Model.Vocabulary;
 
 public interface VocabularyService {
@@ -12,4 +13,5 @@ public interface VocabularyService {
 	public boolean deleteToTempVocabulary(int id);
 	public List<Vocabulary> getVocabularyList(String lineId);
 	public List<Vocabulary> getVocListPage(String lineId, int page, int pageSize); 
+	public Page getPageProperties(String lineId, int pageSize, int currentPage);
 }

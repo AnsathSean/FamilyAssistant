@@ -2,6 +2,7 @@ package com.FALineBot.EndPoint.Dao;
 
 import java.util.List;
 
+import com.FALineBot.EndPoint.Model.Page;
 import com.FALineBot.EndPoint.Model.Vocabulary;
 
 public interface VocabularyDao {
@@ -11,4 +12,5 @@ public interface VocabularyDao {
 	 public void deleteToTempVocabulary(int id);
 	 public List<Vocabulary> getVocabularyList(String LineId);
 	 public List<Vocabulary> getVocListPage(String lineId, int page, int pageSize);
+	 public Page getPageProperties(String lineId, int pageSize, int currentPage);
 }

@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.FALineBot.EndPoint.Dao.VocabularyDao;
+import com.FALineBot.EndPoint.Model.Page;
 import com.FALineBot.EndPoint.Model.Vocabulary;
 
 @Component
@@ -255,4 +256,28 @@ String partOfSpeeches = voc.getPartOfSpeech().stream()
         });
     }
 
+    public Page getPageProperties(String lineId, int pageSize, int currentPage) {
+        // 查詢單字總數
+        String countQuery = "SELECT COUNT(*) FROM Vocabulary WHERE line_id = ?";
+        @SuppressWarnings("deprecation")
+		int totalCount = jdbcTemplate.queryForObject(countQuery, new Object[]{lineId}, Integer.class);
+
+        // 計算總頁數，若有小數點則向上取整
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        // 判斷是否有下一頁和上一頁
+        boolean hasNext = currentPage < totalPages; // 當前頁小於總頁數時有下一頁
+        boolean hasBefore = currentPage > 1;       // 當前頁大於 1 時有上一頁
+
+        // 創建 Page 對象並設置屬性
+        Page page = new Page();
+        page.setCurrentPage(currentPage);
+        page.setTotalPages(totalPages);
+        page.setHasNext(hasNext);
+        page.setHasBeofre(hasBefore); // 注意拼寫錯誤，應改為 setHasBefore
+
+        return page;
+    }
+
+    
 }
