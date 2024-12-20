@@ -37,6 +37,8 @@ public class ServiceController {
 
 	@Autowired
 	private CookingService cookingService;
+	@Autowired
+	private VocabularyService vocabularyService;
 	// Update the upload directory path
 	private static String root = System.getProperty("user.dir");
     private static final String UPLOAD_DIR = root+"/src/main/resources/static/CookPic/";
@@ -48,8 +50,7 @@ public class ServiceController {
 
         return cookingList; // 返回HTML模板的名稱
     }
-	
-	
+
 	@GetMapping("/BentoInfo/{wisher}/{dateString}")
 	public ResponseEntity<?> ShowBentoInfo(@PathVariable String wisher, @PathVariable String dateString, Model model) {
 	    try {
@@ -136,6 +137,11 @@ public class ServiceController {
         }
     }
     
+    @GetMapping("/deleteVocabulary/{id}")
+    public ResponseEntity<?> deleteVoc (@PathVariable int id){
+    	vocabularyService.deleteVocabulary(id);
+    	return ResponseEntity.status(HttpStatus.CREATED).body("Bento added successfully.");
+    }
     
 	
 	//@GetMapping("/RecordSmoke")

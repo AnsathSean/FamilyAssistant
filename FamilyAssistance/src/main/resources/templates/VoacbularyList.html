@@ -14,8 +14,15 @@
     </header>
     <!-- 隱藏輸入欄位，包含 JSON 格式的字典資料 -->
    <div class="hidden" id="voc-data">[[${vocDictionary}]]</div>
-    <div class="hidden" id="has-before">[[${HasBefore}]]</div>
-     <div class="hidden" id="has-next">[[${HasNext}]]</div>
+   <div class="hidden" id="has-before">[[${HasBefore}]]</div>
+   <div class="hidden" id="has-next">[[${HasNext}]]</div>
+   <div class="hidden" id="has-search">[[${HasSearch}]]</div>
+
+    <!-- 搜尋欄位 -->
+    <div th:if="${HasSearch}" id="search-bar-container">
+        <input type="text" id="search-bar" placeholder="輸入要搜尋的單字...">
+        <button id="search-button">搜尋</button>
+    </div>
 
     <!-- 單字清單 -->
     <main>
@@ -30,7 +37,10 @@
            th:href="@{/VocabularyList/{user}/{page}(user=${user}, page=${page - 1})}">
             <button class="arrow-button" id="prev-page">&lt;</button>
         </a>
-            <span id="current-page">[[${page}]]</span>
+        
+        <!-- 當 HasBefore 和 HasNext 都為 false 時隱藏 current-page -->
+        <span th:if="${HasBefore or HasNext}" id="current-page">[[${page}]]</span>
+        
         <!-- 下一頁按鈕，當前頁加 1 -->
         <a th:if="${HasNext}" 
            th:href="@{/VocabularyList/{user}/{page}(user=${user}, page=${page + 1})}">

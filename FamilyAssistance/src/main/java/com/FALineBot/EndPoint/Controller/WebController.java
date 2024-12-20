@@ -115,13 +115,26 @@ public class WebController {
 	    // 將封裝的字典傳遞到前端
 	    model.addAttribute("page",page);
 	   // model.addAttribute(currentPageProp.getTotalPages());
+	    model.addAttribute("HasSearch",false);
 	    model.addAttribute("HasBefore",currentPageProp.isHasBeofre());
 	    model.addAttribute("HasNext",currentPageProp.isHasNext());
 	    model.addAttribute("vocDictionary", vocDictionary);
-	    
+	
 	    
 	    return "VoacbularyList"; // 返回對應的 HTML 模板名稱
 	}	
+	
+	@GetMapping("/VocabularySearch/{user}")
+	public String VocabularySearch(@PathVariable String user,Model model) {
+		
+		
+		model.addAttribute("page",1);
+		model.addAttribute("HasSearch",true);
+	    model.addAttribute("HasBefore",false);
+	    model.addAttribute("HasNext",false);
+	    model.addAttribute("vocDictionary", null);
+		return "VoacbularyList"; // 返回對應的 HTML 模板名稱
+	}
 
 	
 	@GetMapping("/ShowOPCooking/{wisher}")

@@ -43,6 +43,10 @@ public class VocabularyServiceImpl implements VocabularyService{
             return false;
         }
     }
+    
+    public void deleteVocabulary(int id) {
+    	vocabularyDao.deleteVocabulary(id);
+    }
 
 	@Override
 	public List<Vocabulary> getVocabularyList(String lineId) {

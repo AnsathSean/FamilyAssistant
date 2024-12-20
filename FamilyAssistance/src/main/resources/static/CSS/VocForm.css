@@ -82,6 +82,8 @@ ul.no-bullets li {
     color: var(--third-color);
 }
 
+
+
 /* 功能按鈕樣式 */
 .action-buttons {
     display: flex;
@@ -183,10 +185,56 @@ ul.no-bullets li {
     transform: scale(0.9); /* 按下時縮小 */
 }
 
+/* 搜尋欄位樣式 */
+#search-bar-container {
+    display: flex;
+    justify-content: center; /* 搜尋欄位與按鈕水平置中 */
+    align-items: center; /* 垂直置中 */
+    gap: 10px; /* 搜尋框與按鈕之間的間距 */
+    margin: 20px 0;
+}
+
+#search-bar {
+    width: 80%; /* 搜尋欄位寬度占父容器的 80% */
+    max-width: 400px; /* 限制最大寬度 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+#search-button {
+    background-color: var(--third-color); /* 使用主題顏色 */
+    color: #fff; /* 按鈕文字顏色 */
+    border: none;
+    border-radius: 5px;
+    width: 50px; /* 按鈕寬度縮小到 50px */
+    height: 40px; /* 設定按鈕高度，與搜尋框匹配 */
+    font-size: 0.8rem; /* 調整按鈕文字大小 */
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    justify-content: center; /* 按鈕文字水平置中 */
+    align-items: center; /* 按鈕文字垂直置中 */
+}
+
+#search-button:hover {
+    background-color: var(--primary-color); /* 懸停變更顏色 */
+}
+
+#search-button:active {
+    transform: scale(0.9); /* 按下時縮小 */
+}
+
 
 /* 響應式設計 */
 @media (max-width: 768px) {
-	
+
+* {
+ 
+    font-size: 1.4rem;
+
+}
 	.hidden{
 	display: none !important;
 }
@@ -199,9 +247,9 @@ ul.no-bullets li {
         align-items: center; /* 水平置中內容 */
     }
 	:root {
-        --primary-size: 2.8rem;
-        --secondary-size: 1.2rem;
-        --primary-fontsize: clamp(0.5rem, 1vw, 2.0rem);
+        --primary-size: 2.5rem;
+        --secondary-size: 1.0rem;
+        --primary-fontsize: clamp(0.5rem, 0.8vw, 1rem);
 }
 
 	.left-section {
@@ -291,5 +339,20 @@ ul.no-bullets li {
         width: 90%; /* 按鈕寬度設為 80% */
         font-size: 1.2rem; /* 調整字體大小 */
         padding: 8px 0;
+    }
+    
+    #search-bar-container {
+        flex-direction: row; /* 保持左右排列 */
+        gap: 5px; /* 減少間距以適配較小螢幕 */
+    }
+
+    #search-bar {
+        width: 70%; /* 搜尋欄位在手機上縮小至 70% */
+    }
+
+    #search-button {
+        width: 50px; /* 按鈕寬度保持不變 */
+        height: 40px; /* 按鈕高度保持一致 */
+        font-size: 0.7rem; /* 進一步縮小文字大小 */
     }
 }

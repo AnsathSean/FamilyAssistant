@@ -11,6 +11,7 @@ public interface VocabularyService {
 	public Vocabulary getDefinitions(String word, String lineId);
 	public boolean saveVocabulary(int id);
 	public boolean deleteToTempVocabulary(int id);
+	public void deleteVocabulary(int id);
 	public List<Vocabulary> getVocabularyList(String lineId);
 	public List<Vocabulary> getVocListPage(String lineId, int page, int pageSize); 
 	public Page getPageProperties(String lineId, int pageSize, int currentPage);

@@ -169,6 +169,11 @@ String partOfSpeeches = voc.getPartOfSpeech().stream()
         String deleteSql = "DELETE FROM TempVocabulary WHERE id = ?";
         jdbcTemplate.update(deleteSql, id);
     }
+    
+    public void deleteVocabulary(int id) {
+        String deleteSql = "DELETE FROM Vocabulary WHERE id = ?";
+        jdbcTemplate.update(deleteSql, id);    	
+    }
 
     @SuppressWarnings("deprecation")
 	@Override
