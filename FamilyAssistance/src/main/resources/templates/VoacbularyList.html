@@ -17,12 +17,20 @@
    <div class="hidden" id="has-before">[[${HasBefore}]]</div>
    <div class="hidden" id="has-next">[[${HasNext}]]</div>
    <div class="hidden" id="has-search">[[${HasSearch}]]</div>
+   <div class="hidden" id="Do-search">[[${DoSearch}]]</div>
 
-    <!-- 搜尋欄位 -->
-    <div th:if="${HasSearch}" id="search-bar-container">
-        <input type="text" id="search-bar" placeholder="輸入要搜尋的單字...">
-        <button id="search-button">搜尋</button>
-    </div>
+	<!-- 搜尋欄位 -->
+	<div th:if="${HasSearch}" id="search-bar-container">
+  	  <form id="search-form" th:action="@{/DoVocabularySearch/{lineId}/{keyWords}(lineId=${user}, keyWords='')}" method="get">
+    	    <input type="text" id="search-bar" name="keyWords" placeholder="輸入要搜尋的單字..." required>
+    	    <button type="submit" id="search-button">搜尋</button>
+  	  </form>
+	</div>
+
+<!-- 判斷區塊 -->
+<div th:if="${DoSearch != null and DoSearch and (vocDictionary == null or vocDictionary.empty)}" id="no-result">
+    <p>找不到結果，請嘗試其他關鍵字。</p>
+</div>
 
     <!-- 單字清單 -->
     <main>

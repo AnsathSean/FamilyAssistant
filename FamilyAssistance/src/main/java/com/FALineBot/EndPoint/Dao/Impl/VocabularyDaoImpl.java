@@ -284,5 +284,48 @@ String partOfSpeeches = voc.getPartOfSpeech().stream()
         return page;
     }
 
+    public List<Vocabulary> getVocabularyListbySearch(String lineId, String keyWords) {
+        String query = "SELECT id, line_id, word, definition, example_sentence, repetitions, ease_factor, " +
+                       "next_review_date, last_review_date, status, created_at, updated_at, part_of_speech " +
+                       "FROM Vocabulary WHERE line_id = ? AND word LIKE ?";
+
+        // 使用 '%' 包裹關鍵字以進行模糊比對
+        @SuppressWarnings("deprecation")
+		List<Vocabulary> result = jdbcTemplate.query(query, new Object[]{lineId, "%" + keyWords + "%"}, (rs, rowNum) -> {
+            Vocabulary vocabulary = new Vocabulary();
+            vocabulary.setId(rs.getInt("id"));
+            vocabulary.setLineId(rs.getString("line_id"));
+            vocabulary.setWord(rs.getString("word"));
+
+            // 將以 "@" 分隔的字串轉換為 List<String>
+            String definitionStr = rs.getString("definition");
+            vocabulary.setDefinition(definitionStr != null ? List.of(definitionStr.split("@")) : null);
+
+            String exampleSentenceStr = rs.getString("example_sentence");
+            vocabulary.setExampleSentence(exampleSentenceStr != null ? List.of(exampleSentenceStr.split("@")) : null);
+
+            String partOfSpeechStr = rs.getString("part_of_speech");
+            vocabulary.setPartOfSpeech(partOfSpeechStr != null ? List.of(partOfSpeechStr.split("@")) : null);
+
+            vocabulary.setRepetitions(rs.getInt("repetitions"));
+            vocabulary.setEaseFactor(rs.getFloat("ease_factor"));
+            vocabulary.setNextReviewDate(rs.getDate("next_review_date") != null 
+                    ? rs.getDate("next_review_date").toLocalDate() : null);
+            vocabulary.setLastReviewDate(rs.getDate("last_review_date") != null 
+                    ? rs.getDate("last_review_date").toLocalDate() : null);
+            vocabulary.setStatus(rs.getString("status"));
+
+            vocabulary.setCreatedAt(rs.getDate("created_at") != null 
+                    ? rs.getDate("created_at").toLocalDate() : null);
+            vocabulary.setUpdatedAt(rs.getDate("updated_at") != null 
+                    ? rs.getDate("updated_at").toLocalDate() : null);
+
+            return vocabulary;
+        });
+
+        // 若結果為空則回傳 null
+        return result.isEmpty() ? null : result;
+    }
+
     
 }

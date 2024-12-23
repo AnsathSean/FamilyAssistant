@@ -65,4 +65,9 @@ public class VocabularyServiceImpl implements VocabularyService{
 		Page page = vocabularyDao.getPageProperties(lineId, pageSize, currentPage);
 		return page;
 	}
+	
+	public List<Vocabulary> getVocabularyListbySearch(String lineId, String keyWords){
+	  List<Vocabulary> voc = vocabularyDao.getVocabularyListbySearch(lineId, keyWords);
+	  return voc;
+	}
 }

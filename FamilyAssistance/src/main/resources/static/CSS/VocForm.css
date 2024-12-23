@@ -192,6 +192,15 @@ ul.no-bullets li {
     align-items: center; /* 垂直置中 */
     gap: 10px; /* 搜尋框與按鈕之間的間距 */
     margin: 20px 0;
+    width: 100%; /* 確保容器寬度適應頁面 */
+}
+
+form#search-form {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    gap: 10px; /* 搜尋框與按鈕的間距 */
+    width: 100%; /* 確保表單與父容器一致 */
 }
 
 #search-bar {
@@ -208,9 +217,9 @@ ul.no-bullets li {
     color: #fff; /* 按鈕文字顏色 */
     border: none;
     border-radius: 5px;
-    width: 50px; /* 按鈕寬度縮小到 50px */
+    width: 100px; /* 調整按鈕寬度 */
     height: 40px; /* 設定按鈕高度，與搜尋框匹配 */
-    font-size: 0.8rem; /* 調整按鈕文字大小 */
+    font-size: 1rem; /* 調整按鈕文字大小 */
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
     display: flex;

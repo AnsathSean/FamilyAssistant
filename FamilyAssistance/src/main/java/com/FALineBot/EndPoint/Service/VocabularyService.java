@@ -15,4 +15,5 @@ public interface VocabularyService {
 	public List<Vocabulary> getVocabularyList(String lineId);
 	public List<Vocabulary> getVocListPage(String lineId, int page, int pageSize); 
 	public Page getPageProperties(String lineId, int pageSize, int currentPage);
+	public List<Vocabulary> getVocabularyListbySearch(String lineId, String keyWords);
 }

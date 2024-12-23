@@ -113,6 +113,7 @@ public class WebController {
 	            .collect(Collectors.toMap(Vocabulary::getId, Vocabulary::getWord));
 
 	    // 將封裝的字典傳遞到前端
+	    model.addAttribute("user", user);
 	    model.addAttribute("page",page);
 	   // model.addAttribute(currentPageProp.getTotalPages());
 	    model.addAttribute("HasSearch",false);
@@ -127,14 +128,58 @@ public class WebController {
 	@GetMapping("/VocabularySearch/{user}")
 	public String VocabularySearch(@PathVariable String user,Model model) {
 		
-		
+		model.addAttribute("user", user);
 		model.addAttribute("page",1);
 		model.addAttribute("HasSearch",true);
 	    model.addAttribute("HasBefore",false);
+	    model.addAttribute("DoSearch", false);
 	    model.addAttribute("HasNext",false);
 	    model.addAttribute("vocDictionary", null);
 		return "VoacbularyList"; // 返回對應的 HTML 模板名稱
 	}
+	
+	@GetMapping("/DoVocabularySearch/{lineId}")
+	public String VocabularySearch(@PathVariable String lineId, @RequestParam String keyWords, Model model) {
+	    // 搜尋單字資料
+	    List<Vocabulary> vocList = vocabularyService.getVocabularyListbySearch(lineId, keyWords);
+	    //System.out.println("我有執行搜尋");
+	    System.out.println("KeyWord:"+keyWords);
+	    // 印出 vocList 的資料內容
+	    //if (vocList != null && !vocList.isEmpty()) {
+	    //    System.out.println("搜尋結果:");
+	    //    vocList.forEach(voc -> {
+	    //        System.out.println("ID: " + voc.getId());
+	    //        System.out.println("Word: " + voc.getWord());
+	    //        System.out.println("Definitions: " + voc.getDefinition());
+	    //        System.out.println("Examples: " + voc.getExampleSentence());
+	    //        System.out.println("Part of Speech: " + voc.getPartOfSpeech());
+	    //        System.out.println("-------------");
+	    //    });
+	    //} else {
+	    //    System.out.println("搜尋結果為空");
+	    //}
+	    
+	    
+	    // 判斷是否有搜尋結果
+	    boolean hasResult = vocList != null && !vocList.isEmpty();
+
+	    // 將搜尋結果封裝為 Map
+	    Map<Integer, String> vocDictionary = hasResult
+	            ? vocList.stream().collect(Collectors.toMap(Vocabulary::getId, Vocabulary::getWord))
+	            : null;
+
+	    // 設定模型屬性
+	    model.addAttribute("user", lineId);
+	    model.addAttribute("page", 1); // 假設當前頁數固定為 1
+	    model.addAttribute("HasSearch", true);
+	    model.addAttribute("DoSearch", true);
+	    model.addAttribute("HasBefore", false); // 搜尋結果不需要上一頁邏輯
+	    model.addAttribute("HasNext", hasResult && vocList.size() > 10); // 如果清單數量大於10則設置為 true
+	    model.addAttribute("vocDictionary", vocDictionary); // 將 Map 傳遞到前端
+
+	    return "VoacbularyList"; // 返回對應的 HTML 模板名稱
+	}
+
 
 	
 	@GetMapping("/ShowOPCooking/{wisher}")
