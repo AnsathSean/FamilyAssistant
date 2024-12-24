@@ -83,8 +83,12 @@ function generateTable(data) {
         queryCell.style.textAlign = "center"; // 按鈕水平置中
         const queryButton = document.createElement("button");
         queryButton.textContent = "查詢";
-        queryCell.appendChild(queryButton);
         queryButton.classList.add("button");
+        queryButton.addEventListener("click", () => {
+            // 跳轉到查詢網址
+            window.location.href = `${rootURL}/VocabularyDetails/${word.id}`;
+        });
+        queryCell.appendChild(queryButton);
         row.appendChild(queryCell);
 
         // 刪除按鈕
@@ -92,11 +96,7 @@ function generateTable(data) {
         deleteCell.style.textAlign = "center"; // 按鈕水平置中
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "刪除";
-        deleteCell.appendChild(deleteButton);
         deleteButton.classList.add("button");
-        row.appendChild(deleteCell);
-
-        // 刪除按鈕功能
         deleteButton.addEventListener("click", async () => {
             try {
                 const response = await fetch(rootURL + `/service/deleteVocabulary/${word.id}`, {
@@ -115,6 +115,8 @@ function generateTable(data) {
                 alert("刪除失敗，請稍後再試");
             }
         });
+        deleteCell.appendChild(deleteButton);
+        row.appendChild(deleteCell);
 
         tbody.appendChild(row);
     });

@@ -70,4 +70,11 @@ public class VocabularyServiceImpl implements VocabularyService{
 	  List<Vocabulary> voc = vocabularyDao.getVocabularyListbySearch(lineId, keyWords);
 	  return voc;
 	}
+
+	public Vocabulary getVocabularybyId(String id) {
+		Vocabulary voc = vocabularyDao.getVocabularybyId(id);
+		return voc;
+	}
+
+	
 }

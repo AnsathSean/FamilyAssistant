@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/CSS/VocForm.css">
+    <title>單字查詢結果</title>
+    <style>
+        /* 全局表格樣式 */
+        table {
+            width: 90%; /* 使表格自適應容器寬度 */
+            margin: 0 auto; /* 表格水平置中 */
+            border-collapse: collapse; /* 移除表格內邊距 */
+        }
+
+        td {
+            padding: 8px;
+            word-break: break-word; /* 啟用單詞換行 */
+            border: 1px solid transparent; /* 將邊框設置為透明 */
+        }
+
+        th {
+            text-align: left; /* 表頭文字靠左 */
+            padding: 8px;
+        }
+
+        /* 手機屏幕適配（小於768px寬度） */
+        @media screen and (max-width: 768px) {
+            table {
+                width: 90%; /* 使表格自適應容器寬度 */
+                font-size: 12px !important; /* 調整表格字體大小 */
+            }
+
+            td {
+                padding: 6px !important; /* 減小表格內邊距 */
+            }
+
+            /* 確保文字不會被擠出容器 */
+            td, th {
+                word-wrap: break-word; /* 單詞斷行 */
+                word-break: break-word;
+                white-space: normal; /* 允許文字自動換行 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁面標題 -->
+    <header>
+        <h1>單字查詢結果</h1>
+    </header>
+
+    <!-- 隱藏輸入欄位，包含 JSON 格式的字典資料 -->
+    <div class="hidden" id="voc-data" th:text="${vocDictionary}"></div>
+
+    <!-- 單字清單 -->
+    <main>
+        <div id="table-container"></div>
+    </main>
+
+    <script type="text/javascript">
+        // 中文欄位對應表
+        const fieldNames = {
+            "word": "單字",
+            "part_of_speech": "詞性",
+            "definition": "定義",
+            "example_sentence": "例句",
+            "repetitions": "複習次數",
+            "last_review_date": "最後一次複習",
+            "next_review_date": "下一次複習",
+            "status": "狀態"
+        };
+
+        // 欄位顯示順序
+        const fieldOrder = [
+            "word",
+            "part_of_speech",
+            "definition",
+            "example_sentence",
+            "repetitions",
+            "last_review_date",
+            "next_review_date",
+            "status"
+        ];
+
+        // 獲取單字資料
+        function getWordDataFromHiddenDiv() {
+            const hiddenDiv = document.getElementById("voc-data");
+            const rawData = hiddenDiv.textContent || hiddenDiv.innerText;
+
+            if (!rawData || rawData.trim() === "") {
+                console.error("資料為空，無法解析");
+                return {};
+            }
+
+            try {
+                return JSON.parse(rawData.replace(/([a-zA-Z_]+)=/g, '"$1":').replace(/'/g, '"'));
+            } catch (error) {
+                console.error("解析資料失敗:", error);
+                return {};
+            }
+        }
+
+        // 生成垂直表格
+        function generateVerticalTable(data) {
+            const tableContainer = document.getElementById("table-container");
+            tableContainer.innerHTML = ""; // 清空容器內容
+
+            const table = document.createElement("table");
+            const tbody = document.createElement("tbody");
+
+            // 按照指定順序生成表格內容
+            fieldOrder.forEach(key => {
+                const row = document.createElement("tr");
+
+                // 中文欄位名稱
+                const headerCell = document.createElement("td");
+                headerCell.textContent = fieldNames[key] || key; // 默認顯示英文欄位名稱
+                headerCell.style.fontWeight = "bold";
+                row.appendChild(headerCell);
+
+                // 欄位值
+                const valueCell = document.createElement("td");
+                valueCell.textContent = Array.isArray(data[key]) ? data[key].join(", ") : data[key] || "";
+                row.appendChild(valueCell);
+
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+            tableContainer.appendChild(table);
+        }
+
+        // 初始化
+        document.addEventListener("DOMContentLoaded", () => {
+            const wordData = getWordDataFromHiddenDiv();
+            generateVerticalTable(wordData);
+        });
+    </script>
+</body>
+</html>

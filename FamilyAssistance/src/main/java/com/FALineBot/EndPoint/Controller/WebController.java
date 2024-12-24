@@ -10,7 +10,9 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,6 +42,8 @@ import com.FALineBot.EndPoint.Service.VocabularyService;
 import com.FALineBot.EndPoint.Service.WishListService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Controller
 public class WebController {
@@ -101,6 +105,44 @@ public class WebController {
 	    model.addAttribute("totalCount", totalCount);
 	    return "VocabularyTotal"; // 返回對應的 HTML 模板名稱
 	}
+	
+	@GetMapping("/VocabularyDetails/{id}")
+	public String VocabularyDetail(@PathVariable String id, Model model) {
+	    // 從服務層獲取單字詳細資料
+	    Vocabulary voc = vocabularyService.getVocabularybyId(id);
+
+	    if (voc != null) {
+	        // 將單字詳細資料封裝為 Map 格式
+	        Map<String, Object> vocDictionary = new HashMap<>();
+	        vocDictionary.put("word", voc.getWord());
+	        vocDictionary.put("part_of_speech", voc.getPartOfSpeech());
+	        vocDictionary.put("definition", voc.getDefinition());
+	        vocDictionary.put("example_sentence", voc.getExampleSentence());
+	        vocDictionary.put("repetitions", voc.getRepetitions());
+	        vocDictionary.put("next_review_date", voc.getNextReviewDate());
+	        vocDictionary.put("last_review_date", voc.getLastReviewDate());
+	        vocDictionary.put("status", voc.getStatus());
+
+	        // 配置 ObjectMapper
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        objectMapper.registerModule(new JavaTimeModule()); // 註冊 JavaTimeModule
+	        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // 禁止寫入為時間戳
+
+	        try {
+	            String vocDictionaryJson = objectMapper.writeValueAsString(vocDictionary);
+	            model.addAttribute("vocDictionary", vocDictionaryJson);
+	        } catch (JsonProcessingException e) {
+	            e.printStackTrace();
+	            model.addAttribute("vocDictionary", "{}");
+	        }
+	    } else {
+	        // 若查詢結果為空，傳遞空的 JSON 結構
+	        model.addAttribute("vocDictionary", "{}");
+	    }
+
+	    return "VocabularyQueryResult"; // 返回對應的 HTML 模板名稱
+	}
+
 	
 	@GetMapping("/VocabularyList/{user}/{page}")
 	public String VocabularyList(@PathVariable String user,@PathVariable int page, Model model) throws JsonProcessingException {
