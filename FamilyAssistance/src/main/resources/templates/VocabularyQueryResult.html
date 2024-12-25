@@ -99,13 +99,13 @@
     	    console.log("原始資料:", rawData);
 
      	   // 修正未轉義的字符
-     	   rawData = rawData
-            .replace(/\\([\s\S])/g, "\\\\$1") // 處理反斜杠
-            .replace(/'/g, '"')              // 處理單引號
-            .replace(/([a-zA-Z_]+)=/g, '"$1":') // 將鍵加上雙引號
-            .replace(/,(\s*})/g, "$1");      // 移除多餘的逗號
+     	   //rawData = rawData
+           // .replace(/\\([\s\S])/g, "\\\\$1") // 處理反斜杠
+           // .replace(/'/g, '"')              // 處理單引號
+           // .replace(/([a-zA-Z_]+)=/g, '"$1":') // 將鍵加上雙引號
+           // .replace(/,(\s*})/g, "$1");      // 移除多餘的逗號
 
-    	    console.log("修正後的資料:", rawData);
+    	  //  console.log("修正後的資料:", rawData);
 
         // 解析 JSON
         const parsedData = JSON.parse(rawData);
