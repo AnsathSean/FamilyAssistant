@@ -44,6 +44,10 @@ h3 {
     color: var(--third-color);
 }
 
+a {
+    text-decoration: none; /* 移除底線 */
+}
+
 /* 容器設計 */
 .container {
     display: flex;
