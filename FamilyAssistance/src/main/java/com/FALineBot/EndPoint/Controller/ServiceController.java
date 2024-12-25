@@ -27,6 +27,8 @@ import com.FALineBot.EndPoint.Model.Vocabulary;
 import com.FALineBot.EndPoint.Service.CookingService;
 import com.FALineBot.EndPoint.Service.VocabularyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -143,7 +145,29 @@ public class ServiceController {
     	return ResponseEntity.status(HttpStatus.CREATED).body("Bento added successfully.");
     }
     
+    @PostMapping("/updateVocabulary/{id}")
+    public ResponseEntity<?> updateVoc(@PathVariable String id, @RequestBody Vocabulary voc) {
+        try {
+            // 設置默認值
+            if (voc.getEaseFactor() == null) {
+                voc.setEaseFactor(2.5f); // 設置默認值為 2.5
+            }
+            // 配置 ObjectMapper
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule()); // 註冊模組
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // 禁用時間戳
 
+            // 打印接收到的 Vocabulary（調試用）
+            String json = objectMapper.writeValueAsString(voc);
+            System.out.println("接收到的 Vocabulary: " + json);
+
+            vocabularyService.updateVocabulary(id, voc);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Vocabulary updated successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("更新失敗: " + e.getMessage());
+        }
+    }
 
  
     

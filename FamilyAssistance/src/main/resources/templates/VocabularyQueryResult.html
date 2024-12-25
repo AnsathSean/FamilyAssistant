@@ -8,151 +8,230 @@
     <style>
         /* 全局表格樣式 */
         table {
-            width: 90%; /* 使表格自適應容器寬度 */
-            margin: 0 auto; /* 表格水平置中 */
-            border-collapse: collapse; /* 移除表格內邊距 */
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
         }
 
         td {
             padding: 8px;
-            word-break: break-word; /* 啟用單詞換行 */
-            border: 1px solid transparent; /* 將邊框設置為透明 */
+            word-break: break-word;
+            border: 1px solid transparent;
         }
 
         th {
-            text-align: left; /* 表頭文字靠左 */
+            text-align: left;
             padding: 8px;
         }
 
-        /* 手機屏幕適配（小於768px寬度） */
+        /* 手機屏幕適配 */
         @media screen and (max-width: 768px) {
             table {
-                width: 90%; /* 使表格自適應容器寬度 */
-                font-size: 12px !important; /* 調整表格字體大小 */
+                width: 90%;
+                font-size: 12px !important;
             }
 
             td {
-                padding: 6px !important; /* 減小表格內邊距 */
+                padding: 6px !important;
             }
 
-            /* 確保文字不會被擠出容器 */
             td, th {
-                word-wrap: break-word; /* 單詞斷行 */
+                word-wrap: break-word;
                 word-break: break-word;
-                white-space: normal; /* 允許文字自動換行 */
+                white-space: normal;
             }
+        }
+
+        /* 按鈕樣式 */
+        .button {
+            margin: 10px 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
 <body>
 
-    <!-- 頁面標題 -->
-    <header>
-        <h1>單字查詢結果</h1>
-    </header>
+<header>
+    <h1>單字查詢結果</h1>
+</header>
 
-    <!-- 隱藏輸入欄位，包含 JSON 格式的字典資料 -->
-    <div class="hidden" id="voc-data" th:text="${vocDictionary}"></div>
+	 <!-- 隱藏輸入欄位，包含 JSON 格式的字典資料 -->
+	 <div class="hidden" id="voc-data" th:text="${vocDictionary}"></div>
+     <div class="hidden" id="id">[[${id}]]</div>
 
-    <!-- 單字清單 -->
-    <main>
-        <div id="table-container"></div>
-    </main>
+<main>
+    <div id="table-container"></div>
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="edit-button" class="button">修改</button>
+        <button id="save-button" class="button" disabled>儲存</button>
+    </div>
+</main>
 
-    <script type="text/javascript">
-        // 中文欄位對應表
-        const fieldNames = {
-            "word": "單字",
-            "part_of_speech": "詞性",
-            "definition": "定義",
-            "example_sentence": "例句",
-            "repetitions": "複習次數",
-            "last_review_date": "最後一次複習",
-            "next_review_date": "下一次複習",
-            "status": "狀態"
-        };
+<script type="text/javascript">
+	
+	// 獲取當前網頁 URL
+	var currentURL = window.location.href;
+	// 提取根目錄
+	var rootURL = currentURL.split('/').slice(0, 3).join('/');
+	var wordId = document.getElementById("id").textContent.trim()
+	
+const fieldNames = {
+    "word": "單字",
+    "partOfSpeech": "詞性", // 修改為駝峰命名
+    "definition": "定義",
+    "exampleSentence": "例句",
+    "repetitions": "複習次數",
+    "lastReviewDate": "最後一次複習", // 修改為駝峰命名
+    "nextReviewDate": "下一次複習", // 修改為駝峰命名
+    "status": "狀態"
+};
 
-        // 欄位顯示順序
-        const fieldOrder = [
-            "word",
-            "part_of_speech",
-            "definition",
-            "example_sentence",
-            "repetitions",
-            "last_review_date",
-            "next_review_date",
-            "status"
-        ];
+const fieldOrder = [
+    "word",
+    "partOfSpeech", // 修改為駝峰命名
+    "definition",
+    "exampleSentence", // 修改為駝峰命名
+    "repetitions",
+    "lastReviewDate", // 修改為駝峰命名
+    "nextReviewDate", // 修改為駝峰命名
+    "status"
+];
 
-        // 獲取單字資料
-	function getWordDataFromHiddenDiv() {
-  	  const hiddenDiv = document.getElementById("voc-data");
-  	  let rawData = hiddenDiv.textContent || hiddenDiv.innerText;
 
-  	  if (!rawData || rawData.trim() === "") {
-   	     console.error("資料為空，無法解析");
-    	    return {};
-   	 }
+    let isEditing = false; // 編輯狀態
 
-   	 try {
-   	     // 檢查資料是否需要修正
-    	    console.log("原始資料:", rawData);
+    // 獲取單字資料
+    function getWordDataFromHiddenDiv() {
+        const hiddenDiv = document.getElementById("voc-data");
+        const rawData = hiddenDiv.textContent || hiddenDiv.innerText;
 
-     	   // 修正未轉義的字符
-     	   //rawData = rawData
-           // .replace(/\\([\s\S])/g, "\\\\$1") // 處理反斜杠
-           // .replace(/'/g, '"')              // 處理單引號
-           // .replace(/([a-zA-Z_]+)=/g, '"$1":') // 將鍵加上雙引號
-           // .replace(/,(\s*})/g, "$1");      // 移除多餘的逗號
+        if (!rawData || rawData.trim() === "") {
+            console.error("資料為空，無法解析");
+            return {};
+        }
 
-    	  //  console.log("修正後的資料:", rawData);
-
-        // 解析 JSON
-        const parsedData = JSON.parse(rawData);
-        console.log("解析後的資料:", parsedData);
-        return parsedData;
-    } catch (error) {
-        console.error("解析資料失敗:", error);
-        return {};
+        try {
+            return JSON.parse(rawData);
+        } catch (error) {
+            console.error("解析資料失敗:", error);
+            return {};
+        }
     }
+
+    // 生成垂直表格
+function generateVerticalTable(data) {
+    const tableContainer = document.getElementById("table-container");
+    tableContainer.innerHTML = ""; // 清空容器內容
+
+    const table = document.createElement("table");
+    const tbody = document.createElement("tbody");
+
+    // 按照指定順序生成表格內容
+    fieldOrder.forEach(key => {
+        const row = document.createElement("tr");
+
+        // 中文欄位名稱
+        const headerCell = document.createElement("td");
+        headerCell.textContent = fieldNames[key] || key;
+        headerCell.style.fontWeight = "bold";
+        row.appendChild(headerCell);
+
+        // 欄位值
+        const valueCell = document.createElement("td");
+        valueCell.textContent = Array.isArray(data[key]) ? data[key].join(", ") : data[key] || "";
+        valueCell.setAttribute("data-key", key); // 確保 data-key 與後端模型一致
+        valueCell.setAttribute("contenteditable", false); // 預設不可編輯
+        row.appendChild(valueCell);
+
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+    tableContainer.appendChild(table);
 }
 
 
-        // 生成垂直表格
-        function generateVerticalTable(data) {
-            const tableContainer = document.getElementById("table-container");
-            tableContainer.innerHTML = ""; // 清空容器內容
-
-            const table = document.createElement("table");
-            const tbody = document.createElement("tbody");
-
-            // 按照指定順序生成表格內容
-            fieldOrder.forEach(key => {
-                const row = document.createElement("tr");
-
-                // 中文欄位名稱
-                const headerCell = document.createElement("td");
-                headerCell.textContent = fieldNames[key] || key; // 默認顯示英文欄位名稱
-                headerCell.style.fontWeight = "bold";
-                row.appendChild(headerCell);
-
-                // 欄位值
-                const valueCell = document.createElement("td");
-                valueCell.textContent = Array.isArray(data[key]) ? data[key].join(", ") : data[key] || "";
-                row.appendChild(valueCell);
-
-                tbody.appendChild(row);
-            });
-
-            table.appendChild(tbody);
-            tableContainer.appendChild(table);
-        }
-
-        // 初始化
-        document.addEventListener("DOMContentLoaded", () => {
-            const wordData = getWordDataFromHiddenDiv();
-            generateVerticalTable(wordData);
+    // 切換編輯狀態
+    function toggleEditMode(enable) {
+        const cells = document.querySelectorAll("td[data-key]");
+        cells.forEach(cell => {
+            cell.setAttribute("contenteditable", enable);
+            cell.style.backgroundColor = enable ? "#f9f9f9" : ""; // 編輯模式背景色
         });
-    </script>
+
+        isEditing = enable;
+        document.getElementById("edit-button").disabled = enable;
+        document.getElementById("save-button").disabled = !enable;
+    }
+
+async function saveChanges() {
+    const cells = document.querySelectorAll("td[data-key]");
+    const updatedData = {};
+
+    // 收集表格中的資料，並去掉 key 中的下劃線
+    cells.forEach(cell => {
+        const key = cell.getAttribute("data-key").replace(/_/g, ""); // 去掉下劃線
+        const value = cell.textContent.trim();
+
+        // 處理多值欄位 (List<String>)
+        if (["definition", "exampleSentence", "partOfSpeech"].includes(key)) {
+            updatedData[key] = value ? value.split(",").map(v => v.trim()) : []; // 將逗號分隔的值轉換為陣列
+        } else {
+            updatedData[key] = value || null; // 其他欄位直接傳值
+        }
+    });
+
+    console.log("傳遞的資料:", updatedData);
+
+    // 取得 ID
+    const wordId = document.getElementById("id")?.textContent?.trim();
+    if (!wordId) {
+        alert("無法儲存，缺少單字 ID");
+        return;
+    }
+
+    try {
+        // 發送更新資料到後端
+        const response = await fetch(`${rootURL}/service/updateVocabulary/${wordId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedData)
+        });
+
+        if (response.ok) {
+            console.log("儲存成功:", await response.text());
+            alert("資料已成功儲存！");
+            location.reload(); // 儲存後重新整理頁面
+        } else {
+            console.error("儲存失敗:", response.status, await response.text());
+            alert("儲存失敗，請稍後再試。");
+        }
+    } catch (error) {
+        console.error("儲存過程中發生錯誤:", error);
+        alert("儲存過程中發生錯誤，請稍後再試。");
+    }
+
+    toggleEditMode(false); // 結束編輯模式
+}
+
+
+
+
+    // 初始化
+    document.addEventListener("DOMContentLoaded", () => {
+        const wordData = getWordDataFromHiddenDiv();
+        generateVerticalTable(wordData);
+
+        document.getElementById("edit-button").addEventListener("click", () => toggleEditMode(true));
+        document.getElementById("save-button").addEventListener("click", saveChanges);
+    });
+</script>
 </body>
 </html>

@@ -76,5 +76,8 @@ public class VocabularyServiceImpl implements VocabularyService{
 		return voc;
 	}
 
+	public void updateVocabulary(String id, Vocabulary vocabulary) {
+		vocabularyDao.updateVocabulary(id, vocabulary);
+	}
 	
 }

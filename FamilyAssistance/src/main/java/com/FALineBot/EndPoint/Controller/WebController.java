@@ -112,15 +112,15 @@ public class WebController {
 	    Vocabulary voc = vocabularyService.getVocabularybyId(id);
 
 	    if (voc != null) {
-	        // 將單字詳細資料封裝為 Map 格式
+	        // 將單字詳細資料封裝為 Map 格式，並移除下劃線
 	        Map<String, Object> vocDictionary = new HashMap<>();
 	        vocDictionary.put("word", voc.getWord());
-	        vocDictionary.put("part_of_speech", voc.getPartOfSpeech());
+	        vocDictionary.put("partOfSpeech", voc.getPartOfSpeech());
 	        vocDictionary.put("definition", voc.getDefinition());
-	        vocDictionary.put("example_sentence", voc.getExampleSentence());
+	        vocDictionary.put("exampleSentence", voc.getExampleSentence()); // 修改為駝峰命名
 	        vocDictionary.put("repetitions", voc.getRepetitions());
-	        vocDictionary.put("next_review_date", voc.getNextReviewDate());
-	        vocDictionary.put("last_review_date", voc.getLastReviewDate());
+	        vocDictionary.put("nextReviewDate", voc.getNextReviewDate()); // 修改為駝峰命名
+	        vocDictionary.put("lastReviewDate", voc.getLastReviewDate()); // 修改為駝峰命名
 	        vocDictionary.put("status", voc.getStatus());
 
 	        // 配置 ObjectMapper
@@ -129,19 +129,24 @@ public class WebController {
 	        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // 禁止寫入為時間戳
 
 	        try {
+	            // 將 Map 轉換為 JSON 字串
 	            String vocDictionaryJson = objectMapper.writeValueAsString(vocDictionary);
 	            model.addAttribute("vocDictionary", vocDictionaryJson);
+	            model.addAttribute("id", id);
 	        } catch (JsonProcessingException e) {
 	            e.printStackTrace();
 	            model.addAttribute("vocDictionary", "{}");
+	            model.addAttribute("id", id);
 	        }
 	    } else {
 	        // 若查詢結果為空，傳遞空的 JSON 結構
 	        model.addAttribute("vocDictionary", "{}");
+	        model.addAttribute("id", id);
 	    }
 
 	    return "VocabularyQueryResult"; // 返回對應的 HTML 模板名稱
 	}
+
 
 	
 	@GetMapping("/VocabularyList/{user}/{page}")

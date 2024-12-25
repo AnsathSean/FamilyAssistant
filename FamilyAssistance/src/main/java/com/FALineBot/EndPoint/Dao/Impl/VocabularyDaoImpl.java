@@ -1,5 +1,7 @@
 package com.FALineBot.EndPoint.Dao.Impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -365,5 +367,54 @@ String partOfSpeeches = voc.getPartOfSpeech().stream()
             return vocabulary;
         });
     }
-    
+
+	
+    @Override
+    @SuppressWarnings("deprecation")
+    public void updateVocabulary(String id, Vocabulary vocabulary) {
+        String query = "UPDATE Vocabulary SET " +
+                       "word = ?, " +
+                       "definition = ?, " +
+                       "example_sentence = ?, " +
+                       "repetitions = ?, " +
+                       "ease_factor = ?, " +
+                       "next_review_date = ?, " +
+                       "last_review_date = ?, " +
+                       "status = ?, " +
+                       "updated_at = ?, " +
+                       "part_of_speech = ? " +
+                       "WHERE id = ?";
+
+        // 將 List<String> 轉換為以 "@" 分隔的字串
+        String definitionStr = vocabulary.getDefinition() != null ? String.join("@", vocabulary.getDefinition()) : null;
+        String exampleSentenceStr = vocabulary.getExampleSentence() != null ? String.join("@", vocabulary.getExampleSentence()) : null;
+        String partOfSpeechStr = vocabulary.getPartOfSpeech() != null ? String.join("@", vocabulary.getPartOfSpeech()) : null;
+
+        // 將字串類型的數據轉換為對應的 SQL 類型
+        Integer repetitions = vocabulary.getRepetitions() != null ? Integer.valueOf(vocabulary.getRepetitions().toString()) : null;
+        LocalDate nextReviewDate = vocabulary.getNextReviewDate() != null ? LocalDate.parse(vocabulary.getNextReviewDate().toString()) : null;
+        LocalDate lastReviewDate = vocabulary.getLastReviewDate() != null ? LocalDate.parse(vocabulary.getLastReviewDate().toString()) : null;
+
+        // 設定更新的時間
+        LocalDateTime updatedAt = LocalDateTime.now();
+
+        jdbcTemplate.update(query, 
+            vocabulary.getWord(),
+            definitionStr,
+            exampleSentenceStr,
+            repetitions,
+            vocabulary.getEaseFactor(),
+            nextReviewDate,
+            lastReviewDate,
+            vocabulary.getStatus(),
+            updatedAt,
+            partOfSpeechStr,
+            id
+        );
+    }
+
+
+
+
+
 }
