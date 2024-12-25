@@ -85,22 +85,38 @@
         ];
 
         // 獲取單字資料
-        function getWordDataFromHiddenDiv() {
-            const hiddenDiv = document.getElementById("voc-data");
-            const rawData = hiddenDiv.textContent || hiddenDiv.innerText;
+	function getWordDataFromHiddenDiv() {
+  	  const hiddenDiv = document.getElementById("voc-data");
+  	  let rawData = hiddenDiv.textContent || hiddenDiv.innerText;
 
-            if (!rawData || rawData.trim() === "") {
-                console.error("資料為空，無法解析");
-                return {};
-            }
+  	  if (!rawData || rawData.trim() === "") {
+   	     console.error("資料為空，無法解析");
+    	    return {};
+   	 }
 
-            try {
-                return JSON.parse(rawData.replace(/([a-zA-Z_]+)=/g, '"$1":').replace(/'/g, '"'));
-            } catch (error) {
-                console.error("解析資料失敗:", error);
-                return {};
-            }
-        }
+   	 try {
+   	     // 檢查資料是否需要修正
+    	    console.log("原始資料:", rawData);
+
+     	   // 修正未轉義的字符
+     	   rawData = rawData
+            .replace(/\\([\s\S])/g, "\\\\$1") // 處理反斜杠
+            .replace(/'/g, '"')              // 處理單引號
+            .replace(/([a-zA-Z_]+)=/g, '"$1":') // 將鍵加上雙引號
+            .replace(/,(\s*})/g, "$1");      // 移除多餘的逗號
+
+    	    console.log("修正後的資料:", rawData);
+
+        // 解析 JSON
+        const parsedData = JSON.parse(rawData);
+        console.log("解析後的資料:", parsedData);
+        return parsedData;
+    } catch (error) {
+        console.error("解析資料失敗:", error);
+        return {};
+    }
+}
+
 
         // 生成垂直表格
         function generateVerticalTable(data) {

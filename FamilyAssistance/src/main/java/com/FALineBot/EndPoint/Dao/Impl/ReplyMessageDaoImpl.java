@@ -27,7 +27,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	private String LINE_SECRET = "/SG/if6TI6qOaEqeniCsdaX4Y/R7pzzjw6mhQrwsCCQK0aItavD/9jhH/OwsAlDbNAlWcGJU2W5hn9hK2WrkU1kk0bM77KdRfIVcop96uIJurFGCpGMEiNoGlmjo59dGdMNOSUBi8AhTwwTyDHeCuAdB04t89/1O/w1cDnyilFU=";
 
 	public void ReplyVocFlexMessage(String replyToken, String word, List<String> definition, List<String> example, List<String> partOfSpeechList,String tempId) {
-		  try {
+	//建立單字的Flex Message
+		try {
 		        // 創建 Body
 		        LinkedHashMap<String, Object> bodyMap = new LinkedHashMap<>();
 		        bodyMap.put("type", "box");
@@ -148,8 +149,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		    }
 	}
 
-	
-	
 	public void ReplyTextMessage(String Message,String token) {
 		//建立回傳訊息標頭
 		HttpHeaders headers = new HttpHeaders();
@@ -335,8 +334,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
         restTemplate.exchange(Reply_Url,HttpMethod.POST, entity, String.class);
 		
 	}
-	
-	
 	
 	public void ReplyFlexWishListMessageTemplate(String token)
 	{
