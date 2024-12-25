@@ -2,6 +2,7 @@ package com.FALineBot.EndPoint.Dao.Impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -368,50 +369,74 @@ String partOfSpeeches = voc.getPartOfSpeech().stream()
         });
     }
 
-	
     @Override
     @SuppressWarnings("deprecation")
     public void updateVocabulary(String id, Vocabulary vocabulary) {
-        String query = "UPDATE Vocabulary SET " +
-                       "word = ?, " +
-                       "definition = ?, " +
-                       "example_sentence = ?, " +
-                       "repetitions = ?, " +
-                       "ease_factor = ?, " +
-                       "next_review_date = ?, " +
-                       "last_review_date = ?, " +
-                       "status = ?, " +
-                       "updated_at = ?, " +
-                       "part_of_speech = ? " +
-                       "WHERE id = ?";
+        // 建構動態 SQL 查詢
+        StringBuilder queryBuilder = new StringBuilder("UPDATE Vocabulary SET ");
+        List<Object> params = new ArrayList<>();
 
-        // 將 List<String> 轉換為以 "@" 分隔的字串
-        String definitionStr = vocabulary.getDefinition() != null ? String.join("@", vocabulary.getDefinition()) : null;
-        String exampleSentenceStr = vocabulary.getExampleSentence() != null ? String.join("@", vocabulary.getExampleSentence()) : null;
-        String partOfSpeechStr = vocabulary.getPartOfSpeech() != null ? String.join("@", vocabulary.getPartOfSpeech()) : null;
+        if (vocabulary.getWord() != null) {
+            queryBuilder.append("word = ?, ");
+            params.add(vocabulary.getWord());
+        }
 
-        // 將字串類型的數據轉換為對應的 SQL 類型
-        Integer repetitions = vocabulary.getRepetitions() != null ? Integer.valueOf(vocabulary.getRepetitions().toString()) : null;
-        LocalDate nextReviewDate = vocabulary.getNextReviewDate() != null ? LocalDate.parse(vocabulary.getNextReviewDate().toString()) : null;
-        LocalDate lastReviewDate = vocabulary.getLastReviewDate() != null ? LocalDate.parse(vocabulary.getLastReviewDate().toString()) : null;
+        if (vocabulary.getDefinition() != null) {
+            String definitionStr = String.join("@", vocabulary.getDefinition());
+            queryBuilder.append("definition = ?, ");
+            params.add(definitionStr);
+        }
 
-        // 設定更新的時間
-        LocalDateTime updatedAt = LocalDateTime.now();
+        if (vocabulary.getExampleSentence() != null) {
+            String exampleSentenceStr = String.join("@", vocabulary.getExampleSentence());
+            queryBuilder.append("example_sentence = ?, ");
+            params.add(exampleSentenceStr);
+        }
 
-        jdbcTemplate.update(query, 
-            vocabulary.getWord(),
-            definitionStr,
-            exampleSentenceStr,
-            repetitions,
-            vocabulary.getEaseFactor(),
-            nextReviewDate,
-            lastReviewDate,
-            vocabulary.getStatus(),
-            updatedAt,
-            partOfSpeechStr,
-            id
-        );
+        if (vocabulary.getRepetitions() != null) {
+            queryBuilder.append("repetitions = ?, ");
+            params.add(vocabulary.getRepetitions());
+        }
+
+        if (vocabulary.getEaseFactor() != null) {
+            queryBuilder.append("ease_factor = ?, ");
+            params.add(vocabulary.getEaseFactor());
+        }
+
+        if (vocabulary.getNextReviewDate() != null) {
+            queryBuilder.append("next_review_date = ?, ");
+            params.add(LocalDate.parse(vocabulary.getNextReviewDate().toString()));
+        }
+
+        if (vocabulary.getLastReviewDate() != null) {
+            queryBuilder.append("last_review_date = ?, ");
+            params.add(LocalDate.parse(vocabulary.getLastReviewDate().toString()));
+        }
+
+        if (vocabulary.getStatus() != null) {
+            queryBuilder.append("status = ?, ");
+            params.add(vocabulary.getStatus());
+        }
+
+        // 永遠更新 updated_at
+        queryBuilder.append("updated_at = ?, ");
+        params.add(LocalDateTime.now());
+
+        if (vocabulary.getPartOfSpeech() != null) {
+            String partOfSpeechStr = String.join("@", vocabulary.getPartOfSpeech());
+            queryBuilder.append("part_of_speech = ?, ");
+            params.add(partOfSpeechStr);
+        }
+
+        // 移除最後的逗號和空格，並加上 WHERE 子句
+        queryBuilder.setLength(queryBuilder.length() - 2); // 移除最後的 ", "
+        queryBuilder.append(" WHERE id = ?");
+        params.add(id);
+
+        // 執行更新
+        jdbcTemplate.update(queryBuilder.toString(), params.toArray());
     }
+
 
 
 
