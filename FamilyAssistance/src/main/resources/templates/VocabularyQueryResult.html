@@ -143,17 +143,36 @@ function generateVerticalTable(data) {
 
         // 欄位值
         const valueCell = document.createElement("td");
-        valueCell.textContent = Array.isArray(data[key]) ? data[key].join(", ") : data[key] || "";
         valueCell.setAttribute("data-key", key); // 確保 data-key 與後端模型一致
-        valueCell.setAttribute("contenteditable", false); // 預設不可編輯
-        row.appendChild(valueCell);
 
+        if (key === "status") {
+            // 如果是狀態欄位，使用 select 元素
+            const select = document.createElement("select");
+            ["Easy", "Mid", "Hard"].forEach(optionValue => {
+                const option = document.createElement("option");
+                option.value = optionValue;
+                option.textContent = optionValue;
+                if (data[key] === optionValue) {
+                    option.selected = true;
+                }
+                select.appendChild(option);
+            });
+            select.disabled = true; // 預設不可修改
+            valueCell.appendChild(select);
+        } else {
+            // 其他欄位
+            valueCell.textContent = Array.isArray(data[key]) ? data[key].join(", ") : data[key] || "";
+            valueCell.setAttribute("contenteditable", false); // 預設不可編輯
+        }
+
+        row.appendChild(valueCell);
         tbody.appendChild(row);
     });
 
     table.appendChild(tbody);
     tableContainer.appendChild(table);
 }
+
 
 
     // 切換編輯狀態
