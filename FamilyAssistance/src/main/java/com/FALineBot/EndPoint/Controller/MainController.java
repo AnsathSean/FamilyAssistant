@@ -295,7 +295,7 @@ public class MainController {
 					 
 				 }
 				 
-				 //複習單字功能
+				 //複習單字功能1
 				 if(Message.indexOf("複習單字")!=-1) {
 					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show") ) {
 						 replyMessageService.ReplyRecapVocFlexMessage(token, "Eric", "1");
