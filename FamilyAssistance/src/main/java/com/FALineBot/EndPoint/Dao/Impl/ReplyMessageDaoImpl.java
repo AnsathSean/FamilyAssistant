@@ -149,115 +149,6 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		    }
 	}
 
-	public void ReplyRecapVocFlexMessage(String replyToken, String word, String WordId, String definition) {
-	    try {
-	        // 創建 Body
-	        JSONObject body = new JSONObject();
-	        body.put("type", "box");
-	        body.put("layout", "vertical");
-
-	        JSONArray bodyContents = new JSONArray();
-	        bodyContents.put(new JSONObject()
-	                .put("type", "text")
-	                .put("text", "複習單字")
-	                .put("weight", "bold")
-	                .put("color", "#1DB446")
-	                .put("size", "sm"));
-	        bodyContents.put(new JSONObject()
-	                .put("type", "text")
-	                .put("text", word)
-	                .put("weight", "bold")
-	                .put("size", "xxl")
-	                .put("margin", "md"));
-	        bodyContents.put(new JSONObject()
-	                .put("type", "text")
-	                .put("text", definition)
-	                .put("size", "sm")
-	                .put("color", "#555555")
-	                .put("wrap", true)
-	                .put("margin", "md"));
-
-	        body.put("contents", bodyContents);
-
-	        // 創建 Footer
-	        JSONObject footer = new JSONObject();
-	        footer.put("type", "box");
-	        footer.put("layout", "vertical");
-	        footer.put("spacing", "sm");
-
-	        JSONArray footerContents = new JSONArray();
-
-	        footerContents.put(new JSONObject()
-	                .put("type", "button")
-	                .put("action", new JSONObject()
-	                        .put("type", "postback")
-	                        .put("label", "困難")
-	                        .put("data", "action=difficulty&level=hard&id=" + WordId)
-	                        .put("displayText", "這個單字我覺得困難"))
-	                .put("style", "primary")
-	                .put("color", "#FF0000"));
-
-	        footerContents.put(new JSONObject()
-	                .put("type", "button")
-	                .put("action", new JSONObject()
-	                        .put("type", "postback")
-	                        .put("label", "中等")
-	                        .put("data", "action=difficulty&level=medium&id=" + WordId)
-	                        .put("displayText", "這個單字我覺得中等"))
-	                .put("style", "primary")
-	                .put("color", "#FFA500"));
-
-	        footerContents.put(new JSONObject()
-	                .put("type", "button")
-	                .put("action", new JSONObject()
-	                        .put("type", "postback")
-	                        .put("label", "簡單")
-	                        .put("data", "action=difficulty&level=easy&id=" + WordId)
-	                        .put("displayText", "這個單字我覺得簡單"))
-	                .put("style", "primary")
-	                .put("color", "#1DB446"));
-
-	        footer.put("contents", footerContents);
-
-	        // 創建 Flex Message
-	        JSONObject flexMessage = new JSONObject();
-	        flexMessage.put("type", "bubble");
-	        flexMessage.put("body", body);
-	        flexMessage.put("footer", footer);
-
-	        // 創建主訊息結構
-	        JSONObject message = new JSONObject();
-	        message.put("type", "flex");
-	        message.put("altText", "複習單字: " + word);
-	        message.put("contents", flexMessage);
-
-	        JSONArray messages = new JSONArray();
-	        messages.put(message);
-
-	        JSONObject requestBody = new JSONObject();
-	        requestBody.put("replyToken", replyToken);
-	        requestBody.put("messages", messages);
-
-	        // 設定 Headers
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.setContentType(MediaType.APPLICATION_JSON);
-	        headers.setBearerAuth(LINE_SECRET);
-
-	        HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
-
-	        // 發送 POST 請求
-	        ResponseEntity<String> response = restTemplate.exchange(Reply_Url, HttpMethod.POST, entity, String.class);
-
-	        if (response.getStatusCode() == HttpStatus.OK) {
-	            //System.out.println("Flex Message 發送成功");
-	        } else {
-	            //System.err.println("Flex Message 發送失敗: " + response.getBody());
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
-
 	public void ReplyTextMessage(String Message,String token) {
 		//建立回傳訊息標頭
 		HttpHeaders headers = new HttpHeaders();
@@ -684,9 +575,116 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		
 	}
 
-	@Override
-	public void ReplyRecapVocFlexMessage(String replyToken, String word, String WordId) {
-		// TODO Auto-generated method stub
+	
+	public void ReplyRecapVocFlexMessage(String replyToken, String word, String WordId,String definition) {
+	    try {
+	        // 創建 Body
+	        JSONObject body = new JSONObject();
+	        body.put("type", "box");
+	        body.put("layout", "vertical");
+
+	        JSONArray bodyContents = new JSONArray();
+	        bodyContents.put(new JSONObject()
+	                .put("type", "text")
+	                .put("text", "複習單字")
+	                .put("weight", "bold")
+	                .put("color", "#1DB446")
+	                .put("size", "sm"));
+	        bodyContents.put(new JSONObject()
+	                .put("type", "text")
+	                .put("text", word)
+	                .put("weight", "bold")
+	                .put("size", "xxl")
+	                .put("margin", "md"));
+	        bodyContents.put(new JSONObject()
+	                .put("type", "text")
+	                .put("text", definition)
+	                .put("size", "sm")
+	                .put("color", "#555555")
+	                .put("wrap", true)
+	                .put("margin", "md"));
+
+	        body.put("contents", bodyContents);
+
+	        // 創建 Footer
+	        JSONObject footer = new JSONObject();
+	        footer.put("type", "box");
+	        footer.put("layout", "vertical");
+	        footer.put("spacing", "sm");
+
+	        JSONArray footerContents = new JSONArray();
+
+	        footerContents.put(new JSONObject()
+	                .put("type", "button")
+	                .put("action", new JSONObject()
+	                        .put("type", "postback")
+	                        .put("label", "困難")
+	                        .put("data", "action=difficulty&level=hard&id=" + WordId)
+	                        .put("displayText", "這個單字我覺得困難"))
+	                .put("style", "primary")
+	                .put("color", "#FF0000"));
+
+	        footerContents.put(new JSONObject()
+	                .put("type", "button")
+	                .put("action", new JSONObject()
+	                        .put("type", "postback")
+	                        .put("label", "中等")
+	                        .put("data", "action=difficulty&level=medium&id=" + WordId)
+	                        .put("displayText", "這個單字我覺得中等"))
+	                .put("style", "primary")
+	                .put("color", "#FFA500"));
+
+	        footerContents.put(new JSONObject()
+	                .put("type", "button")
+	                .put("action", new JSONObject()
+	                        .put("type", "postback")
+	                        .put("label", "簡單")
+	                        .put("data", "action=difficulty&level=easy&id=" + WordId)
+	                        .put("displayText", "這個單字我覺得簡單"))
+	                .put("style", "primary")
+	                .put("color", "#1DB446"));
+
+	        footer.put("contents", footerContents);
+
+	        // 創建 Flex Message
+	        JSONObject flexMessage = new JSONObject();
+	        flexMessage.put("type", "bubble");
+	        flexMessage.put("body", body);
+	        flexMessage.put("footer", footer);
+
+	        // 創建主訊息結構
+	        JSONObject message = new JSONObject();
+	        message.put("type", "flex");
+	        message.put("altText", "複習單字: " + word);
+	        message.put("contents", flexMessage);
+
+	        JSONArray messages = new JSONArray();
+	        messages.put(message);
+
+	        JSONObject requestBody = new JSONObject();
+	        requestBody.put("replyToken", replyToken);
+	        requestBody.put("messages", messages);
+
+	        // 設定 Headers
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.APPLICATION_JSON);
+	        headers.setBearerAuth(LINE_SECRET);
+
+	        HttpEntity<String> entity = new HttpEntity<>(requestBody.toString(), headers);
+
+	        // 發送 POST 請求
+	        ResponseEntity<String> response = restTemplate.exchange(Reply_Url, HttpMethod.POST, entity, String.class);
+
+	        if (response.getStatusCode() == HttpStatus.OK) {
+	            //System.out.println("Flex Message 發送成功");
+	        } else {
+	            //System.err.println("Flex Message 發送失敗: " + response.getBody());
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 		
 	}
+
+
 }
