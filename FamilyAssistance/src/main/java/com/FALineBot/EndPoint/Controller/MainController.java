@@ -131,14 +131,8 @@ public class MainController {
                                     break;
                             }
 
-                            // 使用 calNextReviewVoc 計算下一次複習日期
-                            LocalDate nextReviewDate = vocabularyService.calNextReviewVoc(vocabulary, quality);
-
-                            // 更新 Vocabulary 的 nextReviewDate 和 status
-                            vocabulary.setNextReviewDate(nextReviewDate);
-                            vocabulary.setStatus(status);
-                            vocabularyService.updateVocabulary(Integer.toString(id), vocabulary);
-
+                            //取得接下來日期、新增複習次數並直接存起來
+                            vocabularyService.calNextReviewVoc(vocabulary, quality);
                             // 取得下一個單字並回傳 replyRecapMessage
                             Vocabulary nextVocabulary = vocabularyService.getVocabularybyDate(vocabulary.getLineId());
                             if (nextVocabulary != null) {

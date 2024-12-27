@@ -87,7 +87,7 @@ public class VocabularyServiceImpl implements VocabularyService{
 		return voc;
 	}
 	
-    public LocalDate calNextReviewVoc(Vocabulary card, int quality) {
+    public void calNextReviewVoc(Vocabulary card, int quality) {
         // 根據使用者的評分更新卡片的間隔和 ease_factor
         LocalDate today = LocalDate.now();
         int interval = 1; // 默認間隔
@@ -118,6 +118,7 @@ public class VocabularyServiceImpl implements VocabularyService{
         LocalDate nextReviewDate = today.plus(interval, ChronoUnit.DAYS);
         card.setNextReviewDate(nextReviewDate);
 
-        return nextReviewDate;
+        // 直接更新到資料庫
+        vocabularyDao.updateVocabulary(Integer.toString(card.getId()), card);
     }
 }
