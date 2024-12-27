@@ -368,7 +368,6 @@ String partOfSpeeches = voc.getPartOfSpeech().stream()
         });
     }
 
-	
     @Override
     @SuppressWarnings("deprecation")
     public void updateVocabulary(String id, Vocabulary vocabulary) {
@@ -412,6 +411,53 @@ String partOfSpeeches = voc.getPartOfSpeech().stream()
             id
         );
     }
+
+    @SuppressWarnings("deprecation")
+	@Override
+    public Vocabulary getVocabularybyDate(String lineId) {
+        String query = "SELECT id, line_id, word, definition, example_sentence, repetitions, ease_factor, " +
+                       "next_review_date, last_review_date, status, created_at, updated_at, part_of_speech " +
+                       "FROM Vocabulary WHERE line_id = ? AND (next_review_date IS NULL OR next_review_date <= CURRENT_DATE()) " +
+                       "ORDER BY next_review_date ASC LIMIT 1";
+
+        try {
+            return jdbcTemplate.queryForObject(query, new Object[]{lineId}, (rs, rowNum) -> {
+                Vocabulary vocabulary = new Vocabulary();
+                vocabulary.setId(rs.getInt("id"));
+                vocabulary.setLineId(rs.getString("line_id"));
+                vocabulary.setWord(rs.getString("word"));
+
+                // 處理定義、例句、詞性，將"@"分隔的字串轉為List<String>
+                String definitionStr = rs.getString("definition");
+                vocabulary.setDefinition(definitionStr != null ? List.of(definitionStr.split("@")) : null);
+
+                String exampleSentenceStr = rs.getString("example_sentence");
+                vocabulary.setExampleSentence(exampleSentenceStr != null ? List.of(exampleSentenceStr.split("@")) : null);
+
+                String partOfSpeechStr = rs.getString("part_of_speech");
+                vocabulary.setPartOfSpeech(partOfSpeechStr != null ? List.of(partOfSpeechStr.split("@")) : null);
+
+                vocabulary.setRepetitions(rs.getInt("repetitions"));
+                vocabulary.setEaseFactor(rs.getFloat("ease_factor"));
+                vocabulary.setNextReviewDate(rs.getDate("next_review_date") != null
+                        ? rs.getDate("next_review_date").toLocalDate() : null);
+                vocabulary.setLastReviewDate(rs.getDate("last_review_date") != null
+                        ? rs.getDate("last_review_date").toLocalDate() : null);
+                vocabulary.setStatus(rs.getString("status"));
+
+                vocabulary.setCreatedAt(rs.getDate("created_at") != null
+                        ? rs.getDate("created_at").toLocalDate() : null);
+                vocabulary.setUpdatedAt(rs.getDate("updated_at") != null
+                        ? rs.getDate("updated_at").toLocalDate() : null);
+
+                return vocabulary;
+            });
+        } catch (Exception e) {
+            // 如果找不到符合條件的資料，回傳 null
+            return null;
+        }
+    }
+
 
 
 

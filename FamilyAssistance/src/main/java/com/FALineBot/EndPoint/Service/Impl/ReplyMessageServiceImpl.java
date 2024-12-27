@@ -69,4 +69,7 @@ public class ReplyMessageServiceImpl implements ReplyMessageService {
 		
 	}
 	
+	public void ReplyRecapVocFlexMessage(String replyToken, String word, String WordId) {
+		replyMessageDao.ReplyRecapVocFlexMessage(replyToken, word, WordId);
+	}
 }
