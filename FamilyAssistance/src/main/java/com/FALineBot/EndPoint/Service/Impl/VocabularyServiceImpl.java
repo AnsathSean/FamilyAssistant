@@ -1,5 +1,6 @@
 package com.FALineBot.EndPoint.Service.Impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.FALineBot.EndPoint.Dao.VocabularyDao;
 import com.FALineBot.EndPoint.Model.Page;
 import com.FALineBot.EndPoint.Model.Vocabulary;
 import com.FALineBot.EndPoint.Service.VocabularyService;
+import java.time.temporal.ChronoUnit;
 
 @Component
 public class VocabularyServiceImpl implements VocabularyService{
@@ -84,4 +86,38 @@ public class VocabularyServiceImpl implements VocabularyService{
 		Vocabulary voc = vocabularyDao.getVocabularybyDate(lineId);
 		return voc;
 	}
+	
+    public LocalDate calNextReviewVoc(Vocabulary card, int quality) {
+        // 根據使用者的評分更新卡片的間隔和 ease_factor
+        LocalDate today = LocalDate.now();
+        int interval = 1; // 默認間隔
+
+        if (quality < 3) { // 比較困難
+            interval = 1;
+            card.setRepetitions(0);
+        } else { // 比較簡單
+            card.setRepetitions(card.getRepetitions() + 1);
+
+            if (card.getRepetitions() == 1) { // 第一次覺得簡單隔天再複習
+                interval = 1;
+            } else if (card.getRepetitions() == 2) { // 第二次覺得簡單六天後再複習
+                interval = 6;
+            } else { // 超過兩次以上簡單，根據 ease_factor 調整間隔
+                interval = (int) (interval * card.getEaseFactor());
+            }
+        }
+
+        // 更新 ease_factor 根據評分
+        double newEaseFactor = card.getEaseFactor() + 0.1 - (5 - quality) * 0.08;
+        if (newEaseFactor < 1.3) {
+            newEaseFactor = 1.3; // 最低限制
+        }
+        card.setEaseFactor((float) newEaseFactor);
+
+        // 計算下一次複習日期
+        LocalDate nextReviewDate = today.plus(interval, ChronoUnit.DAYS);
+        card.setNextReviewDate(nextReviewDate);
+
+        return nextReviewDate;
+    }
 }

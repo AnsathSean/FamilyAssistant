@@ -26,6 +26,8 @@ import com.FALineBot.EndPoint.Service.SmokeService;
 import com.FALineBot.EndPoint.Service.UserManagerService;
 import com.FALineBot.EndPoint.Service.VocabularyService;
 import com.FALineBot.EndPoint.Service.WishListService;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -94,6 +96,55 @@ public class MainController {
 		        // 取得 post back 的 data 資料
 		        String postbackData = postbackObject.getString("data");
 
+                // 解析難度評分的 Postback 資料
+                if (postbackData.startsWith("action=difficulty&level=")) {
+                    try {
+                        // 解析 level 和 id
+                        String[] parts = postbackData.split("&");
+                        String level = parts[1].split("=")[1];
+                        String idStr = parts[2].split("=")[1];
+                        int id = Integer.parseInt(idStr);
+
+                        // 使用 WordId 取得單字
+                        Vocabulary vocabulary = vocabularyService.getVocabularybyId(Integer.toString(id));
+
+                        if (vocabulary != null) {
+                            // 將 level 轉換為質量評分
+                            int quality;
+                            switch (level) {
+                                case "hard":
+                                    quality = 2;
+                                    break;
+                                case "medium":
+                                    quality = 4;
+                                    break;
+                                case "easy":
+                                    quality = 5;
+                                    break;
+                                default:
+                                    quality = 3;
+                                    break;
+                            }
+
+                            // 使用 calNextReviewVoc 計算下一次複習日期
+                            LocalDate nextReviewDate = vocabularyService.calNextReviewVoc(vocabulary, quality);
+
+                            // 更新 Vocabulary 的 nextReviewDate
+                            vocabulary.setNextReviewDate(nextReviewDate);
+                             vocabularyService.updateVocabulary(Integer.toString(id), vocabulary);
+                             replyMessageService.ReplyTextMessage("單字更新成功，下一次複習日期為: " + nextReviewDate.toString(), token);
+                        } else {
+                            replyMessageService.ReplyTextMessage("無法找到對應的單字！", token);
+                        }
+                    } catch (NumberFormatException e) {
+                        replyMessageService.ReplyTextMessage("ID 格式錯誤！", token);
+                    } catch (Exception e) {
+                        replyMessageService.ReplyTextMessage("處理失敗：" + e.getMessage(), token);
+                    }
+
+                    return new ResponseEntity<String>("OK", HttpStatus.OK);
+                }
+		        
 		        // 解析 data，確認是 query_reading
 		        if ("action=query_reading".equals(postbackData)) {
 		            // 取得使用者 ID
@@ -108,6 +159,8 @@ public class MainController {
 
 		            return new ResponseEntity<String>("OK", HttpStatus.OK);
 		        }
+		        
+		        
 		        
 		        // 解析 data，確認是 query_reading
 		        if ("action=query_wish".equals(postbackData)) {
@@ -295,7 +348,7 @@ public class MainController {
 					 
 				 }
 				 
-				 //複習單字功能1
+				 //複習單字功能
 				 if(Message.indexOf("複習單字")!=-1) {
 					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show") ) {
 						 Vocabulary voc = vocabularyService.getVocabularybyDate(wisher);

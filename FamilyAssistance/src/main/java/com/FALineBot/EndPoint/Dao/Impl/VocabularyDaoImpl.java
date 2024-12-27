@@ -218,7 +218,8 @@ String partOfSpeeches = voc.getPartOfSpeech().stream()
         });
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public List<Vocabulary> getVocListPage(String lineId, int page, int pageSize) {
         // 計算 OFFSET，根據頁數計算需要跳過的資料筆數
         int offset = (page - 1) * pageSize;

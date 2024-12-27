@@ -1,5 +1,6 @@
 package com.FALineBot.EndPoint.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.FALineBot.EndPoint.Model.Page;
@@ -19,4 +20,5 @@ public interface VocabularyService {
 	public Vocabulary getVocabularybyId(String id);
 	public Vocabulary getVocabularybyDate(String lineId);
 	public void updateVocabulary(String id, Vocabulary vocabulary);
+	public LocalDate calNextReviewVoc(Vocabulary card, int quality);
 }
