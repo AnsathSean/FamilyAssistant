@@ -132,7 +132,7 @@ public class MainController {
                             }
 
                             //取得接下來日期、新增複習次數並直接存起來
-                            vocabularyService.calNextReviewVoc(vocabulary, quality);
+                            vocabularyService.updateNextReviewVocbyQuality(vocabulary, quality);
                             // 取得下一個單字並回傳 replyRecapMessage
                             Vocabulary nextVocabulary = vocabularyService.getVocabularybyDate(vocabulary.getLineId());
                             if (nextVocabulary != null) {

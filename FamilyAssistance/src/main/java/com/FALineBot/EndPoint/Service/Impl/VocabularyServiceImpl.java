@@ -87,7 +87,7 @@ public class VocabularyServiceImpl implements VocabularyService{
 		return voc;
 	}
 	
-    public void calNextReviewVoc(Vocabulary card, int quality) {
+    public void updateNextReviewVocbyQuality(Vocabulary card, int quality) {
         // 根據使用者的評分更新卡片的間隔和 ease_factor
         LocalDate today = LocalDate.now();
         int interval = 1; // 默認間隔

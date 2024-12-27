@@ -20,5 +20,5 @@ public interface VocabularyService {
 	public Vocabulary getVocabularybyId(String id);
 	public Vocabulary getVocabularybyDate(String lineId);
 	public void updateVocabulary(String id, Vocabulary vocabulary);
-	public void calNextReviewVoc(Vocabulary card, int quality);
+	public void updateNextReviewVocbyQuality(Vocabulary card, int quality);
 }
