@@ -149,7 +149,7 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 		    }
 	}
 
-	public void ReplyRecapVocFlexMessage(String replyToken, String word, String WordId) {
+	public void ReplyRecapVocFlexMessage(String replyToken, String word, String WordId, String definition) {
 	    try {
 	        // 創建 Body
 	        JSONObject body = new JSONObject();
@@ -168,6 +168,13 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	                .put("text", word)
 	                .put("weight", "bold")
 	                .put("size", "xxl")
+	                .put("margin", "md"));
+	        bodyContents.put(new JSONObject()
+	                .put("type", "text")
+	                .put("text", definition)
+	                .put("size", "sm")
+	                .put("color", "#555555")
+	                .put("wrap", true)
 	                .put("margin", "md"));
 
 	        body.put("contents", bodyContents);
@@ -242,9 +249,9 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	        ResponseEntity<String> response = restTemplate.exchange(Reply_Url, HttpMethod.POST, entity, String.class);
 
 	        if (response.getStatusCode() == HttpStatus.OK) {
-	            System.out.println("Flex Message 發送成功");
+	            //System.out.println("Flex Message 發送成功");
 	        } else {
-	            System.err.println("Flex Message 發送失敗: " + response.getBody());
+	            //System.err.println("Flex Message 發送失敗: " + response.getBody());
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -674,6 +681,12 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	        e.printStackTrace();
 	        System.out.println("綁定過程中發生錯誤");
 	    }
+		
+	}
+
+	@Override
+	public void ReplyRecapVocFlexMessage(String replyToken, String word, String WordId) {
+		// TODO Auto-generated method stub
 		
 	}
 }
