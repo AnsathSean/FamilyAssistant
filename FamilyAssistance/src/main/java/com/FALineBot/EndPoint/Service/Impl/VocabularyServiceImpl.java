@@ -80,4 +80,8 @@ public class VocabularyServiceImpl implements VocabularyService{
 		vocabularyDao.updateVocabulary(id, vocabulary);
 	}
 	
+	public Vocabulary getVocabularybyDate(String lineId) {
+		Vocabulary voc = vocabularyDao.getVocabularybyDate(lineId);
+		return voc;
+	}
 }

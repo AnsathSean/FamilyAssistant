@@ -298,8 +298,14 @@ public class MainController {
 				 //複習單字功能1
 				 if(Message.indexOf("複習單字")!=-1) {
 					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show") ) {
-						 replyMessageService.ReplyRecapVocFlexMessage(token, "Eric", "1");
-						 return new ResponseEntity<String>("Delete OK", HttpStatus.OK);
+						 Vocabulary voc = vocabularyService.getVocabularybyDate(wisher);
+				         if (voc != null) {
+				             replyMessageService.ReplyRecapVocFlexMessage(token, voc.getWord(), voc.getId().toString());
+				             return new ResponseEntity<String>("OK", HttpStatus.OK);
+				         } else {
+				             replyMessageService.ReplyTextMessage("已經都複習過了!", token);
+				             return new ResponseEntity<String>("OK", HttpStatus.OK);
+				         }
 					 }else {
 						 replyMessageService.ReplyTextMessage("無法顯示，請確認權限",token);
 					     return new ResponseEntity<String>("OK", HttpStatus.OK);
