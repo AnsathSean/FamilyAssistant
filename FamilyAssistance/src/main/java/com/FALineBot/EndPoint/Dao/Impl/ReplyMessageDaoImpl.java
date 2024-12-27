@@ -576,7 +576,8 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	}
 
 	
-	public void ReplyRecapVocFlexMessage(String replyToken, String word, String WordId,String definition) {
+
+	public void ReplyRecapVocFlexMessage(String replyToken, String word, String WordId, List<String> definitions) {
 	    try {
 	        // 創建 Body
 	        JSONObject body = new JSONObject();
@@ -596,13 +597,27 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	                .put("weight", "bold")
 	                .put("size", "xxl")
 	                .put("margin", "md"));
-	        bodyContents.put(new JSONObject()
-	                .put("type", "text")
-	                .put("text", definition)
-	                .put("size", "sm")
-	                .put("color", "#555555")
-	                .put("wrap", true)
-	                .put("margin", "md"));
+
+	        // 動態添加定義
+	        if (definitions != null && !definitions.isEmpty()) {
+	            bodyContents.put(new JSONObject()
+	                    .put("type", "text")
+	                    .put("text", "定義")
+	                    .put("weight", "bold")
+	                    .put("size", "sm")
+	                    .put("color", "#555555")
+	                    .put("margin", "lg"));
+
+	            for (String definition : definitions) {
+	                bodyContents.put(new JSONObject()
+	                        .put("type", "text")
+	                        .put("text", definition)
+	                        .put("size", "sm")
+	                        .put("color", "#555555")
+	                        .put("wrap", true)
+	                        .put("margin", "md"));
+	            }
+	        }
 
 	        body.put("contents", bodyContents);
 
@@ -676,15 +691,13 @@ public class ReplyMessageDaoImpl implements ReplyMessageDao{
 	        ResponseEntity<String> response = restTemplate.exchange(Reply_Url, HttpMethod.POST, entity, String.class);
 
 	        if (response.getStatusCode() == HttpStatus.OK) {
-	            //System.out.println("Flex Message 發送成功");
+	            System.out.println("Flex Message 發送成功");
 	        } else {
-	            //System.err.println("Flex Message 發送失敗: " + response.getBody());
+	            System.err.println("Flex Message 發送失敗: " + response.getBody());
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-		
 	}
-
 
 }

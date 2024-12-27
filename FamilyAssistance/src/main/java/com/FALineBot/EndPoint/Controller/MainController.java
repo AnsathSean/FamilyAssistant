@@ -300,7 +300,7 @@ public class MainController {
 					 if(usermanagerService.checkUserPermission(user.getUUID(),"Cooking_02_Show") ) {
 						 Vocabulary voc = vocabularyService.getVocabularybyDate(wisher);
 				         if (voc != null) {
-				             replyMessageService.ReplyRecapVocFlexMessage(token, voc.getWord(), voc.getId().toString());
+				             replyMessageService.ReplyRecapVocFlexMessage(token, voc.getWord(), voc.getId().toString(),voc.getDefinition());
 				             return new ResponseEntity<String>("OK", HttpStatus.OK);
 				         } else {
 				             replyMessageService.ReplyTextMessage("已經都複習過了!", token);
