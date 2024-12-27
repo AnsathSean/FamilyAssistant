@@ -23,6 +23,21 @@
             text-align: left;
             padding: 8px;
         }
+        
+	select {
+  	  -webkit-appearance: none; /* 隱藏原生外觀 (Chrome, Safari) */
+   	 -moz-appearance: none;    /* 隱藏原生外觀 (Firefox) */
+   	 appearance: none;         /* 隱藏原生外觀 (其他瀏覽器) */
+
+   	 border: none;             /* 移除邊框 */
+   	 background-color: transparent; /* 背景透明 */
+   	 color: inherit;           /* 繼承字體顏色 */
+   	 font-size: inherit;       /* 繼承字體大小 */
+   	 padding: 5px;             /* 添加內邊距確保可點擊 */
+
+   	 width: 100%;              /* 適應父元素寬度，根據需求調整 */
+   	 cursor: pointer;          /* 滑鼠樣式改為指針 */
+	}
 
         /* 手機屏幕適配 */
         @media screen and (max-width: 768px) {
@@ -65,11 +80,11 @@
      <div class="hidden" id="id">[[${id}]]</div>
 
 <main>
-    <div id="table-container"></div>
-    <div style="text-align: center; margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px;">
         <button id="edit-button" class="button">修改</button>
         <button id="save-button" class="button" disabled>儲存</button>
     </div>
+    <div id="table-container"></div>
 </main>
 
 <script type="text/javascript">
@@ -143,11 +158,33 @@ function generateVerticalTable(data) {
 
         // 欄位值
         const valueCell = document.createElement("td");
-        valueCell.textContent = Array.isArray(data[key]) ? data[key].join(", ") : data[key] || "";
         valueCell.setAttribute("data-key", key); // 確保 data-key 與後端模型一致
-        valueCell.setAttribute("contenteditable", false); // 預設不可編輯
-        row.appendChild(valueCell);
 
+        if (key === "status") {
+            // 如果是狀態欄位，使用 select 元素
+            const select = document.createElement("select");
+            ["Easy", "Mid", "Hard"].forEach(optionValue => {
+                const option = document.createElement("option");
+                option.value = optionValue;
+                option.textContent = optionValue;
+
+                if (data[key] === optionValue) {
+                    option.selected = true;
+                } else {
+                    option.style.display = "none"; // 預設隱藏非當前選項
+                }
+
+                select.appendChild(option);
+            });
+            select.disabled = true; // 預設不可修改
+            valueCell.appendChild(select);
+        } else {
+            // 其他欄位
+            valueCell.textContent = Array.isArray(data[key]) ? data[key].join(", ") : data[key] || "";
+            valueCell.setAttribute("contenteditable", false); // 預設不可編輯
+        }
+
+        row.appendChild(valueCell);
         tbody.appendChild(row);
     });
 
@@ -156,33 +193,64 @@ function generateVerticalTable(data) {
 }
 
 
+
+
+
     // 切換編輯狀態
-    function toggleEditMode(enable) {
-        const cells = document.querySelectorAll("td[data-key]");
-        cells.forEach(cell => {
+function toggleEditMode(enable) {
+    const cells = document.querySelectorAll("td[data-key]");
+    cells.forEach(cell => {
+        const key = cell.getAttribute("data-key");
+        if (key === "status") {
+            const select = cell.querySelector("select");
+            if (select) {
+                select.disabled = !enable;
+                cell.style.backgroundColor = enable ? "#f9f9f9" : ""; // 編輯模式背景色
+
+                // 切換選項的顯示狀態
+                const options = select.querySelectorAll("option");
+                options.forEach(option => {
+                    if (!enable && !option.selected) {
+                        option.style.display = "none"; // 非編輯模式隱藏非當前選項
+                    } else {
+                        option.style.display = "block"; // 編輯模式顯示所有選項
+                    }
+                });
+            }
+        } else {
             cell.setAttribute("contenteditable", enable);
             cell.style.backgroundColor = enable ? "#f9f9f9" : ""; // 編輯模式背景色
-        });
+        }
+    });
 
-        isEditing = enable;
-        document.getElementById("edit-button").disabled = enable;
-        document.getElementById("save-button").disabled = !enable;
-    }
+    isEditing = enable;
+    document.getElementById("edit-button").disabled = enable;
+    document.getElementById("save-button").disabled = !enable;
+}
+
+
+
 
 async function saveChanges() {
     const cells = document.querySelectorAll("td[data-key]");
     const updatedData = {};
 
-    // 收集表格中的資料，並去掉 key 中的下劃線
+    // 收集表格中的資料
     cells.forEach(cell => {
         const key = cell.getAttribute("data-key").replace(/_/g, ""); // 去掉下劃線
-        const value = cell.textContent.trim();
-
-        // 處理多值欄位 (List<String>)
-        if (["definition", "exampleSentence", "partOfSpeech"].includes(key)) {
-            updatedData[key] = value ? value.split(",").map(v => v.trim()) : []; // 將逗號分隔的值轉換為陣列
+        if (key === "status") {
+            const select = cell.querySelector("select");
+            if (select) {
+                updatedData[key] = select.value; // 儲存選中的值
+            }
         } else {
-            updatedData[key] = value || null; // 其他欄位直接傳值
+            const value = cell.textContent.trim();
+            // 處理多值欄位 (List<String>)
+            if (["definition", "exampleSentence", "partOfSpeech"].includes(key)) {
+                updatedData[key] = value ? value.split(",").map(v => v.trim()) : []; // 將逗號分隔的值轉換為陣列
+            } else {
+                updatedData[key] = value || null; // 其他欄位直接傳值
+            }
         }
     });
 
