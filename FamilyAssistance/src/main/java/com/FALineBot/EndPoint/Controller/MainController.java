@@ -111,28 +111,41 @@ public class MainController {
                         if (vocabulary != null) {
                             // 將 level 轉換為質量評分
                             int quality;
+                            String status;
                             switch (level) {
                                 case "hard":
                                     quality = 2;
+                                    status = "Hard";
                                     break;
                                 case "medium":
                                     quality = 4;
+                                    status = "Mid";
                                     break;
                                 case "easy":
                                     quality = 5;
+                                    status = "Easy";
                                     break;
                                 default:
                                     quality = 3;
+                                    status = "Unknown";
                                     break;
                             }
 
                             // 使用 calNextReviewVoc 計算下一次複習日期
                             LocalDate nextReviewDate = vocabularyService.calNextReviewVoc(vocabulary, quality);
 
-                            // 更新 Vocabulary 的 nextReviewDate
+                            // 更新 Vocabulary 的 nextReviewDate 和 status
                             vocabulary.setNextReviewDate(nextReviewDate);
-                             vocabularyService.updateVocabulary(Integer.toString(id), vocabulary);
-                             replyMessageService.ReplyTextMessage("單字更新成功，下一次複習日期為: " + nextReviewDate.toString(), token);
+                            vocabulary.setStatus(status);
+                            vocabularyService.updateVocabulary(Integer.toString(id), vocabulary);
+
+                            // 取得下一個單字並回傳 replyRecapMessage
+                            Vocabulary nextVocabulary = vocabularyService.getVocabularybyDate(vocabulary.getLineId());
+                            if (nextVocabulary != null) {
+                                replyMessageService.ReplyRecapVocFlexMessage(token, nextVocabulary.getWord(), nextVocabulary.getId().toString(), nextVocabulary.getDefinition());
+                            } else {
+                                replyMessageService.ReplyTextMessage("所有單字已複習完成！", token);
+                            }
                         } else {
                             replyMessageService.ReplyTextMessage("無法找到對應的單字！", token);
                         }
