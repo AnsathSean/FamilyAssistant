@@ -296,51 +296,64 @@ public class MainController {
 				//------------------------------------------
 				// 查詢單字功能
 				//---------------------------------------------
-				if (Message.matches("^[a-zA-Z-]+$")) {
-				    // 將 Message 轉換為小寫單字
-				    String lowerCaseWord = Message.toLowerCase();
+				if (Message.trim().matches("^[a-zA-Z- ]+$")) {
+				    // 將 Message 去除左右空白並轉換為小寫
+				    String trimmedMessage = Message.trim();
+				    String lowerCaseMessage = trimmedMessage.toLowerCase();
 
-				    // 呼叫 VocabularyService 使用小寫單字查詢
-				    Vocabulary vocabulary = vocabularyService.getDefinitions(lowerCaseWord,wisher);
+				    // 檢查是否為單個單字或兩組單字
+				    if (lowerCaseMessage.matches("^[a-zA-Z]+( [a-zA-Z]+)?$")) {
+				        // 呼叫 VocabularyService 使用處理後的單字查詢
+				        Vocabulary vocabulary = vocabularyService.getDefinitions(lowerCaseMessage, wisher);
 
-				    // 如果小寫查詢失敗，嘗試將首字母大寫
-				    if (vocabulary == null || vocabulary.getDefinition() == null || vocabulary.getDefinition().isEmpty()) {
-				        // 將第一個字母大寫的單字
-				        String capitalizedWord = lowerCaseWord.substring(0, 1).toUpperCase() + lowerCaseWord.substring(1);
-				        vocabulary = vocabularyService.getDefinitions(capitalizedWord,wisher);
-				    }
+				        // 如果小寫查詢失敗，嘗試將首字母大寫
+				        if (vocabulary == null || vocabulary.getDefinition() == null || vocabulary.getDefinition().isEmpty()) {
+				            // 將每個單字的首字母大寫
+				            String[] words = lowerCaseMessage.split(" ");
+				            StringBuilder capitalizedMessage = new StringBuilder();
+				            for (String word : words) {
+				                capitalizedMessage.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
+				            }
+				            String formattedMessage = capitalizedMessage.toString().trim();
+				            vocabulary = vocabularyService.getDefinitions(formattedMessage, wisher);
+				        }
 
-				 // 檢查是否超過查詢次數限制
-				    if (vocabulary.isMinLimit()) {
-				        replyMessageService.ReplyTextMessage("已達到每分鐘查詢次數上限，請稍後再試。", token);
+				        // 檢查是否超過查詢次數限制
+				        if (vocabulary.isMinLimit()) {
+				            replyMessageService.ReplyTextMessage("已達到每分鐘查詢次數上限，請稍後再試。", token);
+				            return new ResponseEntity<>("OK", HttpStatus.OK);
+				        } else if (vocabulary.isHourLimit()) {
+				            replyMessageService.ReplyTextMessage("已達到每小時查詢次數上限，請於下個小時再進行查詢。", token);
+				            return new ResponseEntity<>("OK", HttpStatus.OK);
+				        }
+
+				        // 檢查是否查詢到結果
+				        if (vocabulary != null && vocabulary.getDefinition() != null && !vocabulary.getDefinition().isEmpty()) {
+				            // 獲取詞性，若為空則設置為預設值 "none"
+				            List<String> partOfSpeechList = vocabulary.getPartOfSpeech() != null && !vocabulary.getPartOfSpeech().isEmpty()
+				                    ? vocabulary.getPartOfSpeech()
+				                    : List.of("none");
+
+				            // 使用 ReplyVocFlexMessage 發送 Flex Message
+				            replyMessageService.ReplyVocFlexMessage(
+				                    token,                       // replyToken
+				                    vocabulary.getWord(),        // 單字
+				                    vocabulary.getDefinition(),  // 定義
+				                    vocabulary.getExampleSentence() != null ? vocabulary.getExampleSentence() : List.of(), // 例句，若無則使用空列表
+				                    partOfSpeechList,            // 詞性列表
+				                    vocabulary.getId().toString()
+				            );
+				        } else {
+				            // 如果仍然找不到定義，回傳提示訊息
+				            replyMessageService.ReplyTextMessage("抱歉，未能找到該單字的定義。", token);
+				        }
+
 				        return new ResponseEntity<>("OK", HttpStatus.OK);
-				    } else if (vocabulary.isHourLimit()) {
-				        replyMessageService.ReplyTextMessage("已達到每小時查詢次數上限，請於下個小時再進行查詢。", token);
-				        return new ResponseEntity<>("OK", HttpStatus.OK);
-				    }
-				    
-				    // 檢查是否查詢到結果
-				    if (vocabulary != null && vocabulary.getDefinition() != null && !vocabulary.getDefinition().isEmpty()) {
-				        // 獲取詞性，若為空則設置為預設值 "none"
-				        List<String> partOfSpeechList = vocabulary.getPartOfSpeech() != null && !vocabulary.getPartOfSpeech().isEmpty()
-				                ? vocabulary.getPartOfSpeech()
-				                : List.of("none");
-
-				        // 使用 ReplyVocFlexMessage 發送 Flex Message
-				        replyMessageService.ReplyVocFlexMessage(
-				                token,                       // replyToken
-				                vocabulary.getWord(),        // 單字
-				                vocabulary.getDefinition(),  // 定義
-				                vocabulary.getExampleSentence() != null ? vocabulary.getExampleSentence() : List.of(), // 例句，若無則使用空列表
-				                partOfSpeechList  ,        // 詞性列表
-				                vocabulary.getId().toString()
-				        );
 				    } else {
-				        // 如果仍然找不到定義，回傳提示訊息
-				        replyMessageService.ReplyTextMessage("抱歉，未能找到該單字的定義。", token);
+				        // 如果輸入不符合格式，回傳提示訊息
+				        replyMessageService.ReplyTextMessage("請輸入正確的單字或單字組 (例如: 'doll up')。", token);
+				        return new ResponseEntity<>("OK", HttpStatus.OK);
 				    }
-
-				    return new ResponseEntity<>("OK", HttpStatus.OK);
 				}
 				
 				//顯示單字清單
