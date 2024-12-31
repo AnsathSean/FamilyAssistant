@@ -63,6 +63,7 @@ public class VocabularyDaoImpl implements VocabularyDao {
                 e.printStackTrace();
                 return null;
             }
+            System.out.println("完成取得資料");
             // 處理 Definitions
             List<String> definitions = definitionResponse.stream()
                     .map(entry -> (String) entry.get("text")) // 取得 "text" 作為定義
