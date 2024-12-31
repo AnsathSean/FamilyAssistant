@@ -63,7 +63,7 @@ public class VocabularyDaoImpl implements VocabularyDao {
                 e.printStackTrace();
                 return null;
             }
-            System.out.println("完成取得資料");
+            System.out.println("get the definition");
             // 處理 Definitions
             List<String> definitions = definitionResponse.stream()
                     .map(entry -> (String) entry.get("text")) // 取得 "text" 作為定義
@@ -71,7 +71,7 @@ public class VocabularyDaoImpl implements VocabularyDao {
                     .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
                     .limit(3) // 取最多3個定義
                     .collect(Collectors.toList());
-
+            System.out.println("handle the definition");
             // 處理 partOfSpeech
             List<String> partOfSpeeches = definitionResponse.stream()
                     .map(entry -> (String) entry.get("partOfSpeech")) // 取得 "partOfSpeech"
@@ -80,7 +80,7 @@ public class VocabularyDaoImpl implements VocabularyDao {
                     .distinct() // 確保不重複
                     .limit(3) // 取最多3個定義
                     .collect(Collectors.toList());
-
+            System.out.println("handle the partOfSpeech");
             // 構建 Examples API URL
             String exampleUrl = UriComponentsBuilder.fromUriString(EXAMPLE_URL)
                     .queryParam("limit", 5) // 限制返回的例子數量
