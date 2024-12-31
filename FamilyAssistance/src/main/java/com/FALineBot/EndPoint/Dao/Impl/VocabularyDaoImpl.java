@@ -71,7 +71,7 @@ public class VocabularyDaoImpl implements VocabularyDao {
                     .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
                     .limit(3) // 取最多3個定義
                     .collect(Collectors.toList());
-            System.out.println("handle the definition");
+            //System.out.println("handle the definition");
             // 處理 partOfSpeech
             List<String> partOfSpeeches = definitionResponse.stream()
                     .map(entry -> (String) entry.get("partOfSpeech")) // 取得 "partOfSpeech"
@@ -80,7 +80,7 @@ public class VocabularyDaoImpl implements VocabularyDao {
                     .distinct() // 確保不重複
                     .limit(3) // 取最多3個定義
                     .collect(Collectors.toList());
-            System.out.println("handle the partOfSpeech");
+            //System.out.println("handle the partOfSpeech");
             // 構建 Examples API URL
             String exampleUrl = UriComponentsBuilder.fromUriString(EXAMPLE_URL)
                     .queryParam("limit", 5) // 限制返回的例子數量
@@ -90,16 +90,24 @@ public class VocabularyDaoImpl implements VocabularyDao {
                     .build(word)
                     .toString();
 
-            // 使用 RestTemplate 發送 GET examples 的請求
-            Map<String, Object> exampleResponse = restTemplate.getForObject(exampleUrl, Map.class);
+            List<String> exampleSentences = List.of();
+            try {
+                // 使用 RestTemplate 發送 GET examples 的請求
+                Map<String, Object> exampleResponse = restTemplate.getForObject(exampleUrl, Map.class);
 
-            // 處理 Examples
-            List<String> exampleSentences = ((List<Map<String, Object>>) exampleResponse.get("examples")).stream()
-                    .map(entry -> (String) entry.get("text")) // 取得 "text" 作為例子
-                    .filter(Objects::nonNull) // 避免空值
-                    .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
-                    .limit(3) // 取最多3個例子
-                    .collect(Collectors.toList());
+                // 處理 Examples
+                         exampleSentences = ((List<Map<String, Object>>) exampleResponse.get("examples")).stream()
+                        .map(entry -> (String) entry.get("text")) // 取得 "text" 作為例子
+                        .filter(Objects::nonNull) // 避免空值
+                        .map(text -> text.replaceAll("<[^>]+>", "")) // 去除所有 HTML 標籤
+                        .limit(3) // 取最多3個例子
+                        .collect(Collectors.toList());
+
+            } catch (Exception e) {
+                // 捕捉異常，設置例子為空
+                System.err.println("發生錯誤，無法獲取例子: " + e.getMessage());
+                
+            }
 
             // 設置 Vocabulary 屬性
             voc.setDefinition(definitions);
