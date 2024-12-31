@@ -90,6 +90,7 @@ public class VocabularyServiceImpl implements VocabularyService{
 	
     public void updateNextReviewVocbyQuality(Vocabulary card, int quality) {
         // 根據使用者的評分更新卡片的間隔和 ease_factor
+    	
         LocalDate today = LocalDate.now();
         int interval = 1; // 默認間隔
 
@@ -114,7 +115,10 @@ public class VocabularyServiceImpl implements VocabularyService{
             newEaseFactor = 1.3; // 最低限制
         }
         card.setEaseFactor((float) newEaseFactor);
-
+        
+        // 設定最後複習日期為今天
+        card.setLastReviewDate(today);
+        
         // 計算下一次複習日期
         LocalDate nextReviewDate = today.plus(interval, ChronoUnit.DAYS);
         card.setNextReviewDate(nextReviewDate);
