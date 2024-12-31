@@ -43,7 +43,9 @@ public class VocabularyDaoImpl implements VocabularyDao {
                     .queryParam("api_key", API_KEY)
                     .build(processedWord)
                     .toString();
+            
             System.out.println("word:"+processedWord);
+            System.out.println("Constructed URL: " + definitionUrl);
             // 使用 RestTemplate 發送 GET definition 的請求
             List<Map<String, Object>> definitionResponse = restTemplate.getForObject(definitionUrl, List.class);
 
