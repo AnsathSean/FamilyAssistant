@@ -41,19 +41,12 @@ public class VocabularyDaoImpl implements VocabularyDao {
                     .queryParam("limit", 10) // 限制返回的定義數量
                     .queryParam("api_key", API_KEY)
                     .buildAndExpand(word.trim())
-                    .encode() // 只編碼一次
-                    .toUriString();
+                    .toString();
             
             System.out.println("word:"+word);
             System.out.println("Constructed URL: " + definitionUrl);
             // 使用 RestTemplate 發送 GET definition 的請求
-            List<Map<String, Object>> definitionResponse;
-            try {
-                definitionResponse = restTemplate.getForObject(definitionUrl, List.class);
-            } catch (HttpClientErrorException e) {
-                System.err.println("Error Response Body: " + e.getResponseBodyAsString());
-                throw e;
-            }
+            List<Map<String, Object>> definitionResponse = restTemplate.getForObject(definitionUrl, List.class);
 
             // 處理 Definitions
             List<String> definitions = definitionResponse.stream()
