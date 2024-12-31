@@ -24,6 +24,7 @@ public class VocabularyServiceImpl implements VocabularyService{
 		return getVoc;
 	}
 	
+	//這個是把temp資料庫的單字資料存到VOC SQL裡面
     public boolean saveVocabulary(int id) {
         try {
             vocabularyDao.saveVocabulary(id);

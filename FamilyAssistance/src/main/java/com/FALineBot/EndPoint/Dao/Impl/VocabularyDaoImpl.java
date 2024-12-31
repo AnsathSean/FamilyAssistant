@@ -127,6 +127,17 @@ public class VocabularyDaoImpl implements VocabularyDao {
         String selectSql = "SELECT line_id, word, definition, example_sentence, part_of_speech FROM TempVocabulary WHERE id = ?";
         Map<String, Object> tempData = jdbcTemplate.queryForMap(selectSql, id);
 
+        // 檢查 Vocabulary 中是否已存在該單字
+        String checkSql = "SELECT COUNT(*) FROM Vocabulary WHERE word = ? AND line_id = ?";
+        @SuppressWarnings("deprecation")
+		int count = jdbcTemplate.queryForObject(checkSql, new Object[]{tempData.get("word"), tempData.get("line_id")}, Integer.class);
+
+        if (count > 0) {
+            // 如果該單字已存在，跳過儲存
+            System.out.println("Word already exists in Vocabulary. Skipping save.");
+            return;
+        }
+        
         // 將 TempVocabulary 的資料存入 Vocabulary
         String insertSql = "INSERT INTO Vocabulary (line_id, word, definition, example_sentence, repetitions, ease_factor, next_review_date, last_review_date, status, created_at, updated_at, part_of_speech) " +
                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
