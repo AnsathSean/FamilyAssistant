@@ -46,8 +46,13 @@ public class VocabularyDaoImpl implements VocabularyDao {
             System.out.println("word:"+word);
             System.out.println("Constructed URL: " + definitionUrl);
             // 使用 RestTemplate 發送 GET definition 的請求
-            List<Map<String, Object>> definitionResponse = restTemplate.getForObject(definitionUrl, List.class);
-
+            List<Map<String, Object>> definitionResponse;
+            try {
+             definitionResponse = restTemplate.getForObject(definitionUrl, List.class);
+            }catch(HttpClientErrorException e){
+            	System.out.println("錯誤訊息:"+e);
+            return null;
+            }
             // 處理 Definitions
             List<String> definitions = definitionResponse.stream()
                     .map(entry -> (String) entry.get("text")) // 取得 "text" 作為定義
