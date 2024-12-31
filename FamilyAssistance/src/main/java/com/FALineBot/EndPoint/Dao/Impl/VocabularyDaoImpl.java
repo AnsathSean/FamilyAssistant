@@ -43,8 +43,8 @@ public class VocabularyDaoImpl implements VocabularyDao {
                     .buildAndExpand(word.trim())
                     .toString();
             
-            System.out.println("word:"+word);
-            System.out.println("Constructed URL: " + definitionUrl);
+            //System.out.println("word:"+word);
+            //System.out.println("Constructed URL: " + definitionUrl);
             // 使用 RestTemplate 發送 GET definition 的請求
             List<Map<String, Object>> definitionResponse;
             try {
