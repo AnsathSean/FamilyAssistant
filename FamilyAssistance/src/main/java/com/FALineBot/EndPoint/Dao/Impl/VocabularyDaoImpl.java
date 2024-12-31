@@ -49,9 +49,19 @@ public class VocabularyDaoImpl implements VocabularyDao {
             List<Map<String, Object>> definitionResponse;
             try {
              definitionResponse = restTemplate.getForObject(definitionUrl, List.class);
-            }catch(HttpClientErrorException e){
-            	System.out.println("錯誤訊息:"+e);
-            return null;
+            } catch (HttpClientErrorException e) {
+                // 打印錯誤狀態碼和錯誤訊息
+                System.err.println("HTTP 錯誤狀態碼: " + e.getStatusCode());
+                System.err.println("HTTP 錯誤回應內容: " + e.getResponseBodyAsString());
+                System.err.println("完整的錯誤訊息: " + e);
+
+                // 回傳自定義錯誤訊息或處理邏輯
+                return null;
+            } catch (Exception e) {
+                // 捕捉其他未預期的異常
+                System.err.println("其他錯誤發生: " + e.getMessage());
+                e.printStackTrace();
+                return null;
             }
             // 處理 Definitions
             List<String> definitions = definitionResponse.stream()
