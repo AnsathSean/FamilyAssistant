@@ -36,15 +36,15 @@ public class VocabularyDaoImpl implements VocabularyDao {
         voc.setWord(word);
 
         try {
-        	String processedWord = word.trim().replaceAll("\\s+", "%20");
             // 構建 Definitions API URL
             String definitionUrl = UriComponentsBuilder.fromUriString(DEFINITION_URL)
                     .queryParam("limit", 10) // 限制返回的定義數量
                     .queryParam("api_key", API_KEY)
-                    .build(processedWord)
-                    .toString();
+                    .buildAndExpand(word.trim())
+                    .encode() // 只編碼一次
+                    .toUriString();
             
-            System.out.println("word:"+processedWord);
+            System.out.println("word:"+word);
             System.out.println("Constructed URL: " + definitionUrl);
             // 使用 RestTemplate 發送 GET definition 的請求
             List<Map<String, Object>> definitionResponse = restTemplate.getForObject(definitionUrl, List.class);
