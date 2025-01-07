@@ -94,6 +94,10 @@ public class VocabularyServiceImpl implements VocabularyService{
         LocalDate today = LocalDate.now();
         int interval = 1; // 默認間隔
 
+        if(card.getLastReviewDate() !=null && card.getNextReviewDate()!=null) {
+        	interval = (int) java.time.temporal.ChronoUnit.DAYS.between(card.getLastReviewDate(),card.getNextReviewDate());
+        }
+        
         if (quality < 3) { // 比較困難
             interval = 1;
             card.setRepetitions(0);
